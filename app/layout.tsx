@@ -6,9 +6,24 @@ import SafetyBanner from '@/components/layout/safety_banner';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Property Tap | Real Estate Social Media & Discovery Platform',
-  description: 'Connect directly with property owners and listers with 0% brokerage. Discover houses, apartments, plots, and commercial spaces.',
+  metadataBase: new URL('https://propertytap.in'),
+  title: {
+    default: 'PropertyTap | Find Properties Near You — 0% Brokerage',
+    template: '%s | PropertyTap',
+  },
+  description:
+    'Browse verified houses, flats, plots & commercial spaces across India. Connect directly with owners — zero brokerage on PropertyTap.',
+  keywords: ['properties near me', 'property for rent', 'property for sale', 'no brokerage', '0 brokerage', 'rent flat India', 'buy house India'],
+  alternates: {
+    canonical: 'https://propertytap.in',
+  },
+  openGraph: {
+    siteName: 'PropertyTap',
+    type: 'website',
+    locale: 'en_IN',
+  },
 };
+
 
 export default function RootLayout({
   children,

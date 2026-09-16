@@ -1,0 +1,128 @@
+.property_info_container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.property_info_header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.property_info_badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.property_info_badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.property_info_badge_purpose {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.property_info_badge_category {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.property_info_title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.property_info_price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #059669;
+}
+
+.property_info_location {
+  font-size: 1rem;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.property_info_specs_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.property_info_spec_item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.property_info_spec_label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.property_info_spec_value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.property_info_section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.property_info_section_title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.property_info_description {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.property_info_lister_box {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.property_info_lister_name {
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.property_info_privacy_note {
+  font-size: 0.8rem;
+  color: #1d4ed8;
+}

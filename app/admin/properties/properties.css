@@ -1,0 +1,7 @@
+.admin_properties_card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 1.25rem;
+  overflow-x: auto;
+}

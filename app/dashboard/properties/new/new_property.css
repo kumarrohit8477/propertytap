@@ -1,0 +1,62 @@
+.new_property_card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.new_property_stepper {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.new_property_step_item {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.new_property_step_active {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.new_property_grid_options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.new_property_option_card {
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.new_property_option_card:hover,
+.new_property_option_selected {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+  color: #1e40af;
+}
+
+.new_property_actions_bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}

@@ -1,0 +1,27 @@
+.show_interest_wrapper {
+  width: 100%;
+}
+
+.show_interest_btn {
+  width: 100%;
+}
+
+.show_interest_success_msg {
+  font-size: 0.85rem;
+  color: #059669;
+  background-color: #ecfdf5;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.show_interest_error_msg {
+  font-size: 0.85rem;
+  color: #ef4444;
+  background-color: #fef2f2;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  margin-top: 0.5rem;
+}

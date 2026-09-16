@@ -1,0 +1,56 @@
+.property_filters_card {
+  background-color: #ffffff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.property_filters_title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.property_filters_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.property_filters_group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.property_filters_label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.property_filters_select,
+.property_filters_input {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.property_filters_select:focus,
+.property_filters_input:focus {
+  border-color: #2563eb;
+}
+
+.property_filters_actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}

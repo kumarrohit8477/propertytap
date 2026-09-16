@@ -1,0 +1,140 @@
+.navbar_header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.navbar_container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar_brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.navbar_logo_icon {
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary-color, #2563eb);
+  color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.navbar_logo_text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.navbar_logo_tag {
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.navbar_nav_links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar_link {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar_link:hover,
+.navbar_link_active {
+  color: var(--primary-color, #2563eb);
+}
+
+.navbar_actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar_post_button {
+  background-color: #10b981;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.navbar_post_button:hover {
+  background-color: #059669;
+}
+
+.navbar_notification_badge {
+  position: relative;
+  color: #4b5563;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.navbar_badge_count {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background-color: #ef4444;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  border-radius: 9999px;
+}
+
+.navbar_user_menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar_avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .navbar_nav_links {
+    display: none;
+  }
+}

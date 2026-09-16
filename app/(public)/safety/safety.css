@@ -1,0 +1,47 @@
+.safety_page_container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.safety_page_title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.safety_card_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.safety_card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.safety_card_icon {
+  font-size: 1.75rem;
+}
+
+.safety_card_title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.safety_card_text {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.5;
+}

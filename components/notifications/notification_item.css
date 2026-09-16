@@ -1,0 +1,49 @@
+.notification_item_card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.notification_item_unread {
+  background-color: #f0f9ff;
+  border-color: #bae6fd;
+}
+
+.notification_item_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification_item_title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.notification_item_time {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.notification_item_message {
+  font-size: 0.9rem;
+  color: #374151;
+  white-space: pre-line;
+  line-height: 1.5;
+  background-color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px dashed #d1d5db;
+}
+
+.notification_item_actions {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,24 @@
+.contact_page_container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact_page_title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.contact_form_card {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}

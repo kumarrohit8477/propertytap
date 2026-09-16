@@ -8,8 +8,13 @@ export async function update_session(request: NextRequest) {
     },
   });
 
-  const supabase_url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const supabase_anon_key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const supabase_url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabase_anon_key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // If env vars are missing, skip auth checks and continue
+  if (!supabase_url || !supabase_anon_key) {
+    return response;
+  }
 
   const supabase = createServerClient(supabase_url, supabase_anon_key, {
     cookies: {

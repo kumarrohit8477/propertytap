@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { use_auth } from '@/hooks/use_auth';
 import { use_notifications } from '@/hooks/use_notifications';
@@ -15,48 +16,60 @@ export default function Navbar() {
   return (
     <header className="navbar_header">
       <div className="navbar_container">
+        {/* Brand Logo & Name */}
         <Link href="/" className="navbar_brand">
-          <div className="navbar_logo_icon">T</div>
+          <Image 
+            src="/assets/logo.png" 
+            alt="Property Tap Logo" 
+            width={28} 
+            height={28} 
+            className="navbar_logo_img"
+          />
           <span className="navbar_logo_text">Property Tap</span>
-          <span className="navbar_logo_tag">₹0 Brokerage</span>
         </Link>
 
+        {/* Navigation Links */}
         <nav className="navbar_nav_links">
           <Link
-            href="/"
-            className={`navbar_link ${pathname === '/' ? 'navbar_link_active' : ''}`}
+            href="/buy"
+            className={`navbar_link ${pathname === '/buy' ? 'navbar_link_active' : ''}`}
           >
-            Feed
+            Buy
           </Link>
           <Link
-            href="/search"
-            className={`navbar_link ${pathname.startsWith('/search') ? 'navbar_link_active' : ''}`}
+            href="/rent"
+            className={`navbar_link ${pathname === '/rent' ? 'navbar_link_active' : ''}`}
           >
-            Search
+            Rent
           </Link>
           <Link
-            href="/pricing"
-            className={`navbar_link ${pathname === '/pricing' ? 'navbar_link_active' : ''}`}
+            href="/sell"
+            className={`navbar_link ${pathname === '/sell' ? 'navbar_link_active' : ''}`}
           >
-            Pricing
+            Sell
           </Link>
           <Link
-            href="/safety"
-            className={`navbar_link ${pathname === '/safety' ? 'navbar_link_active' : ''}`}
+            href="/explore"
+            className={`navbar_link ${pathname.startsWith('/explore') || pathname.startsWith('/search') ? 'navbar_link_active' : ''}`}
           >
-            Safety
+            Explore
           </Link>
         </nav>
 
+        {/* Right Actions */}
         <div className="navbar_actions">
-          <Link href="/dashboard/properties/new" className="navbar_post_button">
-            + Post Property (Free)
+          <Link href="/dashboard/properties/new" className="navbar_list_btn">
+            List Property
           </Link>
 
           {user ? (
             <div className="navbar_user_menu">
-              <Link href="/dashboard/notifications" className="navbar_notification_badge">
-                🔔
+              <Link href="/dashboard/notifications" className="navbar_notification_badge" aria-label="Notifications">
+                {/* Clean SVG Bell Icon */}
+                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
                 {unread_count > 0 && (
                   <span className="navbar_badge_count">{unread_count}</span>
                 )}
@@ -71,14 +84,9 @@ export default function Navbar() {
               )}
             </div>
           ) : (
-            <div className="navbar_user_menu">
-              <Link href="/login" className="navbar_link">
-                Login
-              </Link>
-              <Link href="/signup" className="navbar_link" style={{ fontWeight: 600 }}>
-                Sign Up
-              </Link>
-            </div>
+            <Link href="/login" className="navbar_signin_btn">
+              Sign In
+            </Link>
           )}
         </div>
       </div>

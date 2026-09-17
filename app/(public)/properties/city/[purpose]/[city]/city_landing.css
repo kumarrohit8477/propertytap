@@ -1,0 +1,96 @@
+.city_landing_wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* Breadcrumb */
+.city_landing_breadcrumb {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.city_landing_breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.city_landing_breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.city_landing_breadcrumb span {
+  color: #9ca3af;
+}
+
+/* Hero */
+.city_landing_hero {
+  margin-bottom: 2rem;
+}
+
+.city_landing_title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+}
+
+.city_landing_subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0 0 0.75rem;
+}
+
+.city_landing_toggle {
+  margin-top: 0.5rem;
+}
+
+.city_landing_toggle_link {
+  font-size: 0.9rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.city_landing_toggle_link:hover {
+  text-decoration: underline;
+}
+
+/* Feed grid */
+.city_feed_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.city_feed_empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+  margin-top: 1.5rem;
+}
+
+.city_feed_empty h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .city_landing_title {
+    font-size: 1.5rem;
+  }
+
+  .city_feed_grid {
+    grid-template-columns: 1fr;
+  }
+}

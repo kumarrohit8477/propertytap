@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     property.images?.[0]?.image_url;
 
   return {
-    title: `${property.title} — ${property.category?.name || 'Property'} ${purpose_label} in ${property.city}`,
+    title: `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.category?.name || 'Property'} ${purpose_label} in ${property.locality}, ${property.city} — ₹${price_label}${property.purpose === 'rent' ? '/month' : ''}`,
     description: `${property.category?.name || 'Property'} ${purpose_label} in ${property.locality}, ${property.city} at ₹${price_label}${property.purpose === 'rent' ? '/month' : ''}. ${property.bedrooms ? `${property.bedrooms} BHK. ` : ''}${property.area ? `${property.area} ${property.area_unit || 'sqft'}. ` : ''}Zero brokerage on PropertyTap.`,
     alternates: {
       canonical: `https://propertytap.in/properties/${property.id}`,

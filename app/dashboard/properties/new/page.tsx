@@ -30,6 +30,8 @@ export default function NewPropertyPage() {
   const [bathrooms, set_bathrooms] = useState('');
   const [furnishing, set_furnishing] = useState('unfurnished');
   const [image_files, set_image_files] = useState<File[]>([]);
+  const [preview_urls, set_preview_urls] = useState<string[]>([]);
+  const [loading_status, set_loading_status] = useState('');
 
   useEffect(() => {
     async function load_cats() {
@@ -43,13 +45,23 @@ export default function NewPropertyPage() {
   }, []);
 
   const handle_image_select = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      set_image_files(Array.from(e.target.files));
+    if (e.target.files && e.target.files.length > 0) {
+      const selected = Array.from(e.target.files);
+      set_image_files((prev) => [...prev, ...selected]);
+      const urls = selected.map((f) => URL.createObjectURL(f));
+      set_preview_urls((prev) => [...prev, ...urls]);
     }
+  };
+
+  const handle_remove_image = (index: number) => {
+    URL.revokeObjectURL(preview_urls[index]);
+    set_image_files((prev) => prev.filter((_, i) => i !== index));
+    set_preview_urls((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handle_submit_property = async () => {
     set_loading(true);
+    set_loading_status('Creating property listing...');
     set_error_msg(null);
 
     const { data: new_prop, error } = await create_property({
@@ -70,11 +82,16 @@ export default function NewPropertyPage() {
     if (error || !new_prop) {
       set_error_msg(error?.message || 'Failed to create property.');
       set_loading(false);
+      set_loading_status('');
       return;
     }
 
     if (image_files.length > 0) {
-      await upload_property_images(new_prop.id, image_files);
+      set_loading_status(`Uploading ${image_files.length} property images...`);
+      const { error: upload_err } = await upload_property_images(new_prop.id, image_files);
+      if (upload_err) {
+        console.error('Image upload issue:', upload_err);
+      }
     }
 
     router.push('/dashboard/properties');
@@ -185,16 +202,64 @@ export default function NewPropertyPage() {
           {step === 4 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <h3>Step 4: Upload Property Images</h3>
-              <input type="file" accept="image/*" multiple onChange={handle_image_select} />
-              <p style={{ fontSize: '0.85rem', color: '#6b7280' }}>Select multiple images. The first image will be used as the primary card cover image.</p>
-              {image_files.length > 0 && (
+
+              <label className="image_upload_dropzone">
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/webp, image/gif"
+                  multiple
+                  onChange={handle_image_select}
+                  style={{ display: 'none' }}
+                />
+                <span style={{ fontSize: '2.25rem' }}>📸</span>
+                <span style={{ fontWeight: 700, color: '#1f2937', fontSize: '1rem' }}>
+                  Click to select property photos
+                </span>
+                <span style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                  Supports PNG, JPG, WEBP or GIF (Select one or multiple)
+                </span>
+              </label>
+
+              <p style={{ fontSize: '0.85rem', color: '#4b5563', margin: 0, backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '0.6rem 0.85rem', borderRadius: '6px' }}>
+                💡 <strong>Tip:</strong> The first image with the &quot;COVER&quot; badge will be used as the primary card image shown in search results and property listings.
+              </p>
+
+              {preview_urls.length > 0 && (
                 <div>
-                  <strong>Selected Images: {image_files.length}</strong>
-                  <ul>
-                    {image_files.map((file, idx) => (
-                      <li key={idx} style={{ fontSize: '0.85rem' }}>{file.name}</li>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <strong style={{ fontSize: '0.95rem' }}>Selected Photos ({preview_urls.length})</strong>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        preview_urls.forEach((u) => URL.revokeObjectURL(u));
+                        set_image_files([]);
+                        set_preview_urls([]);
+                      }}
+                      style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '0.85rem', cursor: 'pointer', fontWeight: 600 }}
+                    >
+                      Clear all
+                    </button>
+                  </div>
+
+                  <div className="image_preview_grid">
+                    {preview_urls.map((url, idx) => (
+                      <div
+                        key={idx}
+                        className={`image_preview_item ${idx === 0 ? 'is_primary' : ''}`}
+                      >
+                        <img src={url} alt={`Preview ${idx + 1}`} className="image_preview_thumb" />
+                        {idx === 0 && <span className="image_preview_badge">Cover</span>}
+                        <button
+                          type="button"
+                          className="image_preview_remove"
+                          onClick={() => handle_remove_image(idx)}
+                          title="Remove photo"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               )}
             </div>
@@ -204,11 +269,31 @@ export default function NewPropertyPage() {
           {step === 5 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <h3>Step 5: Review Listing Preview</h3>
-              <div style={{ padding: '1rem', backgroundColor: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
-                <h4 style={{ margin: 0, fontSize: '1.2rem' }}>{title || 'Untitled Property'}</h4>
-                <p style={{ color: '#059669', fontWeight: 800, fontSize: '1.25rem', margin: '0.5rem 0' }}>₹{price || 0} / {purpose}</p>
-                <p style={{ color: '#4b5563', margin: 0 }}>📍 {locality}, {city}</p>
-                <p style={{ fontSize: '0.9rem', color: '#6b7280', marginTop: '0.5rem' }}>{description}</p>
+              <div className="review_card_preview">
+                {preview_urls.length > 0 ? (
+                  <img
+                    src={preview_urls[0]}
+                    alt="Cover preview"
+                    className="review_image_thumb"
+                  />
+                ) : (
+                  <div style={{ width: '180px', height: '140px', backgroundColor: '#f3f4f6', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', fontSize: '0.8rem', flexShrink: 0 }}>
+                    <span style={{ fontSize: '1.5rem' }}>🖼️</span>
+                    <span>No image selected</span>
+                  </div>
+                )}
+                <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <h4 style={{ margin: 0, fontSize: '1.15rem', color: '#111827' }}>{title || 'Untitled Property'}</h4>
+                  <p style={{ color: '#059669', fontWeight: 800, fontSize: '1.25rem', margin: '0.35rem 0' }}>
+                    ₹{price || 0} / {purpose}
+                  </p>
+                  <p style={{ color: '#4b5563', margin: 0, fontSize: '0.9rem' }}>📍 {locality || 'Locality'}, {city || 'City'}</p>
+                  {description && (
+                    <p style={{ fontSize: '0.85rem', color: '#6b7280', marginTop: '0.5rem', maxHeight: '48px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {description}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -238,7 +323,7 @@ export default function NewPropertyPage() {
               </Button>
             ) : (
               <Button variant="primary" disabled={loading} onClick={handle_submit_property}>
-                {loading ? 'Publishing...' : 'Publish Listing (₹0 Free)'}
+                {loading ? (loading_status || 'Publishing...') : 'Publish Listing (₹0 Free)'}
               </Button>
             )}
           </div>

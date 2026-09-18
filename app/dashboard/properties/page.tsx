@@ -56,29 +56,44 @@ export default function MyPropertiesPage() {
           </div>
         ) : (
           <div className="my_properties_list">
-            {properties.map((prop: any) => (
-              <div key={prop.id} className="my_property_card">
-                <div className="my_property_info">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span className="my_property_status_badge my_property_status_active">
-                      {prop.status}
-                    </span>
-                    <h3 className="my_property_title">{prop.title}</h3>
-                  </div>
-                  <div className="my_property_meta">
-                    <span>💰 {format_price(prop.price)}</span>
-                    <span>📍 {prop.locality}, {prop.city}</span>
-                    <span>🤝 {prop.interests?.[0]?.count || 0} Interests</span>
-                  </div>
-                </div>
+            {properties.map((prop: any) => {
+              const primary_img =
+                prop.images?.find((img: any) => img.is_primary)?.image_url ||
+                prop.images?.[0]?.image_url ||
+                'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=400';
 
-                <div className="my_property_actions">
-                  <Link href={`/properties/${prop.id}`}>
-                    <Button variant="outline" style={{ fontSize: '0.85rem' }}>View</Button>
-                  </Link>
+              return (
+                <div key={prop.id} className="my_property_card">
+                  <div className="my_property_left">
+                    <img
+                      src={primary_img}
+                      alt={prop.title}
+                      className="my_property_thumbnail"
+                    />
+                    <div className="my_property_info">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        <span className="my_property_status_badge my_property_status_active">
+                          {prop.status}
+                        </span>
+                        <h3 className="my_property_title">{prop.title}</h3>
+                      </div>
+                      <div className="my_property_meta">
+                        <span>💰 {format_price(prop.price)}</span>
+                        <span>📍 {prop.locality}, {prop.city}</span>
+                        <span>📸 {prop.images?.length || 0} photo{prop.images?.length === 1 ? '' : 's'}</span>
+                        <span>🤝 {prop.interests?.[0]?.count || 0} Interests</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="my_property_actions">
+                    <Link href={`/properties/${prop.id}`}>
+                      <Button variant="outline" style={{ fontSize: '0.85rem' }}>View</Button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </main>

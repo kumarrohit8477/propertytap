@@ -154,43 +154,57 @@ export async function create_property(payload: Partial<PropertyItem>) {
 
 export async function upload_property_images(property_id: string, files: File[]) {
   const supabase = create_client();
-  const uploaded_images = [];
+  const uploaded_images: any[] = [];
+  const errors: string[] = [];
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    const file_ext = file.name.split('.').pop();
+    const file_ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
     const file_name = `${property_id}/${Date.now()}_${i}.${file_ext}`;
 
     const { data: upload_data, error: upload_error } = await supabase.storage
       .from('property_images')
-      .upload(file_name, file, { upsert: true });
+      .upload(file_name, file, { 
+        contentType: file.type || undefined,
+        upsert: true 
+      });
 
-    if (!upload_error && upload_data) {
-      const { data: public_url_data } = supabase.storage
-        .from('property_images')
-        .getPublicUrl(upload_data.path);
+    if (upload_error || !upload_data) {
+      console.error('Storage upload error for file', file.name, upload_error);
+      errors.push(upload_error?.message || `Failed to upload ${file.name}`);
+      continue;
+    }
 
-      const is_primary = i === 0;
+    const { data: public_url_data } = supabase.storage
+      .from('property_images')
+      .getPublicUrl(upload_data.path);
 
-      const { data: db_image } = await supabase
-        .from('property_images')
-        .insert({
-          property_id,
-          image_url: public_url_data.publicUrl,
-          storage_path: upload_data.path,
-          sort_order: i,
-          is_primary,
-        })
-        .select()
-        .single();
+    const is_primary = i === 0;
 
-      if (db_image) {
-        uploaded_images.push(db_image);
-      }
+    const { data: db_image, error: db_error } = await supabase
+      .from('property_images')
+      .insert({
+        property_id,
+        image_url: public_url_data.publicUrl,
+        storage_path: upload_data.path,
+        sort_order: i,
+        is_primary,
+      })
+      .select()
+      .single();
+
+    if (db_error) {
+      console.error('DB insert error for image', file.name, db_error);
+      errors.push(db_error.message);
+    } else if (db_image) {
+      uploaded_images.push(db_image);
     }
   }
 
-  return uploaded_images;
+  return {
+    images: uploaded_images,
+    error: errors.length > 0 ? new Error(errors.join('; ')) : null,
+  };
 }
 
 export async function get_categories() {

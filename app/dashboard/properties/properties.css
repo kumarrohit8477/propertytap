@@ -21,6 +21,22 @@
   gap: 1rem;
 }
 
+.my_property_left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.my_property_thumbnail {
+  width: 96px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
 .my_property_info {
   display: flex;
   flex-direction: column;

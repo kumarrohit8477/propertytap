@@ -383,3 +383,44 @@ DROP POLICY IF EXISTS "Admin can manage reports" ON public.reports;
 CREATE POLICY "Admin can manage reports" ON public.reports FOR ALL USING (
   EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
 );
+
+-- ==========================================
+-- 11. Storage Bucket & Policies
+-- ==========================================
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'property_images',
+  'property_images',
+  true,
+  10485760,
+  ARRAY['image/png', 'image/jpeg', 'image/webp', 'image/gif']
+)
+ON CONFLICT (id) DO UPDATE SET
+  public = true,
+  file_size_limit = 10485760,
+  allowed_mime_types = ARRAY['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+
+-- Storage Policies for property_images
+DROP POLICY IF EXISTS "Property Images Public Select" ON storage.objects;
+CREATE POLICY "Property Images Public Select"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'property_images');
+
+DROP POLICY IF EXISTS "Property Images Authenticated Insert" ON storage.objects;
+CREATE POLICY "Property Images Authenticated Insert"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'property_images');
+
+DROP POLICY IF EXISTS "Property Images Authenticated Update" ON storage.objects;
+CREATE POLICY "Property Images Authenticated Update"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (bucket_id = 'property_images');
+
+DROP POLICY IF EXISTS "Property Images Authenticated Delete" ON storage.objects;
+CREATE POLICY "Property Images Authenticated Delete"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (bucket_id = 'property_images');
+

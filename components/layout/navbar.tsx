@@ -28,34 +28,6 @@ export default function Navbar() {
           <span className="navbar_logo_text">Property Tap</span>
         </Link>
 
-        {/* Navigation Links */}
-        <nav className="navbar_nav_links">
-          <Link
-            href="/buy"
-            className={`navbar_link ${pathname === '/buy' ? 'navbar_link_active' : ''}`}
-          >
-            Buy
-          </Link>
-          <Link
-            href="/rent"
-            className={`navbar_link ${pathname === '/rent' ? 'navbar_link_active' : ''}`}
-          >
-            Rent
-          </Link>
-          <Link
-            href="/sell"
-            className={`navbar_link ${pathname === '/sell' ? 'navbar_link_active' : ''}`}
-          >
-            Sell
-          </Link>
-          <Link
-            href="/explore"
-            className={`navbar_link ${pathname.startsWith('/explore') || pathname.startsWith('/search') ? 'navbar_link_active' : ''}`}
-          >
-            Explore
-          </Link>
-        </nav>
-
         {/* Right Actions */}
         <div className="navbar_actions">
           <Link href="/dashboard/properties/new" className="navbar_list_btn">

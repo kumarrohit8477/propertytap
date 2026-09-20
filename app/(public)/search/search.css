@@ -30,3 +30,31 @@
   font-size: 1rem;
   outline: none;
 }
+
+.search_layout_wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start; 
+}
+
+.sidebar_container {
+  width: 280px;     
+  flex-shrink: 0; 
+  position: sticky;
+  top: 2rem;     
+  overflow: hidden;  
+}
+
+.main_content_container {
+  flex: 1;          
+  min-width: 0;   
+}
+@media (max-width: 768px) {
+  .search_layout_wrapper {
+    flex-direction: column;
+  }
+  .sidebar_container {
+    width: 100%;
+    position: static;
+  }
+}

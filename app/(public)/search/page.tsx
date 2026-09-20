@@ -5,7 +5,7 @@ import PropertyCard from '@/components/property/property_card';
 import PropertyFilters from '@/components/property/property_filters';
 import { get_properties, get_categories } from '@/lib/properties/property_service';
 import { PropertyItem, PropertyCategory, PropertyFilterParams } from '@/types/property';
-import Button from '@/components/ui/button';
+import Button from '@/components/ui/button'; // Not used in this snippet but kept from your original
 import './search.css';
 
 export default function SearchPage() {
@@ -42,42 +42,40 @@ export default function SearchPage() {
   return (
     <div className="search_page_container">
       <h1 className="search_page_title">Search Properties</h1>
+    
+      {/* New layout wrapper for Sidebar and Main Content */}
+      <div className="search_layout_wrapper">
+        
+        {/* Sidebar Container */}
+        <aside className="sidebar_container">
+          <PropertyFilters
+            categories={categories}
+            initial_filters={filters}
+            on_filter_change={(new_f) => set_filters(new_f)}
+          />
+        </aside>
 
-      <form className="search_bar_wrapper" onSubmit={handle_search_submit}>
-        <input
-          type="text"
-          className="search_input"
-          placeholder="Search by city, locality, title or keyword..."
-          value={search_query}
-          onChange={(e) => set_search_query(e.target.value)}
-        />
-        <Button variant="primary" type="submit">
-          Search
-        </Button>
-      </form>
-
-      <PropertyFilters
-        categories={categories}
-        initial_filters={filters}
-        on_filter_change={(new_f) => set_filters(new_f)}
-      />
-
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: '3rem' }}>
-          <h3>Searching properties...</h3>
-        </div>
-      ) : properties.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '3rem', backgroundColor: '#ffffff', borderRadius: '12px' }}>
-          <h3>No properties match your search</h3>
-          <p>Try searching for a different city or clearing some filters.</p>
-        </div>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-          {properties.map((prop) => (
-            <PropertyCard key={prop.id} property={prop} />
-          ))}
-        </div>
-      )}
+        {/* Main Content (Property Results) */}
+        <main className="main_content_container">
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '3rem' }}>
+              <h3>Searching properties...</h3>
+            </div>
+          ) : properties.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '3rem', backgroundColor: '#ffffff', borderRadius: '12px' }}>
+              <h3>No properties match your search</h3>
+              <p>Try searching for a different city or clearing some filters.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+              {properties.map((prop) => (
+                <PropertyCard key={prop.id} property={prop} />
+              ))}
+            </div>
+          )}
+        </main>
+        
+      </div>
     </div>
   );
 }

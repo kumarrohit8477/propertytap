@@ -57,7 +57,35 @@ export default function HomePropertyTypes() {
           </div>
         </button>
 
-        {/* Office */}
+        {/* Villa */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=villa')}>
+          <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80" alt="Villa" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Villa</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Land & Plots */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=land')}>
+          <img src="https://media.onthemarket.co.in/Media/PropertyFiles/2618/uobbcf/600x959_11_ffffff_1_90_7c0c153c-e2d1-435a-822c-7891310338cc.jpeg" alt="Land & Plot" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Land &amp; Plots</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Office Spaces */}
         <button type="button" className="home_type_card" onClick={() => router.push('/search?q=office')}>
           <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Office Space" className="home_type_img" />
           <div className="home_type_content">
@@ -71,39 +99,11 @@ export default function HomePropertyTypes() {
           </div>
         </button>
 
-        {/* Shop */}
+        {/* Shop & Showroom */}
         <button type="button" className="home_type_card" onClick={() => router.push('/search?q=shop')}>
-          <img src="https://images.unsplash.com/photo-1581575199622-6b94101e4a19?w=800&q=80" alt="Shop & Showroom" className="home_type_img" />
+          <img src="https://t3.ftcdn.net/jpg/07/13/50/08/240_F_713500860_E5Y95FzETv5TtZB320nHHy9Gbed6aNoW.jpg" alt="Shop & Showroom" className="home_type_img" />
           <div className="home_type_content">
             <span className="home_type_label">Shop &amp; Showroom</span>
-            <div className="home_type_arrow">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </button>
-
-        {/* Warehouse */}
-        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=warehouse')}>
-          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
-          <div className="home_type_content">
-            <span className="home_type_label">Villa</span>
-            <div className="home_type_arrow">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </button>
-
-        {/* Warehouse */}
-        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=warehouse')}>
-          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
-          <div className="home_type_content">
-            <span className="home_type_label">Land/Plot</span>
             <div className="home_type_arrow">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />

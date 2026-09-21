@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { get_properties_server, get_categories_server } from '@/lib/properties/property_service_server';
-import HomeFeedClient from './home_feed_client';
+import HomeFeedClient from './home';
 import './home.css';
 
 export const metadata: Metadata = {

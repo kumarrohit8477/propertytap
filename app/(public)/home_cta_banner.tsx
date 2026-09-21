@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import './home_cta_banner.css';
 
 function Home_cta_banner() {
   return (

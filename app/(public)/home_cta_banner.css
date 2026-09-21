@@ -1,0 +1,93 @@
+/* --- CTA Banner --- */
+.home_cta_banner {
+  background: #e9f2ee;
+  border-radius: 16px;
+  padding: 3rem 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.home_cta_banner::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: -20px;
+  width: 200px;
+  height: 200px;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 Q 50 100 50 50 T 100 0 L 0 0 Z' fill='%237a9c86' opacity='0.2'/%3E%3C/svg%3E") no-repeat bottom left;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.home_cta_banner::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 250px;
+  height: 150px;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,100 0,100 0,50 30,50 30,20 60,20 60,70 100,70' fill='%237a9c86' opacity='0.2'/%3E%3C/svg%3E") no-repeat bottom right;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.home_cta_content {
+  position: relative;
+  z-index: 1;
+}
+
+.home_cta_title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: #0c1b35;
+  margin: 0 0 0.4rem 0;
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+}
+
+.home_cta_text {
+  font-size: 1rem;
+  color: #33475b;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.home_cta_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #0c1b35;
+  color: #ffffff;
+  padding: 0.9rem 1.85rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s ease, transform 0.18s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.home_cta_btn:hover {
+  background: #152c54;
+  transform: translateY(-2px);
+}
+
+.home_cta_btn:active {
+  transform: translateY(0);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 1024px) {
+  .home_cta_banner { padding: 3rem 100px; flex-direction: column; text-align: center; gap: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .home_cta_banner { padding: 2.5rem 1.5rem; border-radius: 16px; gap: 1.5rem; }
+  .home_cta_banner::before, .home_cta_banner::after { display: none; }
+}

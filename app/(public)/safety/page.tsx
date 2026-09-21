@@ -1,44 +1,38 @@
 import React from 'react';
 import './safety.css';
 
+export const metadata = {
+  title: 'Trust & Safety | PropertyTap',
+  description: 'Learn about our commitment to secure communication, verified listings, and a zero-brokerage ecosystem.',
+};
+
 export default function SafetyPage() {
   return (
     <div className="safety_page_container">
-      <h1 className="safety_page_title">Safety &amp; Verification Guidelines</h1>
-      <p style={{ color: '#4b5563', fontSize: '1.05rem' }}>
-        Property Tap is dedicated to creating a trustworthy connection platform. Please read these mandatory safety guidelines carefully before engaging in any property transactions.
-      </p>
-
+      <h1 className="safety_page_title">Trust & Safety</h1>
+      
       <div className="safety_card_grid">
         <div className="safety_card">
-          <span className="safety_card_icon">🚫</span>
-          <h3 className="safety_card_title">Never Send Money Upfront</h3>
+          <div className="safety_card_icon">🛡️</div>
+          <h3 className="safety_card_title">Verified Listings</h3>
           <p className="safety_card_text">
-            Do not transfer token amounts, security deposits, booking fees, or advance payments to anyone before inspecting the property in person.
+            We employ rigorous verification checks to ensure every property on our platform belongs to genuine owners.
           </p>
         </div>
 
         <div className="safety_card">
-          <span className="safety_card_icon">🔍</span>
-          <h3 className="safety_card_title">Verify Property Ownership</h3>
+          <div className="safety_card_icon">🔒</div>
+          <h3 className="safety_card_title">Secure Communication</h3>
           <p className="safety_card_text">
-            Request to inspect physical ownership documents, title deeds, electricity bills, and government ID of the lister before proceeding.
+            Connect directly with owners or buyers through our trusted platform while keeping your contact details completely private.
           </p>
         </div>
 
         <div className="safety_card">
-          <span className="safety_card_icon">🏢</span>
-          <h3 className="safety_card_title">Visit Property Physically</h3>
+          <div className="safety_card_icon">🤝</div>
+          <h3 className="safety_card_title">Zero Brokerage</h3>
           <p className="safety_card_text">
-            Always schedule an in-person visit to verify that the property exists, matches the pictures, and is vacant as advertised.
-          </p>
-        </div>
-
-        <div className="safety_card">
-          <span className="safety_card_icon">📝</span>
-          <h3 className="safety_card_title">Sign Formal Agreements</h3>
-          <p className="safety_card_text">
-            Ensure all terms, monthly rent, security deposit refund terms, and notice periods are documented in a formal lease or sale agreement.
+            Say goodbye to middleman fees. We foster an open, transparent marketplace where buyers and sellers deal entirely on their own terms.
           </p>
         </div>
       </div>

@@ -30,6 +30,25 @@ export default function PropertyFilters({
   );
   const [sort_by, set_sort_by] = useState<string>(initial_filters.sort_by || 'newest');
 
+  // Sync sidebar fields whenever initial_filters changes (e.g. URL-driven on first mount)
+  React.useEffect(() => {
+    set_city(initial_filters.city || '');
+    set_purpose(initial_filters.purpose || '');
+    set_category_id(initial_filters.category_id || '');
+    set_min_price(initial_filters.min_price ? String(initial_filters.min_price) : '');
+    set_max_price(initial_filters.max_price ? String(initial_filters.max_price) : '');
+    set_bedrooms(initial_filters.bedrooms ? String(initial_filters.bedrooms) : '');
+    set_sort_by(initial_filters.sort_by || 'newest');
+  }, [
+    initial_filters.city,
+    initial_filters.purpose,
+    initial_filters.category_id,
+    initial_filters.min_price,
+    initial_filters.max_price,
+    initial_filters.bedrooms,
+    initial_filters.sort_by,
+  ]);
+
   const handle_apply = () => {
     on_filter_change({
       city: city || undefined,

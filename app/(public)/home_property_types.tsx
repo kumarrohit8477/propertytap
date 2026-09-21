@@ -1,0 +1,132 @@
+'use client';
+
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import './home_property_types.css';
+
+export default function HomePropertyTypes() {
+  const router = useRouter();
+
+  return (
+    <section className="home_feed_section">
+      <div className="home_type_header">
+        <h2 className="home_feed_title">Browse by Property Type</h2>
+        <p className="home_feed_subtitle">Find the perfect property, whatever your need.</p>
+      </div>
+
+      <div className="home_type_grid">
+        {/* House */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=house')}>
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="House" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">House</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Flat / Apartment */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=flat')}>
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" alt="Flat" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Flat / Apartment</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* PG / Hostel */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=pg')}>
+          <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80" alt="PG" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">PG / Hostel</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Office */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=office')}>
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Office Space" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Office Spaces</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Shop */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=shop')}>
+          <img src="https://images.unsplash.com/photo-1581575199622-6b94101e4a19?w=800&q=80" alt="Shop & Showroom" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Shop &amp; Showroom</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Warehouse */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=warehouse')}>
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Villa</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Warehouse */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=warehouse')}>
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Land/Plot</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        {/* Warehouse */}
+        <button type="button" className="home_type_card" onClick={() => router.push('/search?q=warehouse')}>
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
+          <div className="home_type_content">
+            <span className="home_type_label">Warehouse</span>
+            <div className="home_type_arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+      </div>
+    </section>
+  );
+}

@@ -21,8 +21,8 @@ export default function Navbar() {
           <Image 
             src="/assets/logo.png" 
             alt="Property Tap Logo" 
-            width={28} 
-            height={28} 
+            width={40} 
+            height={40} 
             className="navbar_logo_img"
           />
           <span className="navbar_logo_text">Property Tap</span>

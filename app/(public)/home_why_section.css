@@ -1,16 +1,8 @@
-/* --- Why Choose Section --- */
-.home_why_section {
-  width: 100%;
-  padding: 56px 20px 60px;
-  background: #ffffff;
-  border-bottom: 1px solid #edf0f2;
-  box-sizing: border-box;
-}
-
 .home_why_container {
-  width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 30px auto;
+  padding: 15px 1.5rem 18px;
+
 }
 
 .home_why_header {
@@ -88,10 +80,18 @@
 
 /* --- Media Queries --- */
 @media (max-width: 1024px) {
-  .home_why_grid { grid-template-columns: repeat(2, 1fr); }
+  .home_why_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .home_why_section { padding: 40px 1rem 44px; }
-  .home_why_grid { grid-template-columns: 1fr; gap: 24px; }
+  .home_why_section {
+    padding: 40px 1rem 44px;
+  }
+
+  .home_why_grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }

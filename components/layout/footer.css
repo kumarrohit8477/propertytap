@@ -1,7 +1,7 @@
 .footer_wrapper {
   background-color: #ffffff;
   color: #1f2937;
-  padding: 2.5rem 2rem 1.5rem 2rem;
+  padding: 1.5rem 2rem 1.3rem 2rem;
   border-top: 1px solid #f3f4f6;
   margin-top: auto;
   font-family: inherit;
@@ -15,7 +15,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
-  padding-bottom: 2rem;
+  padding-bottom: 1.2rem;
   border-bottom: 1px solid #f3f4f6;
 }
 

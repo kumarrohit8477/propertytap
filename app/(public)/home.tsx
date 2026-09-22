@@ -33,9 +33,6 @@ export default function HomeFeedClient({
 
   return (
     <>
-      {/* ═══════════════════════════════════════════════════════════
-          SECTION 1 — HERO
-      ═══════════════════════════════════════════════════════════ */}
       <section className="home_hero_section">
         <div className="home_hero_background">
           <img

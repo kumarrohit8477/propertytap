@@ -1,15 +1,16 @@
 .navbar_header {
   position: sticky;
   top: 0;
+   background-color: #ffffff;
   z-index: 100;
-  background-color: #ffffff;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   font-family: inherit;
 }
 
 .navbar_container {
-  max-width: 1200px;
+  max-width: 1250px;
+  height: 75px;
   margin: 0 auto;
   padding: 0.85rem 1.5rem;
   display: flex;
@@ -30,9 +31,9 @@
 }
 
 .navbar_logo_text {
-  font-size: 1.25rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  color: #111827;
+  color: #092328;
   letter-spacing: -0.02em;
 }
 
@@ -42,14 +43,18 @@
   align-items: center;
   gap: 2.5rem;
 }
-
+.navbar_actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* space between List Property and Sign In */
+}
 /* List Property Button (White Pill) */
 .navbar_list_btn {
   background-color: #ffffff;
   color: #111827;
   border: 1px solid #d1d5db;
   padding: 0.5rem 1.25rem;
-  border-radius: 9999px;
+  border-radius: 10px;
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
@@ -66,7 +71,7 @@
   background-color: #0f172a;
   color: #ffffff;
   padding: 0.5rem 1.25rem;
-  border-radius: 9999px;
+  border-radius: 10px;
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;

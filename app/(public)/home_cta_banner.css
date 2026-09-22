@@ -1,8 +1,11 @@
 /* --- CTA Banner --- */
 .home_cta_banner {
+  max-width: 1200px;
+  margin: auto;
+  margin-bottom: 30px;
   background: #e9f2ee;
   border-radius: 16px;
-  padding: 3rem 180px;
+  padding: 2rem 180px;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,10 +1,11 @@
+
 /* --- Home Hero --- */
 .home_hero_section {
   position: relative;
   width: 100%;
   min-height: 440px;
   overflow: hidden;
-  background: #eef5f8;
+  background: #FFFBF5;
   box-shadow: 0 4px 24px rgba(10, 22, 40, 0.07);
 }
 

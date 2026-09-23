@@ -87,8 +87,8 @@
 }
 
 .home_type_card:hover .home_type_arrow {
-  background: #e8ebee;
-  color: #0f172a;
+  background: #eaf1f8;
+  transform: translateX(1px);
 }
 
 /* --- Media Queries --- */

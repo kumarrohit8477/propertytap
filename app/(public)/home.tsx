@@ -8,6 +8,8 @@ import PropertyFilters from '@/components/property/property_filter1';
 import HomePropertyTypes from './home_property_types';
 import HomeWhySection from './home_why_section';
 import Image from 'next/image';
+import { FiArrowRight } from 'react-icons/fi';
+
 interface HomeFeedClientProps {
   initial_categories: PropertyCategory[];
 }
@@ -88,18 +90,15 @@ export default function HomeFeedClient({
                 />
               </div>
               <div className="home_bottom_card_text">
-                <span>Spaces for</span>
-                <strong>a Brighter Tomorrow</strong>
+                <span>Spaces for a</span>
+                <strong>Brighter Tomorrow</strong>
               </div>
               <button
                 type="button"
                 className="home_bottom_card_arrow"
                 onClick={() => router.push('/search')}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14" />
-                  <path d="m13 6 6 6-6 6" />
-                </svg>
+                <FiArrowRight size={18} />
               </button>
             </div>
           </div>

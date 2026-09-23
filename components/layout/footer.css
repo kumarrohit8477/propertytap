@@ -49,6 +49,29 @@
   margin: 0;
 }
 
+.footer_contact_info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.25rem; /* Increased gap so email and phone don't touch */
+  margin-top: 0.4rem;
+}
+
+.footer_contact_item {
+  display: flex;
+  align-items: center; /* Aligns the React icons perfectly with the text */
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  color: #4b5563;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer_contact_item:hover {
+  color: #16a34a;
+}
+
 /* Navigation Links */
 .footer_nav_links {
   display: flex;
@@ -124,6 +147,11 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+  }
+  
+  .footer_contact_info {
+    flex-direction: column; /* Stack contact info on mobile */
+    gap: 0.5rem;
   }
   
   .footer_nav_links {

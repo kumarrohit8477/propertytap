@@ -1,7 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaLinkedinIn, FaInstagram, FaFacebookF, FaYoutube } from 'react-icons/fa';
+import { 
+  FaLinkedinIn, 
+  FaInstagram, 
+  FaFacebookF, 
+  FaYoutube, 
+  FaEnvelope, 
+  FaPhoneAlt 
+} from 'react-icons/fa';
 import './footer.css';
 
 export default function Footer() {
@@ -11,9 +18,8 @@ export default function Footer() {
         {/* Left: Logo & Tagline */}
         <div className="footer_brand_section">
           <div className="footer_logo_wrapper">
-            {/* Yahan aap baad mein apne logo ka path de sakte hain */}
             <Image 
-             src="/assets/logo.png" 
+              src="/assets/logo.png" 
               alt="Property Tap Logo" 
               width={28} 
               height={28} 
@@ -22,6 +28,14 @@ export default function Footer() {
             <span className="footer_brand_name">Property Tap</span>
           </div>
           <p className="footer_tagline">Spaces for a brighter tomorrow.</p>
+          <div className="footer_contact_info">
+            <a href="mailto:info@propertytap.in" className="footer_contact_item">
+              <FaEnvelope /> info@propertytap.in
+            </a>
+            <a href="tel:+919258073878" className="footer_contact_item">
+              <FaPhoneAlt /> +91 9258073878
+            </a>
+          </div>
         </div>
 
         {/* Center: Navigation Links */}

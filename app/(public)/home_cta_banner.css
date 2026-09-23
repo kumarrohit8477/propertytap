@@ -14,14 +14,15 @@
   box-shadow: none;
 }
 
+/* Updated to use leaf2.png */
 .home_cta_banner::before {
   content: "";
   position: absolute;
-  left: -20px;
-  bottom: -20px;
-  width: 200px;
-  height: 200px;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 Q 50 100 50 50 T 100 0 L 0 0 Z' fill='%237a9c86' opacity='0.2'/%3E%3C/svg%3E") no-repeat bottom left;
+  left: 0;
+  bottom: 0;
+  width: 130px;
+  height: 130px;
+  background: url("/assets/leaf2.png") no-repeat bottom left;
   background-size: contain;
   pointer-events: none;
 }
@@ -31,9 +32,9 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 250px;
-  height: 150px;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,100 0,100 0,50 30,50 30,20 60,20 60,70 100,70' fill='%237a9c86' opacity='0.2'/%3E%3C/svg%3E") no-repeat bottom right;
+  width: 200px;
+  height: 130px;
+  background: url("/assets/building.png") no-repeat bottom right;
   background-size: contain;
   pointer-events: none;
 }
@@ -59,11 +60,12 @@
   line-height: 1.55;
 }
 
+/* Updated button color to match screenshot */
 .home_cta_btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #146c54;
+  background: #146c54; /* Dark blue from screenshot */
   color: #ffffff;
   padding: 0.9rem 1.85rem;
   border-radius: 8px;
@@ -77,8 +79,8 @@
 }
 
 .home_cta_btn:hover {
-  background: #1d5d4c;
-  transform: translateY(-2px);
+  background: #0d6049;
+  transform: translateY(-1px);
 }
 
 .home_cta_btn:active {

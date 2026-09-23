@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './home_why_section.css';
 
 export default function HomeWhySection() {
@@ -13,7 +14,14 @@ export default function HomeWhySection() {
 
       <div className="home_why_grid">
         <div className="home_why_card">
-          <div className="home_why_icon"><span>⚡</span></div>
+          <div className="home_why_icon">
+            <Image 
+              src="/assets/flash.png" 
+              alt="Easy and Fast" 
+              width={40}
+              height={40}
+            />
+          </div>
           <div className="home_why_content">
             <h3 className="home_why_card_title">Easy &amp; Fast</h3>
             <p className="home_why_card_text">
@@ -23,7 +31,14 @@ export default function HomeWhySection() {
         </div>
 
         <div className="home_why_card">
-          <div className="home_why_icon"><span>🛡️</span></div>
+          <div className="home_why_icon">
+            <Image 
+              src="/assets/batch.png" 
+              alt="Verified Listings" 
+              width={45}
+              height={45}
+            />
+          </div>
           <div className="home_why_content">
             <h3 className="home_why_card_title">Verified Listings</h3>
             <p className="home_why_card_text">
@@ -33,7 +48,14 @@ export default function HomeWhySection() {
         </div>
 
         <div className="home_why_card">
-          <div className="home_why_icon"><span>👥</span></div>
+          <div className="home_why_icon">
+            <Image 
+              src="/assets/people.png" 
+              alt="For Everyone" 
+              width={50}
+              height={35}
+            />
+          </div>
           <div className="home_why_content">
             <h3 className="home_why_card_title">For Everyone</h3>
             <p className="home_why_card_text">
@@ -43,7 +65,14 @@ export default function HomeWhySection() {
         </div>
 
         <div className="home_why_card">
-          <div className="home_why_icon"><span>🌿</span></div>
+          <div className="home_why_icon">
+            <Image 
+              src="/assets/leaf.png" 
+              alt="Free for Owners" 
+              width={40}
+              height={40}
+            />
+          </div>
           <div className="home_why_content">
             <h3 className="home_why_card_title">Completely Free<br />for Owners</h3>
             <p className="home_why_card_text">

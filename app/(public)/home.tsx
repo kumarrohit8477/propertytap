@@ -7,7 +7,7 @@ import Home_cta_banner from './home_cta_banner';
 import PropertyFilters from '@/components/property/property_filter1';
 import HomePropertyTypes from './home_property_types';
 import HomeWhySection from './home_why_section';
-
+import Image from 'next/image';
 interface HomeFeedClientProps {
   initial_categories: PropertyCategory[];
 }
@@ -80,11 +80,12 @@ export default function HomeFeedClient({
 
             <div className="home_hero_bottom_card">
               <div className="home_bottom_card_icon">
-                <svg width="30" height="30" viewBox="0 0 48 48" fill="none">
-                  <circle cx="24" cy="24" r="22" fill="#EAF5EE" />
-                  <path d="M24 37C24 37 16 29.7 16 21.5C16 17.4 19.6 14 24 14C28.4 14 32 17.4 32 21.5C32 29.7 24 37 24 37Z" fill="#247C5C" />
-                  <path d="M24 30C20.5 26.8 20 22.8 20.8 19.8C22.6 20.4 24.2 22 25 24C25.8 22.3 27 21.1 28.7 20.3C29 24.3 27.5 27.6 24 30Z" fill="#76A982" />
-                </svg>
+                <Image
+                  src="/assets/flower.png"
+                  alt="Free for Owners"
+                  width={40}
+                  height={40}
+                />
               </div>
               <div className="home_bottom_card_text">
                 <span>Spaces for</span>
@@ -104,7 +105,7 @@ export default function HomeFeedClient({
           </div>
         </div>
       </section>
-      <HomeWhySection />   
+      <HomeWhySection />
       <HomePropertyTypes />
       <Home_cta_banner />
     </>

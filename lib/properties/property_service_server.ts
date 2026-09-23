@@ -9,7 +9,7 @@ export async function get_properties_server(params: PropertyFilterParams = {}) {
       *,
       category:property_categories(*),
       images:property_images(*),
-      owner:profiles(id, full_name, avatar_url)
+      owner:profiles(id, full_name, display_name, profile_type, avatar_url)
     `)
     .eq('status', 'active');
 
@@ -25,7 +25,17 @@ export async function get_properties_server(params: PropertyFilterParams = {}) {
   if (params.min_price !== undefined) query = query.gte('price', params.min_price);
   if (params.max_price !== undefined) query = query.lte('price', params.max_price);
   if (params.bedrooms !== undefined) query = query.gte('bedrooms', params.bedrooms);
+  if (params.bathrooms !== undefined) query = query.gte('bathrooms', params.bathrooms);
   if (params.furnishing) query = query.eq('furnishing', params.furnishing);
+  if (params.parking !== undefined) query = query.eq('parking', params.parking);
+  if (params.floor !== undefined) query = query.eq('floor', params.floor);
+  if (params.pg_type) query = query.eq('pg_type', params.pg_type);
+  if (params.sharing_type) query = query.eq('sharing_type', params.sharing_type);
+  if (params.food_included !== undefined) query = query.eq('food_included', params.food_included);
+  if (params.land_type) query = query.eq('land_type', params.land_type);
+  if (params.facing) query = query.eq('facing', params.facing);
+  if (params.min_area !== undefined) query = query.gte('area', params.min_area);
+  if (params.max_area !== undefined) query = query.lte('area', params.max_area);
 
   if (params.sort_by === 'price_asc') {
     query = query.order('price', { ascending: true });
@@ -53,7 +63,7 @@ export async function get_property_by_id_server(id: string) {
       *,
       category:property_categories(*),
       images:property_images(*),
-      owner:profiles(id, full_name, avatar_url)
+      owner:profiles(id, full_name, display_name, profile_type, avatar_url)
     `)
     .eq('id', id)
     .single();

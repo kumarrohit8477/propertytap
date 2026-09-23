@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { get_categories, create_property, upload_property_images } from '@/lib/properties/property_service';
 import { PropertyCategory, PropertyPurpose } from '@/types/property';
+import { get_filter_group_for_category } from '@/lib/config/property_filters_config';
 import DashboardSidebar from '@/components/layout/dashboard_sidebar';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
@@ -26,9 +27,22 @@ export default function NewPropertyPage() {
   const [locality, set_locality] = useState('');
   const [address, set_address] = useState('');
   const [area, set_area] = useState('');
+  const [area_unit, set_area_unit] = useState('sqft');
   const [bedrooms, set_bedrooms] = useState('');
   const [bathrooms, set_bathrooms] = useState('');
   const [furnishing, set_furnishing] = useState('unfurnished');
+  const [parking, set_parking] = useState(false);
+  const [floor, set_floor] = useState('');
+
+  // PG / Hostel fields
+  const [pg_type, set_pg_type] = useState('boys');
+  const [sharing_type, set_sharing_type] = useState('single');
+  const [food_included, set_food_included] = useState(true);
+
+  // Land fields
+  const [land_type, set_land_type] = useState('residential_plot');
+  const [facing, set_facing] = useState('north');
+
   const [image_files, set_image_files] = useState<File[]>([]);
   const [preview_urls, set_preview_urls] = useState<string[]>([]);
   const [loading_status, set_loading_status] = useState('');
@@ -43,6 +57,8 @@ export default function NewPropertyPage() {
     }
     load_cats();
   }, []);
+
+  const filter_group = get_filter_group_for_category(category_id, categories);
 
   const handle_image_select = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -64,6 +80,11 @@ export default function NewPropertyPage() {
     set_loading_status('Creating property listing...');
     set_error_msg(null);
 
+    const is_residential = filter_group === 'residential' || filter_group === 'all';
+    const is_pg_or_hostel = filter_group === 'pg' || filter_group === 'hostel';
+    const is_land = filter_group === 'land';
+    const is_commercial = filter_group === 'commercial';
+
     const { data: new_prop, error } = await create_property({
       category_id,
       purpose,
@@ -74,9 +95,17 @@ export default function NewPropertyPage() {
       locality,
       address,
       area: area ? Number(area) : null,
-      bedrooms: bedrooms ? Number(bedrooms) : null,
-      bathrooms: bathrooms ? Number(bathrooms) : null,
-      furnishing,
+      area_unit: area_unit || 'sqft',
+      bedrooms: is_residential && bedrooms ? Number(bedrooms) : null,
+      bathrooms: filter_group === 'residential' && bathrooms ? Number(bathrooms) : null,
+      furnishing: (is_residential || is_commercial) ? furnishing : null,
+      parking: (is_residential || is_commercial) ? parking : null,
+      floor: filter_group === 'residential' && floor !== '' ? Number(floor) : null,
+      pg_type: is_pg_or_hostel ? pg_type : null,
+      sharing_type: is_pg_or_hostel ? sharing_type : null,
+      food_included: is_pg_or_hostel ? food_included : null,
+      land_type: is_land ? land_type : null,
+      facing: is_land ? facing : null,
     });
 
     if (error || !new_prop) {
@@ -167,30 +196,154 @@ export default function NewPropertyPage() {
             </div>
           )}
 
-          {/* STEP 3: DETAILS */}
+          {/* STEP 3: DETAILS (Context-Aware based on Category) */}
           {step === 3 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <h3>Step 3: Property Location &amp; Details</h3>
-              <Input label="Property Title" placeholder="e.g. Spacious 2 BHK Apartment in Agra" value={title} onChange={(e) => set_title(e.target.value)} required />
-              <Input label="Price (₹)" type="number" placeholder="e.g. 25000" value={price} onChange={(e) => set_price(e.target.value)} required />
+              <Input label="Property Title" placeholder="e.g. Spacious Property Title" value={title} onChange={(e) => set_title(e.target.value)} required />
+              <Input
+                label={filter_group === 'pg' || filter_group === 'hostel' ? "Monthly Rent (₹)" : "Price (₹)"}
+                type="number"
+                placeholder="e.g. 25000"
+                value={price}
+                onChange={(e) => set_price(e.target.value)}
+                required
+              />
+
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <Input label="City" placeholder="e.g. Agra" value={city} onChange={(e) => set_city(e.target.value)} required />
                 <Input label="Locality" placeholder="e.g. Dayalbagh" value={locality} onChange={(e) => set_locality(e.target.value)} required />
               </div>
+
               <Input label="Address" placeholder="Full address details" value={address} onChange={(e) => set_address(e.target.value)} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
-                <Input label="Area (sqft)" type="number" placeholder="e.g. 1200" value={area} onChange={(e) => set_area(e.target.value)} />
-                <Input label="Bedrooms" type="number" placeholder="e.g. 2" value={bedrooms} onChange={(e) => set_bedrooms(e.target.value)} />
-                <Input label="Bathrooms" type="number" placeholder="e.g. 2" value={bathrooms} onChange={(e) => set_bathrooms(e.target.value)} />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Furnishing Status</label>
-                <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={furnishing} onChange={(e) => set_furnishing(e.target.value)}>
-                  <option value="unfurnished">Unfurnished</option>
-                  <option value="semi-furnished">Semi-Furnished</option>
-                  <option value="fully-furnished">Fully Furnished</option>
-                </select>
-              </div>
+
+              {/* 1. RESIDENTIAL SPECIFIC FIELDS */}
+              {(filter_group === 'residential' || filter_group === 'all') && (
+                <>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                    <Input label="Area (sqft)" type="number" placeholder="e.g. 1200" value={area} onChange={(e) => set_area(e.target.value)} />
+                    <Input label="Bedrooms (BHK)" type="number" placeholder="e.g. 2" value={bedrooms} onChange={(e) => set_bedrooms(e.target.value)} />
+                    <Input label="Bathrooms" type="number" placeholder="e.g. 2" value={bathrooms} onChange={(e) => set_bathrooms(e.target.value)} />
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                      <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Furnishing</label>
+                      <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={furnishing} onChange={(e) => set_furnishing(e.target.value)}>
+                        <option value="unfurnished">Unfurnished</option>
+                        <option value="semi-furnished">Semi-Furnished</option>
+                        <option value="fully-furnished">Fully Furnished</option>
+                      </select>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                      <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Parking Available</label>
+                      <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={parking ? 'true' : 'false'} onChange={(e) => set_parking(e.target.value === 'true')}>
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                      </select>
+                    </div>
+
+                    <Input label="Floor Number" type="number" placeholder="e.g. 2" value={floor} onChange={(e) => set_floor(e.target.value)} />
+                  </div>
+                </>
+              )}
+
+              {/* 2. PG / HOSTEL SPECIFIC FIELDS */}
+              {(filter_group === 'pg' || filter_group === 'hostel') && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>{filter_group === 'pg' ? 'PG Type' : 'Hostel Type'}</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={pg_type} onChange={(e) => set_pg_type(e.target.value)}>
+                      <option value="boys">Boys</option>
+                      <option value="girls">Girls</option>
+                      <option value="co-living">Co-Living</option>
+                    </select>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Room / Sharing</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={sharing_type} onChange={(e) => set_sharing_type(e.target.value)}>
+                      <option value="single">Single Room</option>
+                      <option value="double">Double Sharing</option>
+                      <option value="triple">Triple Sharing</option>
+                      <option value="four_plus">4+ Sharing</option>
+                    </select>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Food Included</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={food_included ? 'true' : 'false'} onChange={(e) => set_food_included(e.target.value === 'true')}>
+                      <option value="true">Food Included</option>
+                      <option value="false">Food Not Included</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* 3. LAND / PLOT SPECIFIC FIELDS */}
+              {filter_group === 'land' && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '1rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Land Type</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={land_type} onChange={(e) => set_land_type(e.target.value)}>
+                      <option value="residential_plot">Residential Plot</option>
+                      <option value="commercial_plot">Commercial Plot</option>
+                      <option value="agricultural_land">Agricultural Land</option>
+                    </select>
+                  </div>
+
+                  <Input label="Area Value" type="number" placeholder="e.g. 1000" value={area} onChange={(e) => set_area(e.target.value)} />
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Area Unit</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={area_unit} onChange={(e) => set_area_unit(e.target.value)}>
+                      <option value="sqft">sq.ft.</option>
+                      <option value="sqyd">sq.yd.</option>
+                      <option value="sqm">sq.m.</option>
+                      <option value="acre">Acre</option>
+                      <option value="bigha">Bigha</option>
+                    </select>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Facing Direction</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={facing} onChange={(e) => set_facing(e.target.value)}>
+                      <option value="north">North</option>
+                      <option value="south">South</option>
+                      <option value="east">East</option>
+                      <option value="west">West</option>
+                      <option value="north_east">North-East</option>
+                      <option value="north_west">North-West</option>
+                      <option value="south_east">South-East</option>
+                      <option value="south_west">South-West</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* 4. COMMERCIAL SPECIFIC FIELDS */}
+              {filter_group === 'commercial' && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                  <Input label="Area (sqft)" type="number" placeholder="e.g. 1500" value={area} onChange={(e) => set_area(e.target.value)} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Furnishing Status</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={furnishing} onChange={(e) => set_furnishing(e.target.value)}>
+                      <option value="unfurnished">Unfurnished</option>
+                      <option value="semi-furnished">Semi-Furnished</option>
+                      <option value="fully-furnished">Fully Furnished</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Parking Available</label>
+                    <select style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db' }} value={parking ? 'true' : 'false'} onChange={(e) => set_parking(e.target.value === 'true')}>
+                      <option value="false">No</option>
+                      <option value="true">Yes</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                 <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Description</label>
                 <textarea style={{ padding: '0.625rem', borderRadius: '8px', border: '1px solid #d1d5db', minHeight: '100px', fontFamily: 'inherit' }} placeholder="Provide key highlights of your property..." value={description} onChange={(e) => set_description(e.target.value)} />

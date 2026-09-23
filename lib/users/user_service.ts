@@ -26,14 +26,19 @@ export async function update_user_profile(payload: Partial<UserProfile>) {
     return { profile: null, error: new Error('User not authenticated') };
   }
 
+  const update_data: Record<string, any> = {
+    updated_at: new Date().toISOString(),
+  };
+
+  if (payload.full_name !== undefined) update_data.full_name = payload.full_name;
+  if (payload.display_name !== undefined) update_data.display_name = payload.display_name;
+  if (payload.profile_type !== undefined) update_data.profile_type = payload.profile_type;
+  if (payload.phone !== undefined) update_data.phone = payload.phone;
+  if (payload.avatar_url !== undefined) update_data.avatar_url = payload.avatar_url;
+
   const { data, error } = await supabase
     .from('profiles')
-    .update({
-      full_name: payload.full_name,
-      phone: payload.phone,
-      avatar_url: payload.avatar_url,
-      updated_at: new Date().toISOString(),
-    })
+    .update(update_data)
     .eq('id', user_data.user.id)
     .select()
     .single();

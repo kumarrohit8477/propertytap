@@ -17,6 +17,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
     'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800';
 
   const category_name = property.category?.name || 'Property';
+  const lister_name = property.owner?.display_name || property.owner?.full_name || 'Property Lister';
 
   return (
     <div className="property_card">
@@ -58,7 +59,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         <div className="property_card_lister">
-          Listed by {property.owner?.full_name || 'Property Lister'}
+          Listed by: {lister_name}
         </div>
 
         <div className="property_card_actions">

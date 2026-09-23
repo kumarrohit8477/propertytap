@@ -72,7 +72,7 @@ export default function PropertyInfo({ property }: PropertyInfoProps) {
       <div className="property_info_lister_box">
         <div style={{ fontSize: '0.85rem', color: '#4b5563' }}>Property Listed By:</div>
         <div className="property_info_lister_name">
-          👤 {property.owner?.full_name || 'Property Lister'}
+          👤 {property.owner?.display_name || property.owner?.full_name || 'Property Lister'}
         </div>
         <div className="property_info_privacy_note">
           🔒 Contact details (Phone & Email) are protected. Click <strong>Show Interest</strong> below to request contact info delivered to your Notifications.

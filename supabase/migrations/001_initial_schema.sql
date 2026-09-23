@@ -47,6 +47,8 @@ END $$;
 CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name TEXT NOT NULL,
+  display_name TEXT,
+  profile_type TEXT DEFAULT 'individual',
   email TEXT NOT NULL,
   phone TEXT,
   avatar_url TEXT,
@@ -87,6 +89,13 @@ CREATE TABLE IF NOT EXISTS properties (
   bedrooms INTEGER,
   bathrooms INTEGER,
   furnishing TEXT,
+  pg_type TEXT,
+  sharing_type TEXT,
+  food_included BOOLEAN,
+  land_type TEXT,
+  facing TEXT,
+  parking BOOLEAN,
+  floor INTEGER,
   status property_status DEFAULT 'active',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

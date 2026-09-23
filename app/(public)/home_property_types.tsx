@@ -17,7 +17,7 @@ export default function HomePropertyTypes() {
 
       <div className="home_type_grid">
         {/* House */}
-        <div type="button" className="home_type_card" onClick={() => router.push('/search?q=house')}>
+        <div className="home_type_card" onClick={() => router.push('/search?q=house')}>
           <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="House" className="home_type_img" />
           <div className="home_type_content">
             <span className="home_type_label">House</span>

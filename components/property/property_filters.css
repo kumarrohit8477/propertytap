@@ -1,23 +1,65 @@
 .property_filters_card {
   background-color: #ffffff;
   padding: 1.25rem;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
-.property_filters_title {
-  font-size: 1.1rem;
+/* Header */
+.property_filters_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.property_filters_header_title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.property_filters_header_title h3 {
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #111827;
+  color: #0f172a;
   margin: 0;
 }
 
-.property_filters_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+.property_filters_badge {
+  background-color: #16a34a;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  line-height: 1;
+}
+
+.property_filters_reset_btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.property_filters_reset_btn:hover {
+  color: #dc2626;
+}
+
+/* Filter Groups */
+.property_filters_body {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
@@ -28,29 +70,132 @@
 }
 
 .property_filters_label {
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: #374151;
+  color: #475569;
+  letter-spacing: -0.01em;
 }
 
+/* Inputs & Selects */
 .property_filters_select,
 .property_filters_input {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
   outline: none;
   background-color: #ffffff;
+  color: #0f172a;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .property_filters_select:focus,
 .property_filters_input:focus {
-  border-color: #2563eb;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
 }
 
+/* Input with icon */
+.property_filters_input_wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.property_filters_input_wrapper .input_icon {
+  position: absolute;
+  left: 0.75rem;
+  pointer-events: none;
+}
+
+.property_filters_input.with_icon {
+  padding-left: 2.25rem;
+}
+
+/* Purpose Pills Segment */
+.property_filters_pills {
+  display: flex;
+  background-color: #f1f5f9;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 2px;
+}
+
+.property_filter_pill {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748b;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.property_filter_pill:hover {
+  color: #0f172a;
+}
+
+.property_filter_pill.active {
+  background-color: #ffffff;
+  color: #16a34a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+/* Price Row */
+.property_filters_price_row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price_divider {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* BHK Chips */
+.property_filters_bhk_row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.bhk_chip {
+  flex: 1;
+  padding: 0.4rem 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.bhk_chip:hover {
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.bhk_chip.active {
+  background-color: #f0fdf4;
+  border-color: #16a34a;
+  color: #16a34a;
+  font-weight: 700;
+}
+
+/* Actions */
 .property_filters_actions {
   display: flex;
   gap: 0.75rem;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f1f5f9;
 }

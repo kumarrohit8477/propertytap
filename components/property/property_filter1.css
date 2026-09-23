@@ -21,8 +21,8 @@
   height: 40px;
   padding: 0 17px;
   border: none;
-  border-radius: 7px 7px 0 0;
-  background: rgba(255, 255, 255, 0.74);
+  border-radius: 7px;
+  background: #ffffff;
   color: #1d2c44;
   font-size: 13px;
   font-weight: 600;
@@ -36,7 +36,7 @@
 }
 
 .hero_purpose_tab.active {
-  background: #0c1b35;
+  background: #146c54;
   color: #ffffff;
 }
 

@@ -63,7 +63,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #0c1b35;
+  background: #146c54;
   color: #ffffff;
   padding: 0.9rem 1.85rem;
   border-radius: 8px;
@@ -77,7 +77,7 @@
 }
 
 .home_cta_btn:hover {
-  background: #152c54;
+  background: #1d5d4c;
   transform: translateY(-2px);
 }
 

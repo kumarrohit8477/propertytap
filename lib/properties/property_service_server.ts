@@ -1,5 +1,6 @@
 import { create_server_client } from '@/lib/supabase/server';
 import { PropertyFilterParams, PropertyItem, PropertyCategory } from '@/types/property';
+import { get_category_ids_for_filter } from '@/lib/config/property_filters_config';
 
 export async function get_properties_server(params: PropertyFilterParams = {}) {
   const supabase = create_server_client();
@@ -20,7 +21,25 @@ export async function get_properties_server(params: PropertyFilterParams = {}) {
   }
   if (params.city) query = query.ilike('city', `%${params.city}%`);
   if (params.locality) query = query.ilike('locality', `%${params.locality}%`);
-  if (params.category_id) query = query.eq('category_id', params.category_id);
+  
+  if (params.category_ids && params.category_ids.length > 0) {
+    query = query.in('category_id', params.category_ids);
+  } else if (params.category_id && params.category_id !== 'all') {
+    const { data: all_cats } = await supabase
+      .from('property_categories')
+      .select('*')
+      .eq('is_active', true);
+    
+    const cat_ids = get_category_ids_for_filter(params.category_id, (all_cats as PropertyCategory[]) || []);
+
+    if (cat_ids.length > 1) {
+      query = query.in('category_id', cat_ids);
+    } else if (cat_ids.length === 1) {
+      query = query.eq('category_id', cat_ids[0]);
+    } else {
+      query = query.eq('category_id', params.category_id);
+    }
+  }
   if (params.purpose) query = query.eq('purpose', params.purpose);
   if (params.min_price !== undefined) query = query.gte('price', params.min_price);
   if (params.max_price !== undefined) query = query.lte('price', params.max_price);

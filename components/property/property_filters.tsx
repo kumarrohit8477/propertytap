@@ -2,7 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { PropertyFilterParams, PropertyCategory } from '@/types/property';
-import { get_filter_group_for_category, PropertyFilterGroup } from '@/lib/config/property_filters_config';
+import {
+  get_filter_group_for_category,
+  PropertyFilterGroup,
+  SEEKER_FILTER_GROUPS,
+  get_category_ids_for_filter,
+  get_seeker_group_key,
+} from '@/lib/config/property_filters_config';
 import Button from '@/components/ui/button';
 import './property_filters.css';
 
@@ -19,7 +25,9 @@ export default function PropertyFilters({
 }: PropertyFiltersProps) {
   const [city, set_city] = useState(initial_filters.city || '');
   const [purpose, set_purpose] = useState<string>(initial_filters.purpose || '');
-  const [category_id, set_category_id] = useState(initial_filters.category_id || '');
+  const [category_id, set_category_id] = useState<string>(
+    () => get_seeker_group_key(initial_filters.category_id, categories) || initial_filters.category_id || ''
+  );
 
   // Residential filters
   const [min_price, set_min_price] = useState<string>(
@@ -68,7 +76,8 @@ export default function PropertyFilters({
   useEffect(() => {
     set_city(initial_filters.city || '');
     set_purpose(initial_filters.purpose || '');
-    set_category_id(initial_filters.category_id || '');
+    const resolved_group = get_seeker_group_key(initial_filters.category_id, categories);
+    set_category_id(resolved_group || initial_filters.category_id || '');
     set_min_price(initial_filters.min_price ? String(initial_filters.min_price) : '');
     set_max_price(initial_filters.max_price ? String(initial_filters.max_price) : '');
     set_bedrooms(initial_filters.bedrooms ? String(initial_filters.bedrooms) : '');
@@ -103,6 +112,7 @@ export default function PropertyFilters({
     initial_filters.min_area,
     initial_filters.max_area,
     initial_filters.sort_by,
+    categories,
   ]);
 
   // Handle category selection with context-aware cleanup
@@ -110,7 +120,8 @@ export default function PropertyFilters({
     set_category_id(new_cat_id);
     const new_group = get_filter_group_for_category(new_cat_id, categories);
 
-    if (new_group === 'pg' || new_group === 'hostel') {
+    if (new_group === 'pg') {
+      set_purpose('rent');
       set_bedrooms('');
       set_bathrooms('');
       set_floor('');
@@ -171,10 +182,13 @@ export default function PropertyFilters({
     const is_land = filter_group === 'land';
     const is_commercial = filter_group === 'commercial';
 
+    const cat_ids = get_category_ids_for_filter(category_id, categories);
+
     on_filter_change({
       city: city || undefined,
-      purpose: (purpose as any) || undefined,
+      purpose: (filter_group === 'pg' ? 'rent' : (purpose as any)) || undefined,
       category_id: category_id || undefined,
+      category_ids: cat_ids.length > 0 ? cat_ids : undefined,
       min_price: min_price ? Number(min_price) : undefined,
       max_price: max_price ? Number(max_price) : undefined,
 
@@ -245,7 +259,7 @@ export default function PropertyFilters({
       </div>
 
       <div className="property_filters_body">
-        {/* Category Dropdown (Drives Context-Aware Dynamic Filters) */}
+        {/* Category Dropdown (Grouped Seeker Options) */}
         <div className="property_filters_group">
           <label className="property_filters_label">Property Type / Category</label>
           <select
@@ -254,9 +268,9 @@ export default function PropertyFilters({
             onChange={(e) => handle_category_change(e.target.value)}
           >
             <option value="">All Property Types</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
+            {SEEKER_FILTER_GROUPS.map((group) => (
+              <option key={group.key} value={group.key}>
+                {group.label}
               </option>
             ))}
           </select>
@@ -268,25 +282,28 @@ export default function PropertyFilters({
           <div className="property_filters_pills">
             <button
               type="button"
-              className={`property_filter_pill ${purpose === '' ? 'active' : ''}`}
-              onClick={() => set_purpose('')}
+              className={`property_filter_pill ${purpose === '' && filter_group !== 'pg' ? 'active' : ''}`}
+              onClick={() => filter_group !== 'pg' && set_purpose('')}
+              disabled={filter_group === 'pg'}
             >
               All
             </button>
             <button
               type="button"
-              className={`property_filter_pill ${purpose === 'rent' ? 'active' : ''}`}
+              className={`property_filter_pill ${purpose === 'rent' || filter_group === 'pg' ? 'active' : ''}`}
               onClick={() => set_purpose('rent')}
             >
               Rent
             </button>
-            <button
-              type="button"
-              className={`property_filter_pill ${purpose === 'sale' ? 'active' : ''}`}
-              onClick={() => set_purpose('sale')}
-            >
-              Sale
-            </button>
+            {filter_group !== 'pg' && (
+              <button
+                type="button"
+                className={`property_filter_pill ${purpose === 'sale' ? 'active' : ''}`}
+                onClick={() => set_purpose('sale')}
+              >
+                Sale
+              </button>
+            )}
           </div>
         </div>
 

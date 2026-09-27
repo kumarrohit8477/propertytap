@@ -61,6 +61,7 @@ export interface PropertyFilterParams {
   city?: string;
   locality?: string;
   category_id?: string;
+  category_ids?: string[];
   purpose?: PropertyPurpose;
   min_price?: number;
   max_price?: number;

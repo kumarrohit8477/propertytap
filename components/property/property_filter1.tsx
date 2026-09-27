@@ -2,7 +2,13 @@
 
 import React, { useState } from 'react';
 import { PropertyFilterParams, PropertyCategory } from '@/types/property';
-import { get_filter_group_for_category, PropertyFilterGroup } from '@/lib/config/property_filters_config';
+import {
+  get_filter_group_for_category,
+  PropertyFilterGroup,
+  SEEKER_FILTER_GROUPS,
+  get_category_ids_for_filter,
+  get_seeker_group_key,
+} from '@/lib/config/property_filters_config';
 import './property_filter1.css';
 
 interface PropertyFiltersProps {
@@ -18,7 +24,9 @@ export default function PropertyFilters({
 }: PropertyFiltersProps) {
   const [purpose, set_purpose] = useState<string>(initial_filters.purpose || 'sale');
   const [city, set_city] = useState(initial_filters.city || '');
-  const [category_id, set_category_id] = useState(initial_filters.category_id || '');
+  const [category_id, set_category_id] = useState<string>(
+    () => get_seeker_group_key(initial_filters.category_id, categories) || initial_filters.category_id || ''
+  );
   const [budget, set_budget] = useState('');
   const [bedrooms, set_bedrooms] = useState('');
 
@@ -47,7 +55,7 @@ export default function PropertyFilters({
       set_facing('');
     }
 
-    if (new_group === 'pg' || new_group === 'hostel') {
+    if (new_group === 'pg') {
       set_purpose('rent');
     }
   };
@@ -65,10 +73,13 @@ export default function PropertyFilters({
     const is_pg_or_hostel = filter_group === 'pg' || filter_group === 'hostel';
     const is_land = filter_group === 'land';
 
+    const cat_ids = get_category_ids_for_filter(category_id, categories);
+
     on_filter_change({
       city: city.trim() || undefined,
-      purpose: (purpose as PropertyFilterParams['purpose']) || undefined,
+      purpose: (filter_group === 'pg' ? 'rent' : (purpose as PropertyFilterParams['purpose'])) || undefined,
       category_id: category_id || undefined,
+      category_ids: cat_ids.length > 0 ? cat_ids : undefined,
       min_price,
       max_price,
       bedrooms: is_residential && bedrooms ? Number(bedrooms) : undefined,
@@ -84,16 +95,18 @@ export default function PropertyFilters({
     <div className="hero_search_wrapper">
       {/* Purpose Tabs */}
       <div className="hero_purpose_tabs">
+        {filter_group !== 'pg' && (
+          <button
+            type="button"
+            className={`hero_purpose_tab ${purpose === 'sale' ? 'active' : ''}`}
+            onClick={() => set_purpose('sale')}
+          >
+            Buy
+          </button>
+        )}
         <button
           type="button"
-          className={`hero_purpose_tab ${purpose === 'sale' ? 'active' : ''}`}
-          onClick={() => set_purpose('sale')}
-        >
-          Buy
-        </button>
-        <button
-          type="button"
-          className={`hero_purpose_tab ${purpose === 'rent' ? 'active' : ''}`}
+          className={`hero_purpose_tab ${purpose === 'rent' || filter_group === 'pg' ? 'active' : ''}`}
           onClick={() => set_purpose('rent')}
         >
           Rent
@@ -130,9 +143,9 @@ export default function PropertyFilters({
             onChange={(e) => handle_category_change(e.target.value)}
           >
             <option value="">Property Type</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
+            {SEEKER_FILTER_GROUPS.map((group) => (
+              <option key={group.key} value={group.key}>
+                {group.label}
               </option>
             ))}
           </select>

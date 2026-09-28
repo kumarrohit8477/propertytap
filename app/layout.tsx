@@ -17,15 +17,27 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://propertytap.in',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/icon.png', type: 'image/png', sizes: '512x512' },
+      { url: '/assets/logo.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     siteName: 'PropertyTap',
     type: 'website',
     locale: 'en_IN',
     images: [
       {
-        url: 'https://propertytap.in/og-image.jpg',
-        width: 1200,
-        height: 630,
+        url: 'https://propertytap.in/assets/logo.png',
+        width: 675,
+        height: 588,
         alt: 'PropertyTap — Find Properties Near You | 0% Brokerage',
       },
     ],
@@ -38,7 +50,7 @@ const organization_schema = {
   '@type': 'Organization',
   name: 'PropertyTap',
   url: 'https://propertytap.in',
-  logo: 'https://propertytap.in/og-image.jpg',
+  logo: 'https://propertytap.in/assets/logo.png',
   description:
     'India\'s 0% brokerage property platform. Buy, sell or rent verified houses, flats, plots and commercial spaces — connect directly with owners.',
   contactPoint: {

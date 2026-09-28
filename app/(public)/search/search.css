@@ -27,19 +27,9 @@
   width: 300px;
   flex-shrink: 0;
   position: sticky;
-  top: 1.5rem;
-  max-height: calc(100vh - 3rem);
-  overflow-y: auto;
-  padding-right: 2px;
-}
-
-/* Custom smooth scrollbar for sidebar */
-.sidebar_container::-webkit-scrollbar {
-  width: 5px;
-}
-.sidebar_container::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  border-radius: 9999px;
+  top: calc(75px + 1.5rem);
+  height: calc(100vh - 75px - 3rem);
+  box-sizing: border-box;
 }
 
 /* Main Content Area */
@@ -111,8 +101,17 @@
   .sidebar_container {
     width: 100%;
     position: static;
+    height: auto;
+  }
+
+  .property_filters_card {
+    height: auto;
     max-height: none;
+  }
+
+  .property_filters_body {
     overflow-y: visible;
+    max-height: none;
   }
 }
 

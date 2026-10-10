@@ -18,7 +18,9 @@ export default function HomePropertyTypes() {
       <div className="home_type_grid">
         {/* House */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=apartment-flat-house')}>
-          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="House" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="House" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">House</span>
             <div className="home_type_arrow">
@@ -29,7 +31,9 @@ export default function HomePropertyTypes() {
 
         {/* Flat / Apartment */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=apartment-flat-house')}>
-          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" alt="Flat" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" alt="Flat" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">Flat / Apartment</span>
             <div className="home_type_arrow">
@@ -40,7 +44,9 @@ export default function HomePropertyTypes() {
 
         {/* PG / Hostel */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=hostel-pg')}>
-          <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80" alt="PG" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80" alt="PG" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">PG / Hostel</span>
             <div className="home_type_arrow">
@@ -51,7 +57,9 @@ export default function HomePropertyTypes() {
 
         {/* Villa */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=villa-warehouses')}>
-          <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80" alt="Villa" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80" alt="Villa" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">Villa</span>
             <div className="home_type_arrow">
@@ -62,7 +70,9 @@ export default function HomePropertyTypes() {
 
         {/* Land & Plots */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=land')}>
-          <img src="https://media.onthemarket.co.in/Media/PropertyFiles/2618/uobbcf/600x959_11_ffffff_1_90_7c0c153c-e2d1-435a-822c-7891310338cc.jpeg" alt="Land & Plot" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://media.onthemarket.co.in/Media/PropertyFiles/2618/uobbcf/600x959_11_ffffff_1_90_7c0c153c-e2d1-435a-822c-7891310338cc.jpeg" alt="Land & Plot" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">Land &amp; Plots</span>
             <div className="home_type_arrow">
@@ -73,7 +83,9 @@ export default function HomePropertyTypes() {
 
         {/* Office Spaces */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=office-workspace')}>
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Office Space" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Office Space" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">Office Spaces</span>
             <div className="home_type_arrow">
@@ -84,7 +96,9 @@ export default function HomePropertyTypes() {
 
         {/* Shop & Showroom */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=shops-showrooms')}>
-          <img src="https://media.istockphoto.com/id/1394033419/photo/luxury-fashion-store-front-in-modern-shopping-mall.jpg?s=612x612&w=0&k=20&c=RlaY4uZLg2kqvmDBBkk_dkAUfjUdJLi79umilrWcKl8=" alt="Shop & Showroom" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://media.istockphoto.com/id/1394033419/photo/luxury-fashion-store-front-in-modern-shopping-mall.jpg?s=612x612&w=0&k=20&c=RlaY4uZLg2kqvmDBBkk_dkAUfjUdJLi79umilrWcKl8=" alt="Shop & Showroom" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">Shop &amp; Showroom</span>
             <div className="home_type_arrow">
@@ -95,7 +109,9 @@ export default function HomePropertyTypes() {
 
         {/* Warehouse */}
         <div className="home_type_card" onClick={() => router.push('/search?category_id=villa-warehouses')}>
-          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
+          <div className="home_type_img_container">
+            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
+          </div>
           <div className="home_type_content">
             <span className="home_type_label">Warehouse</span>
             <div className="home_type_arrow">

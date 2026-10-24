@@ -40,8 +40,8 @@ export default function HomeMobileApp() {
               <Image
                 src="/assets/play-store.png"
                 alt="Get it on Google Play"
-                width={160}
-                height={55}
+                width={240}
+                height={120}
                 className="hma_store_badge_img"
               />
             </a>
@@ -53,8 +53,8 @@ export default function HomeMobileApp() {
               <Image
                 src="/assets/app-store.png"
                 alt="Download on the App Store"
-                width={160}
-                height={55}
+                width={240}
+                height={120}
                 className="hma_store_badge_img"
               />
             </a>

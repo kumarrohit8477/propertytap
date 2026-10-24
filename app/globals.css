@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
-  --text-dark: #111827;
-  --text-muted: #6b7280;
-  --bg-light: #f9fafb;
-  --card-bg: #f9fafb;
-  --border-color: #e5e7eb;
+  --primary-color: #1a56db;
+  --primary-hover: #1648c4;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --bg-light: #ffffff;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
 }
 
 * {
@@ -16,7 +18,7 @@
 
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: var(--bg-light);
   color: var(--text-dark);
   min-height: 100vh;

@@ -1,0 +1,108 @@
+/* ── Testimonials ───────────────────────────── */
+.htm_section {
+  background: #f9fafb;
+  padding: 60px 0 56px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.htm_container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.htm_header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.htm_title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px;
+  letter-spacing: -0.03em;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+.htm_subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.htm_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.htm_card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 0.2s ease;
+}
+
+.htm_card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.htm_user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.htm_avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid #e2e8f0;
+}
+
+.htm_avatar_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.htm_name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.htm_role {
+  font-size: 0.78rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.htm_stars {
+  display: flex;
+  gap: 2px;
+}
+
+.htm_quote {
+  font-size: 0.88rem;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .htm_grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .htm_grid { grid-template-columns: 1fr; }
+}

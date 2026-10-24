@@ -2,122 +2,73 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { FiArrowRight } from 'react-icons/fi';
 import './home_property_types.css';
+
+const PROPERTY_TYPES = [
+  {
+    label: 'House',
+    img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',
+    route: '/search?category_id=apartment-flat-house',
+  },
+  {
+    label: 'Flat / Apartment',
+    img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80',
+    route: '/search?category_id=apartment-flat-house',
+  },
+  {
+    label: 'PG / Hostel',
+    img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80',
+    route: '/search?category_id=hostel-pg',
+  },
+  {
+    label: 'Office Spaces',
+    img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+    route: '/search?category_id=office-workspace',
+  },
+  {
+    label: 'Shop & Showroom',
+    img: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&q=80',
+    route: '/search?category_id=shops-showrooms',
+  },
+  {
+    label: 'Villa',
+    img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80',
+    route: '/search?category_id=villa-warehouses',
+  },
+  {
+    label: 'Warehouse',
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80',
+    route: '/search?category_id=villa-warehouses',
+  },
+];
 
 export default function HomePropertyTypes() {
   const router = useRouter();
 
   return (
-    <section className="home_feed_section">
-      <div className="home_type_header">
-        <h2 className="home_feed_title">Browse by Property Type</h2>
-        <p className="home_feed_subtitle">Find the perfect property, whatever your need.</p>
-      </div>
-
-      <div className="home_type_grid">
-        {/* House */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=apartment-flat-house')}>
-          <div className="home_type_img_container">
-            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="House" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">House</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
+    <section className="hpt_section">
+      <div className="hpt_container">
+        <div className="hpt_header">
+          <h2 className="hpt_title">Browse by Property Type</h2>
+          <p className="hpt_subtitle">Explore a wide range of properties as per your need</p>
         </div>
 
-        {/* Flat / Apartment */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=apartment-flat-house')}>
-          <div className="home_type_img_container">
-            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" alt="Flat" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">Flat / Apartment</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
+        <div className="hpt_grid">
+          {PROPERTY_TYPES.map((type) => (
+            <div
+              key={type.label}
+              className="hpt_card"
+              onClick={() => router.push(type.route)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && router.push(type.route)}
+            >
+              <div className="hpt_img_wrap">
+                <img src={type.img} alt={type.label} className="hpt_img" />
+              </div>
+              <span className="hpt_label">{type.label}</span>
             </div>
-          </div>
-        </div>
-
-        {/* PG / Hostel */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=hostel-pg')}>
-          <div className="home_type_img_container">
-            <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80" alt="PG" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">PG / Hostel</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
-        </div>
-
-        {/* Villa */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=villa-warehouses')}>
-          <div className="home_type_img_container">
-            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80" alt="Villa" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">Villa</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
-        </div>
-
-        {/* Land & Plots */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=land')}>
-          <div className="home_type_img_container">
-            <img src="https://media.onthemarket.co.in/Media/PropertyFiles/2618/uobbcf/600x959_11_ffffff_1_90_7c0c153c-e2d1-435a-822c-7891310338cc.jpeg" alt="Land & Plot" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">Land &amp; Plots</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
-        </div>
-
-        {/* Office Spaces */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=office-workspace')}>
-          <div className="home_type_img_container">
-            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Office Space" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">Office Spaces</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
-        </div>
-
-        {/* Shop & Showroom */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=shops-showrooms')}>
-          <div className="home_type_img_container">
-            <img src="https://media.istockphoto.com/id/1394033419/photo/luxury-fashion-store-front-in-modern-shopping-mall.jpg?s=612x612&w=0&k=20&c=RlaY4uZLg2kqvmDBBkk_dkAUfjUdJLi79umilrWcKl8=" alt="Shop & Showroom" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">Shop &amp; Showroom</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
-        </div>
-
-        {/* Warehouse */}
-        <div className="home_type_card" onClick={() => router.push('/search?category_id=villa-warehouses')}>
-          <div className="home_type_img_container">
-            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Warehouse" className="home_type_img" />
-          </div>
-          <div className="home_type_content">
-            <span className="home_type_label">Warehouse</span>
-            <div className="home_type_arrow">
-              <FiArrowRight size={18} />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

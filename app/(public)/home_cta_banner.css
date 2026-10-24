@@ -14,29 +14,30 @@
   box-shadow: none;
 }
 
-/* Updated to use leaf2.png */
 .home_cta_banner::before {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 130px;
-  height: 130px;
+  left: -10px;
+  bottom: -10px;
+  width: 160px;
+  height: 160px;
   background: url("/assets/leaf2.png") no-repeat bottom left;
   background-size: contain;
   pointer-events: none;
+  mix-blend-mode: multiply; /* Blends white background into the green banner */
 }
 
 .home_cta_banner::after {
   content: "";
   position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 200px;
-  height: 130px;
+  right: -10px;
+  bottom: -10px;
+  width: 230px;
+  height: 140px;
   background: url("/assets/building.png") no-repeat bottom right;
   background-size: contain;
   pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
 .home_cta_content {

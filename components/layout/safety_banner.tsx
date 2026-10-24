@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import './safety_banner.css';
 
 export default function SafetyBanner() {
+  const pathname = usePathname();
   const [is_dismissed, set_is_dismissed] = useState(false);
 
-  if (is_dismissed) return null;
+  if (is_dismissed || pathname === '/') return null;
 
   return (
     <div className="safety_banner_wrapper" role="region" aria-label="Safety Warning">

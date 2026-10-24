@@ -1,77 +1,69 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  FaLinkedinIn, 
-  FaInstagram, 
-  FaFacebookF, 
-  FaYoutube, 
-  FaEnvelope, 
-  FaPhoneAlt 
-} from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 import './footer.css';
 
 export default function Footer() {
   return (
     <footer className="footer_wrapper">
-      <div className="footer_main_container">
-        {/* Left: Logo & Tagline */}
-        <div className="footer_brand_section">
-          <div className="footer_logo_wrapper">
-            <Image 
-              src="/assets/logo.png" 
-              alt="Property Tap Logo" 
-              width={28} 
-              height={28} 
-              className="footer_logo_img"
-            />
-            <span className="footer_brand_name">Property Tap</span>
+      <div className="footer_main">
+        {/* Col 1: Brand */}
+        <div className="footer_col footer_brand_col">
+          <div className="footer_logo_row">
+            <Image src="/assets/logo.png" alt="PropertyTap" width={28} height={28} className="footer_logo_img" />
+            <span className="footer_brand_name">Property<span className="footer_logo_blue">Tap</span></span>
           </div>
-          <p className="footer_tagline">Spaces for a brighter tomorrow.</p>
-          <div className="footer_contact_info">
-            <a href="mailto:info@propertytap.in" className="footer_contact_item">
-              <FaEnvelope /> info@propertytap.in
-            </a>
-            <a href="tel:+919258073878" className="footer_contact_item">
-              <FaPhoneAlt /> +91 9258073878
-            </a>
-          </div>
+          <p className="footer_tagline">
+            Your trusted real estate platform for buying, renting and exploring properties.
+          </p>
         </div>
 
-        {/* Center: Navigation Links */}
-        <nav className="footer_nav_links">
-          <Link href="/about" className="footer_nav_item">About</Link>
-          <Link href="/how-it-works" className="footer_nav_item">How It Works</Link>
-          <Link href="/blog" className="footer_nav_item">Blog</Link>
-          <Link href="/support" className="footer_nav_item">Support</Link>
-          <Link href="/contact" className="footer_nav_item">Contact</Link>
-        </nav>
+        {/* Col 2: Quick Links */}
+        <div className="footer_col">
+          <h4 className="footer_col_heading">Quick Links</h4>
+          <nav className="footer_links">
+            <Link href="/" className="footer_link">Home</Link>
+            <Link href="/properties" className="footer_link">Properties</Link>
+            <Link href="/about" className="footer_link">About Us</Link>
+            <Link href="/contact" className="footer_link">Contact</Link>
+          </nav>
+        </div>
 
-        {/* Right: Social Icons */}
-        <div className="footer_social_icons">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer_social_link" aria-label="LinkedIn">
-            <FaLinkedinIn />
-          </a>
-          <a href="https://www.instagram.com/propertytap_india" target="_blank" rel="noopener noreferrer" className="footer_social_link" aria-label="Instagram">
-            <FaInstagram />
-          </a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer_social_link" aria-label="Facebook">
-            <FaFacebookF />
-          </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer_social_link" aria-label="YouTube">
-            <FaYoutube />
-          </a>
+        {/* Col 3: Support */}
+        <div className="footer_col">
+          <h4 className="footer_col_heading">Support</h4>
+          <nav className="footer_links">
+            <Link href="/support" className="footer_link">Help Center</Link>
+            <Link href="/terms" className="footer_link">Terms & Conditions</Link>
+            <Link href="/privacy" className="footer_link">Privacy Policy</Link>
+            <Link href="/support" className="footer_link">FAQs</Link>
+          </nav>
+        </div>
+
+        {/* Col 4: Follow Us */}
+        <div className="footer_col">
+          <h4 className="footer_col_heading">Follow Us</h4>
+          <div className="footer_social_row">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_fb" aria-label="Facebook">
+              <FaFacebookF />
+            </a>
+            <a href="https://www.instagram.com/propertytap_india" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_ig" aria-label="Instagram">
+              <FaInstagram />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_li" aria-label="LinkedIn">
+              <FaLinkedinIn />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_yt" aria-label="YouTube">
+              <FaYoutube />
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Bottom Bar: Copyright & Legal Links */}
-      <div className="footer_bottom_bar">
-        <span>&copy; {new Date().getFullYear()} Property Tap. All rights reserved.</span>
-        <div className="footer_legal_links">
-          <Link href="/terms" className="footer_legal_item">Terms</Link>
-          <Link href="/privacy" className="footer_legal_item">Privacy</Link>
-          <Link href="/sitemap" className="footer_legal_item">Sitemap</Link>
-        </div>
+      {/* Bottom bar */}
+      <div className="footer_bottom">
+        <span>© {new Date().getFullYear()} PropertyTap. All rights reserved.</span>
       </div>
     </footer>
   );

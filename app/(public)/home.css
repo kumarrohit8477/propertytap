@@ -1,12 +1,10 @@
-
-/* --- Home Hero --- */
+/* ── Hero Section ────────────────────────────── */
 .home_hero_section {
   position: relative;
   width: 100%;
-  min-height: 440px;
+  min-height: 520px;
   overflow: hidden;
-  background: #FFFBF5;
-  box-shadow: 0 4px 24px rgba(10, 22, 40, 0.07);
+  background: #0a1929;
 }
 
 .home_hero_background {
@@ -19,185 +17,111 @@
 .home_hero_background_image {
   position: absolute;
   top: 0;
-  right: 0;
-  width: 72%;
+  left: 0;
+  width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center right;
+  object-position: center;
   display: block;
 }
 
-.home_hero_overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, #ffffff 0%, #ffffff 25%, rgba(255, 255, 255, 0.98) 37%, rgba(255, 255, 255, 0.82) 48%, rgba(255, 255, 255, 0.25) 64%, rgba(255, 255, 255, 0) 78%);
-  z-index: 1;
-}
 
-/* --- Inner Container --- */
+/* Inner container */
 .home_hero_inner {
   position: relative;
   z-index: 3;
   width: 100%;
   max-width: 1200px;
-  min-height: 420px;
+  min-height: 540px;
   margin: 0 auto;
-  padding: 44px 24px 30px;
+  padding: 65px 24px 34px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   box-sizing: border-box;
 }
 
-/* --- Left Content & Typography --- */
+/* Left content */
 .home_hero_left {
-  width: 64%;
-  max-width: 700px;
-  position: relative;
-  z-index: 5;
+  width: 60%;
+  max-width: 660px;
 }
 
+/* Small label above title */
 .home_hero_label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 10px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0.34em;
-  color: #146c54;
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #78350f;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  padding: 4px 13px;
+  border-radius: 99px;
 }
 
+.home_hero_label_icon {
+  font-size: 13px;
+}
+
+/* Main headline */
 .home_hero_title {
-  margin: 0 0 10px;
-  font-size: clamp(42px, 4vw, 48px);
-  line-height: 1.08;
+  margin: 0 0 16px;
+  font-size: clamp(38px, 4.5vw, 54px);
+  line-height: 1.12;
   font-weight: 800;
-  letter-spacing: -1.8px;
-  color: #0c1b35;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
 }
 
+.home_hero_title_blue {
+  color: #1a56db;
+}
+
+/* Subtitle */
 .home_hero_subtitle {
-  margin: 0 0 26px;
-  max-width: 580px;
+  margin: 0 0 28px;
+  max-width: 520px;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.62;
   font-weight: 400;
-  color: #243956;
+  color: #475569;
 }
 
-/* --- Right Side Hero --- */
-.home_hero_right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 47%;
-  height: 100%;
-  z-index: 4;
-  pointer-events: none;
-}
+.desktop_break { display: block; }
 
-.home_hero_script {
-  position: absolute;
-  top: 45px;
-  left: 3%;
-  width: 180px;
-  display: flex;
-  flex-direction: column;
-  color: #0b1c35;
-  transform: rotate(-6deg);
-  font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
-  font-size: 23px;
-  line-height: 1.15;
-  font-weight: 800;
-  text-shadow: 0 4px 15px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(255, 255, 255, 0.8);
-  z-index: 5;
-}
-
-.home_hero_script span:nth-child(2) { margin-left: -8px; }
-.home_hero_script span:nth-child(3) { margin-left: 3px; }
-
-.home_script_line {
-  width: 78px;
-  height: 2px;
-  margin-top: 5px;
-  margin-left: 32px;
-  background: #0b1c35;
-  border-radius: 50%;
-  transform: rotate(-7deg);
-}
-
-.home_hero_bottom_card {
-  position: absolute;
-  right: 47px;
-  bottom: 17px;
-  width: 220px;
-  height: 60px;
-  padding: 8px 12px;
+/* Trust badges row */
+.home_hero_trust_badges {
   display: flex;
   align-items: center;
-  gap: 12px;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(224, 228, 229, 0.9);
-  border-radius: 12px;
-  box-shadow: 0 7px 20px rgba(20, 40, 50, 0.12);
-  pointer-events: auto;
+  gap: 28px;
+  margin-top: 36px;
+  flex-wrap: wrap;
 }
 
-.home_bottom_card_icon {
-  width: 42px;
-  height: 42px;
-  display: flex;
+.home_hero_badge {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
-.home_bottom_card_text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  color: #1b2d43;
-  font-size: 11px;
-  line-height: 1.3;
-}
-
-.home_bottom_card_text span { font-weight: 500; }
-.home_bottom_card_text strong { font-weight: 700; }
-
-.home_bottom_card_arrow {
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e8ebeb;
-  color: #243648;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.home_bottom_card_arrow:hover {
-  background: #dce3e0;
-  transform: translateX(2px);
-}
-/* --- Media Queries --- */
+/* ── Media Queries ───────────────────────────── */
 @media (max-width: 1024px) {
   .home_hero_inner { padding-left: 30px; padding-right: 30px; }
-  .home_hero_left { width: 72%; }
-  .home_hero_right { width: 43%; }
-  .home_hero_title { font-size: 40px; }
-  .home_hero_right { display: none; }
+  .home_hero_left { width: 78%; }
 }
 
 @media (max-width: 768px) {
-  .home_hero_section { min-height: auto; background: #f3f8f7; }
-  .home_hero_background { height: 300px; }
-  .home_hero_background_image { width: 100%; height: 300px; object-position: 65% center; }
-  .home_hero_overlay { background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.72) 45%, #f3f8f7 100%); }
-  .home_hero_inner { min-height: auto; padding: 2rem 1rem 1.5rem; display: block; }
+  .home_hero_section { min-height: auto; }
+  .home_hero_inner { min-height: auto; padding: 48px 18px 36px; }
   .home_hero_left { width: 100%; max-width: 100%; }
+  .desktop_break { display: none; }
+  .home_hero_trust_badges { gap: 14px; }
 }

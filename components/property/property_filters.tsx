@@ -181,7 +181,7 @@ export default function PropertyFilters({
   const [max_area, set_max_area] = useState(
     initial_filters.max_area ? String(initial_filters.max_area) : '',
   );
-  const [sort_by, set_sort_by] = useState(initial_filters.sort_by || 'newest');
+  const [sort_by, set_sort_by] = useState<string>(initial_filters.sort_by || 'newest');
 
   const filter_group: PropertyFilterGroup =
     get_filter_group_for_category(category_id, categories);

@@ -10,8 +10,8 @@ export default function HomeMobileApp() {
           <Image
             src="/assets/mockup.png"
             alt=""
-            width={620}
-            height={413}
+            width={640}
+            height={440}
             className="hma_mockup_img"
             priority
             sizes="(max-width: 900px) 90vw, 520px"
@@ -20,7 +20,7 @@ export default function HomeMobileApp() {
 
         <div className="hma_right">
           <div className="hma_tag">
-            <Image src="/assets/logo.png" alt="" width={17} height={17} />
+            <Image src="/assets/logo.png" alt="" width={20} height={20} />
             <span>PropertyTap</span>
             <span className="hma_tag_blue">Mobile App</span>
           </div>

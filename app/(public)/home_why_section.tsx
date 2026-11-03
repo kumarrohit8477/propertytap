@@ -6,9 +6,7 @@ const FEATURES = [
   {
     icon: (
       <div className="hwy_icon_circle hwy_icon_blue">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.61 16z"/>
-        </svg>
+        <Image src="/assets/call.png" alt="Direct Connectivity" width={35} height={35} />
       </div>
     ),
     title: 'Direct Connectivity',
@@ -17,10 +15,7 @@ const FEATURES = [
   {
     icon: (
       <div className="hwy_icon_circle hwy_icon_green">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="M9 12l2 2 4-4"/>
-        </svg>
+        <Image src="/assets/batch.png" alt="Verified Listings" width={45} height={45} />
       </div>
     ),
     title: 'Verified Listings',
@@ -29,10 +24,7 @@ const FEATURES = [
   {
     icon: (
       <div className="hwy_icon_circle hwy_icon_blue">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
+        <Image src="/assets/home.png" alt="Wide Range" width={40} height={40} />
       </div>
     ),
     title: 'Wide Range',
@@ -41,9 +33,7 @@ const FEATURES = [
   {
     icon: (
       <div className="hwy_icon_circle hwy_icon_amber">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" strokeWidth="1">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-        </svg>
+        <Image src="/assets/flash.png" alt="Easy & Fast" width={32} height={32} />
       </div>
     ),
     title: 'Easy & Fast',

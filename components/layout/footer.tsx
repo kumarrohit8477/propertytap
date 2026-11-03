@@ -51,7 +51,7 @@ export default function Footer() {
             <a href="https://www.instagram.com/propertytap_india" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_ig" aria-label="Instagram">
               <FaInstagram />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_li" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/propertytap" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_li" aria-label="LinkedIn">
               <FaLinkedinIn />
             </a>
             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_yt" aria-label="YouTube">

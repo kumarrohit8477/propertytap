@@ -60,7 +60,7 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <Link href="/login" className="navbar_login_btn">Login</Link>
+              <Link href="/login" className="navbar_login_btn">Sign In</Link>
               <Link href="/dashboard/properties/new" className="navbar_get_started_btn">List Property</Link>
             </>
           )}

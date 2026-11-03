@@ -11,7 +11,7 @@ export default function HomeCtaBottom() {
           Join PropertyTap today and explore thousands of verified properties.
         </p>
         <div className="hcb_btns">
-          <Link href="/signup" className="hcb_btn_primary">Get Started</Link>
+          <Link href="//dashboard/properties/new" className="hcb_btn_primary">List Property</Link>
           <Link href="/properties" className="hcb_btn_secondary">Explore Listings</Link>
         </div>
       </div>

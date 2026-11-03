@@ -1,5 +1,6 @@
 /* PropertyTap — mobile app promotion strip */
 .hma_section {
+  padding: 20px 0 45px;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -63,7 +64,7 @@
   gap: 5px;
   margin: 0 0 7px;
   color: #14243b;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.4;
   font-weight: 750;
 }

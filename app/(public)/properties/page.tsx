@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { get_properties_server, get_categories_server } from '@/lib/properties/property_service_server';
 import PropertiesFeedClient from './properties_feed_client';
+import { PropertyFilterParams } from '@/types/property';
 import './properties.css';
 
 export const metadata: Metadata = {
@@ -19,19 +20,34 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function PropertiesPage() {
+interface PropertiesPageProps {
+  searchParams?: { [key: string]: string | undefined };
+}
+
+export default async function PropertiesPage({ searchParams }: PropertiesPageProps) {
+  const initial_filters: PropertyFilterParams = {
+    city: searchParams?.q || searchParams?.city || undefined,
+    purpose: (searchParams?.purpose as PropertyFilterParams['purpose']) || undefined,
+    category_id: searchParams?.category_id || undefined,
+    min_price: searchParams?.min_price ? Number(searchParams?.min_price) : undefined,
+    max_price: searchParams?.max_price ? Number(searchParams?.max_price) : undefined,
+    sort_by: (searchParams?.sort_by as PropertyFilterParams['sort_by']) || 'newest',
+  };
+
   const [{ properties }, { categories }] = await Promise.all([
-    get_properties_server({}),
+    get_properties_server(initial_filters),
     get_categories_server(),
   ]);
 
   return (
     <div className="properties_page_container">
-      <h1 className="properties_page_title">Browse All Properties</h1>
-      <PropertiesFeedClient
-        initial_properties={properties}
-        initial_categories={categories}
-      />
+      <Suspense fallback={<div className="properties_loading">Loading properties...</div>}>
+        <PropertiesFeedClient
+          initial_properties={properties}
+          initial_categories={categories}
+          initial_filters={initial_filters}
+        />
+      </Suspense>
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { use_auth } from '@/hooks/use_auth';
 import { show_interest } from '@/lib/properties/property_service';
 import Button from '@/components/ui/button';
-import Modal from '@/components/ui/modal';
 import './show_interest_button.css';
 
 interface ShowInterestButtonProps {
@@ -25,11 +24,15 @@ export default function ShowInterestButton({
   const [loading, set_loading] = useState(false);
   const [success, set_success] = useState(false);
   const [error_msg, set_error_msg] = useState<string | null>(null);
-  const [show_auth_modal, set_show_auth_modal] = useState(false);
 
-  const handle_click = async () => {
+  const handle_click = async (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     if (!user) {
-      set_show_auth_modal(true);
+      router.push('/login');
       return;
     }
 
@@ -74,32 +77,6 @@ export default function ShowInterestButton({
       )}
 
       {error_msg && <div className="show_interest_error_msg">{error_msg}</div>}
-
-      <Modal
-        is_open={show_auth_modal}
-        on_close={() => set_show_auth_modal(false)}
-        title="Account Required"
-      >
-        <p style={{ fontSize: '0.95rem', color: '#4b5563', marginBottom: '1.25rem' }}>
-          Please login or create an account to show interest in this property and exchange contact details securely.
-        </p>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <Button
-            variant="primary"
-            full_width={true}
-            onClick={() => router.push('/login')}
-          >
-            Login
-          </Button>
-          <Button
-            variant="outline"
-            full_width={true}
-            onClick={() => router.push('/signup')}
-          >
-            Create Account
-          </Button>
-        </div>
-      </Modal>
     </div>
   );
 }

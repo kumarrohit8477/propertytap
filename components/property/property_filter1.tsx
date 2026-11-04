@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PropertyFilterParams, PropertyCategory } from '@/types/property';
 import {
   get_filter_group_for_category,
@@ -17,17 +17,64 @@ interface PropertyFiltersProps {
   on_filter_change: (filters: PropertyFilterParams) => void;
 }
 
+const BUDGET_OPTIONS = [
+  { value: '', label: 'Any' },
+  { value: '0-5000000', label: 'Up to ₹50 L' },
+  { value: '5000000-10000000', label: '₹50 L – 1 Cr' },
+  { value: '10000000-50000000', label: '₹1 Cr – 5 Cr' },
+  { value: '50000000-999999999', label: '₹5 Cr+' },
+];
+
 export default function PropertyFilters({
   categories = [],
   initial_filters = {},
   on_filter_change,
 }: PropertyFiltersProps) {
-  const [purpose, set_purpose] = useState<string>(initial_filters.purpose || 'sale');
+  const [purpose, set_purpose] = useState<string>(initial_filters.purpose || '');
   const [city, set_city] = useState(initial_filters.city || '');
   const [category_id, set_category_id] = useState<string>(
     () => get_seeker_group_key(initial_filters.category_id, categories) || initial_filters.category_id || ''
   );
-  const [budget, set_budget] = useState('');
+  const [budget, set_budget] = useState(() => {
+    if (initial_filters.min_price !== undefined || initial_filters.max_price !== undefined) {
+      const min = initial_filters.min_price || 0;
+      const max = initial_filters.max_price || 999999999;
+      return `${min}-${max}`;
+    }
+    return '';
+  });
+
+  const [open_dropdown, set_open_dropdown] = useState<'type' | 'budget' | null>(null);
+  const type_ref = useRef<HTMLDivElement>(null);
+  const budget_ref = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside or Escape key
+  useEffect(() => {
+    const handle_click_outside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (
+        type_ref.current &&
+        !type_ref.current.contains(target) &&
+        budget_ref.current &&
+        !budget_ref.current.contains(target)
+      ) {
+        set_open_dropdown(null);
+      }
+    };
+
+    const handle_key_down = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        set_open_dropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handle_click_outside);
+    document.addEventListener('keydown', handle_key_down);
+    return () => {
+      document.removeEventListener('mousedown', handle_click_outside);
+      document.removeEventListener('keydown', handle_key_down);
+    };
+  }, []);
 
   // Dynamic filter state
   const [pg_type, set_pg_type] = useState('');
@@ -44,10 +91,15 @@ export default function PropertyFilters({
     if (new_group !== 'residential' && new_group !== 'all') set_bedrooms('');
     if (new_group !== 'pg' && new_group !== 'hostel') { set_pg_type(''); set_sharing_type(''); }
     if (new_group !== 'land') { set_land_type(''); set_facing(''); }
-    if (new_group === 'pg') set_purpose('rent');
+    if (new_group === 'pg') {
+      set_purpose('rent');
+    } else if (!new_cat_id) {
+      set_purpose('');
+    }
   };
 
   const handle_search = () => {
+    set_open_dropdown(null);
     let min_price, max_price;
     if (budget) {
       const parts = budget.split('-');
@@ -63,7 +115,7 @@ export default function PropertyFilters({
 
     on_filter_change({
       city: city.trim() || undefined,
-      purpose: (filter_group === 'pg' ? 'rent' : (purpose as PropertyFilterParams['purpose'])) || undefined,
+      purpose: (filter_group === 'pg' ? 'rent' : (purpose ? (purpose as PropertyFilterParams['purpose']) : undefined)) || undefined,
       category_id: category_id || undefined,
       category_ids: cat_ids.length > 0 ? cat_ids : undefined,
       min_price,
@@ -76,6 +128,12 @@ export default function PropertyFilters({
       sort_by: 'newest',
     });
   };
+
+  const selected_group = SEEKER_FILTER_GROUPS.find((g) => g.key === category_id);
+  const type_display_label = selected_group ? selected_group.label : 'Property Type';
+
+  const selected_budget = BUDGET_OPTIONS.find((b) => b.value === budget && b.value !== '');
+  const budget_display_label = selected_budget ? selected_budget.label : 'Budget';
 
   return (
     <div className="hero_search_wrapper">
@@ -101,51 +159,115 @@ export default function PropertyFilters({
 
         <div className="hero_search_divider" />
 
-        {/* Property Type */}
-        <div className="hero_search_field">
-          <div className="hero_search_field_inner">
-            <span className="hero_field_label">Property Type</span>
-            <select
-              className="hero_search_select"
-              value={category_id}
-              onChange={(e) => handle_category_change(e.target.value)}
-            >
-              <option value="">Any Type</option>
-              {SEEKER_FILTER_GROUPS.map((group) => (
-                <option key={group.key} value={group.key}>{group.label}</option>
-              ))}
-            </select>
-          </div>
-          <div className="hero_select_arrow">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </div>
+        {/* Property Type Dropdown */}
+        <div className="hero_search_field" ref={type_ref}>
+          <button
+            type="button"
+            className={`hero_search_dropdown_btn ${!category_id ? 'hero_select_placeholder' : ''}`}
+            onClick={() => set_open_dropdown(open_dropdown === 'type' ? null : 'type')}
+            aria-haspopup="listbox"
+            aria-expanded={open_dropdown === 'type'}
+          >
+            <span className="hero_search_btn_text">{type_display_label}</span>
+            <div className={`hero_select_arrow ${open_dropdown === 'type' ? 'hero_arrow_open' : ''}`}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
+          </button>
+
+          {open_dropdown === 'type' && (
+            <div className="hero_search_menu" role="listbox">
+              <button
+                type="button"
+                className={`hero_menu_item ${!category_id ? 'hero_menu_item_selected' : ''}`}
+                onClick={() => {
+                  handle_category_change('');
+                  set_open_dropdown(null);
+                }}
+                role="option"
+                aria-selected={!category_id}
+              >
+                <span>Any</span>
+                {!category_id && (
+                  <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+              </button>
+              {SEEKER_FILTER_GROUPS.map((group) => {
+                const is_selected = category_id === group.key;
+                return (
+                  <button
+                    key={group.key}
+                    type="button"
+                    className={`hero_menu_item ${is_selected ? 'hero_menu_item_selected' : ''}`}
+                    onClick={() => {
+                      handle_category_change(group.key);
+                      set_open_dropdown(null);
+                    }}
+                    role="option"
+                    aria-selected={is_selected}
+                  >
+                    <span>{group.label}</span>
+                    {is_selected && (
+                      <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         <div className="hero_search_divider" />
 
-        {/* Budget */}
-        <div className="hero_search_field">
-          <div className="hero_search_field_inner">
-            <span className="hero_field_label">Budget</span>
-            <select
-              className="hero_search_select"
-              value={budget}
-              onChange={(e) => set_budget(e.target.value)}
-            >
-              <option value="">Any Budget</option>
-              <option value="0-5000000">Up to ₹50 L</option>
-              <option value="5000000-10000000">₹50 L – 1 Cr</option>
-              <option value="10000000-50000000">₹1 Cr – 5 Cr</option>
-              <option value="50000000-999999999">₹5 Cr+</option>
-            </select>
-          </div>
-          <div className="hero_select_arrow">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </div>
+        {/* Budget Dropdown */}
+        <div className="hero_search_field" ref={budget_ref}>
+          <button
+            type="button"
+            className={`hero_search_dropdown_btn ${!budget ? 'hero_select_placeholder' : ''}`}
+            onClick={() => set_open_dropdown(open_dropdown === 'budget' ? null : 'budget')}
+            aria-haspopup="listbox"
+            aria-expanded={open_dropdown === 'budget'}
+          >
+            <span className="hero_search_btn_text">{budget_display_label}</span>
+            <div className={`hero_select_arrow ${open_dropdown === 'budget' ? 'hero_arrow_open' : ''}`}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
+          </button>
+
+          {open_dropdown === 'budget' && (
+            <div className="hero_search_menu" role="listbox">
+              {BUDGET_OPTIONS.map((opt) => {
+                const is_selected = budget === opt.value;
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    className={`hero_menu_item ${is_selected ? 'hero_menu_item_selected' : ''}`}
+                    onClick={() => {
+                      set_budget(opt.value);
+                      set_open_dropdown(null);
+                    }}
+                    role="option"
+                    aria-selected={is_selected}
+                  >
+                    <span>{opt.label}</span>
+                    {is_selected && (
+                      <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Search Button */}

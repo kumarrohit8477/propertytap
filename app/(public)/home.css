@@ -42,8 +42,8 @@
 
 /* Left content */
 .home_hero_left {
-  width: 60%;
-  max-width: 660px;
+  width: 65%;
+  max-width: 760px;
 }
 
 /* Small label above title */
@@ -115,7 +115,7 @@
 /* ── Media Queries ───────────────────────────── */
 @media (max-width: 1024px) {
   .home_hero_inner { padding-left: 30px; padding-right: 30px; }
-  .home_hero_left { width: 78%; }
+  .home_hero_left { width: 85%; max-width: 760px; }
 }
 
 @media (max-width: 768px) {

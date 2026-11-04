@@ -8,7 +8,16 @@ export default function SafetyBanner() {
   const pathname = usePathname();
   const [is_dismissed, set_is_dismissed] = useState(false);
 
-  if (is_dismissed || pathname === '/') return null;
+  if (
+    is_dismissed ||
+    pathname === '/' ||
+    pathname?.startsWith('/login') ||
+    pathname?.startsWith('/signup') ||
+    pathname?.startsWith('/forgot_password') ||
+    pathname?.startsWith('/reset_password')
+  ) {
+    return null;
+  }
 
   return (
     <div className="safety_banner_wrapper" role="region" aria-label="Safety Warning">

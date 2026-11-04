@@ -26,8 +26,9 @@ export default function HomeFeedClient({ initial_categories }: HomeFeedClientPro
     if (filters.category_id) params.set('category_id', filters.category_id);
     if (filters.min_price !== undefined) params.set('min_price', String(filters.min_price));
     if (filters.max_price !== undefined) params.set('max_price', String(filters.max_price));
-    if (filters.sort_by) params.set('sort_by', filters.sort_by);
-    router.push(`/search?${params.toString()}`);
+    if (filters.sort_by && filters.sort_by !== 'newest') params.set('sort_by', filters.sort_by);
+    const qs = params.toString();
+    router.push(`/properties${qs ? `?${qs}` : ''}`);
   };
 
   return (

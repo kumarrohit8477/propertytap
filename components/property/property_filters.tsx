@@ -76,24 +76,16 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
 }
 
 function FilterField({
-  icon,
-  label,
   children,
   className = '',
 }: {
-  icon: IconName;
-  label: string;
+  icon?: IconName;
+  label?: string;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <div className={`property_filters_group ${className}`}>
-      <label className="property_filters_label">
-        <span className="property_filters_label_icon">
-          <Icon name={icon} size={16} />
-        </span>
-        <span>{label}</span>
-      </label>
       {children}
     </div>
   );
@@ -113,7 +105,7 @@ function SelectField({
   return (
     <div className="property_filters_select_wrap">
       <select
-        className="property_filters_select"
+        className={`property_filters_select ${!value ? 'property_select_placeholder' : ''}`}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
@@ -124,6 +116,33 @@ function SelectField({
     </div>
   );
 }
+
+const SALE_BUDGET_OPTIONS = [
+  { value: '2000000', label: 'Up to ₹20 L' },
+  { value: '3000000', label: 'Up to ₹30 L' },
+  { value: '5000000', label: 'Up to ₹50 L' },
+  { value: '7500000', label: 'Up to ₹75 L' },
+  { value: '10000000', label: 'Up to ₹1 Cr' },
+  { value: '15000000', label: 'Up to ₹1.5 Cr' },
+  { value: '20000000', label: 'Up to ₹2 Cr' },
+  { value: '30000000', label: 'Up to ₹3 Cr' },
+  { value: '50000000', label: 'Up to ₹5 Cr' },
+  { value: '100000000', label: 'Up to ₹10 Cr' },
+];
+
+const RENT_BUDGET_OPTIONS = [
+  { value: '5000', label: 'Up to ₹5,000' },
+  { value: '10000', label: 'Up to ₹10,000' },
+  { value: '15000', label: 'Up to ₹15,000' },
+  { value: '20000', label: 'Up to ₹20,000' },
+  { value: '25000', label: 'Up to ₹25,000' },
+  { value: '35000', label: 'Up to ₹35,000' },
+  { value: '50000', label: 'Up to ₹50,000' },
+  { value: '75000', label: 'Up to ₹75,000' },
+  { value: '100000', label: 'Up to ₹1 Lakh' },
+  { value: '150000', label: 'Up to ₹1.5 Lakh' },
+  { value: '200000', label: 'Up to ₹2 Lakh' },
+];
 
 export default function PropertyFilters({
   categories = [],
@@ -139,9 +158,6 @@ export default function PropertyFilters({
       '',
   );
 
-  const [min_price, set_min_price] = useState(
-    initial_filters.min_price ? String(initial_filters.min_price) : '',
-  );
   const [max_price, set_max_price] = useState(
     initial_filters.max_price ? String(initial_filters.max_price) : '',
   );
@@ -191,12 +207,23 @@ export default function PropertyFilters({
   const is_land = filter_group === 'land';
   const is_commercial = filter_group === 'commercial';
 
+  const is_rent = purpose === 'rent' || is_pg_or_hostel;
+  const budget_options = is_rent ? RENT_BUDGET_OPTIONS : SALE_BUDGET_OPTIONS;
+
+  const handle_purpose_change = (new_purpose: string) => {
+    set_purpose(new_purpose);
+    const new_is_rent = new_purpose === 'rent' || is_pg_or_hostel;
+    const target_options = new_is_rent ? RENT_BUDGET_OPTIONS : SALE_BUDGET_OPTIONS;
+    if (max_price && !target_options.some((opt) => opt.value === max_price)) {
+      set_max_price('');
+    }
+  };
+
   useEffect(() => {
     set_city(initial_filters.city || '');
     set_purpose(initial_filters.purpose || '');
     const resolved_group = get_seeker_group_key(initial_filters.category_id, categories);
     set_category_id(resolved_group || initial_filters.category_id || '');
-    set_min_price(initial_filters.min_price ? String(initial_filters.min_price) : '');
     set_max_price(initial_filters.max_price ? String(initial_filters.max_price) : '');
     set_bedrooms(initial_filters.bedrooms ? String(initial_filters.bedrooms) : '');
     set_bathrooms(initial_filters.bathrooms ? String(initial_filters.bathrooms) : '');
@@ -223,7 +250,6 @@ export default function PropertyFilters({
     initial_filters.city,
     initial_filters.purpose,
     initial_filters.category_id,
-    initial_filters.min_price,
     initial_filters.max_price,
     initial_filters.bedrooms,
     initial_filters.bathrooms,
@@ -247,7 +273,6 @@ export default function PropertyFilters({
         city,
         purpose,
         category_id,
-        min_price,
         max_price,
         is_residential ? bedrooms : '',
         filter_group === 'residential' ? bathrooms : '',
@@ -264,7 +289,7 @@ export default function PropertyFilters({
         sort_by !== 'newest' ? sort_by : '',
       ].filter(Boolean).length,
     [
-      city, purpose, category_id, min_price, max_price, bedrooms, bathrooms,
+      city, purpose, category_id, max_price, bedrooms, bathrooms,
       furnishing, parking, floor, pg_type, sharing_type, food_included,
       land_type, facing, min_area, max_area, sort_by,
       is_residential, is_commercial, is_pg_or_hostel, is_land, filter_group,
@@ -278,6 +303,9 @@ export default function PropertyFilters({
 
     if (new_group === 'pg') {
       set_purpose('rent');
+      if (max_price && !RENT_BUDGET_OPTIONS.some((opt) => opt.value === max_price)) {
+        set_max_price('');
+      }
       set_bedrooms('');
       set_bathrooms('');
       set_floor('');
@@ -320,7 +348,7 @@ export default function PropertyFilters({
       purpose: (filter_group === 'pg' ? 'rent' : purpose) as PropertyFilterParams['purpose'] || undefined,
       category_id: category_id || undefined,
       category_ids: cat_ids.length > 0 ? cat_ids : undefined,
-      min_price: min_price ? Number(min_price) : undefined,
+      min_price: undefined,
       max_price: max_price ? Number(max_price) : undefined,
       bedrooms: is_residential && bedrooms ? Number(bedrooms) : undefined,
       bathrooms: filter_group === 'residential' && bathrooms ? Number(bathrooms) : undefined,
@@ -360,7 +388,6 @@ export default function PropertyFilters({
     set_city('');
     set_purpose('');
     set_category_id('');
-    set_min_price('');
     set_max_price('');
     set_bedrooms('');
     set_bathrooms('');
@@ -403,32 +430,28 @@ export default function PropertyFilters({
       </div>
 
       <div className="property_filters_body">
-        <FilterField icon="home" label="Property Type / Category">
-          <div className="property_filters_select_wrap">
-            <select
-              className="property_filters_select"
-              value={category_id}
-              onChange={(e) => handle_category_change(e.target.value)}
-            >
-              <option value="">All Property Types</option>
-              {SEEKER_FILTER_GROUPS.map((group) => (
-                <option key={group.key} value={group.key}>
-                  {group.label}
-                </option>
-              ))}
-            </select>
-            <span className="property_filters_select_arrow">⌄</span>
-          </div>
+        <FilterField>
+          <SelectField
+            value={category_id}
+            onChange={handle_category_change}
+            placeholder="Property Type"
+          >
+            {SEEKER_FILTER_GROUPS.map((group) => (
+              <option key={group.key} value={group.key}>
+                {group.label}
+              </option>
+            ))}
+          </SelectField>
         </FilterField>
 
-        <FilterField icon="tag" label="Purpose">
+        <FilterField>
           <div className="property_filters_pills">
             <button
               type="button"
               className={`property_filter_pill ${
                 purpose === '' && filter_group !== 'pg' ? 'active' : ''
               }`}
-              onClick={() => filter_group !== 'pg' && set_purpose('')}
+              onClick={() => filter_group !== 'pg' && handle_purpose_change('')}
               disabled={filter_group === 'pg'}
             >
               All
@@ -439,7 +462,7 @@ export default function PropertyFilters({
               className={`property_filter_pill ${
                 purpose === 'rent' || filter_group === 'pg' ? 'active' : ''
               }`}
-              onClick={() => set_purpose('rent')}
+              onClick={() => handle_purpose_change('rent')}
             >
               Rent
             </button>
@@ -450,7 +473,7 @@ export default function PropertyFilters({
                 className={`property_filter_pill ${
                   purpose === 'sale' ? 'active' : ''
                 }`}
-                onClick={() => set_purpose('sale')}
+                onClick={() => handle_purpose_change('sale')}
               >
                 Sale
               </button>
@@ -458,7 +481,7 @@ export default function PropertyFilters({
           </div>
         </FilterField>
 
-        <FilterField icon="location" label="City / Location">
+        <FilterField>
           <div className="property_filters_input_wrapper">
             <span className="input_icon">
               <Icon name="location" size={17} />
@@ -466,56 +489,40 @@ export default function PropertyFilters({
             <input
               type="text"
               className="property_filters_input with_icon"
-              placeholder="e.g. Agra, Delhi, Noida..."
+              placeholder="City / Location"
               value={city}
               onChange={(e) => set_city(e.target.value)}
             />
           </div>
         </FilterField>
 
-        <FilterField
-          icon="budget"
-          label={
-            is_pg_or_hostel
-              ? 'Monthly Rent (₹)'
-              : 'Price / Budget Range (₹)'
-          }
-        >
-          <div className="property_filters_price_row">
-            <div className="price_input_wrap">
-              <span className="rupee_prefix">₹</span>
-              <input
-                type="number"
-                className="property_filters_input"
-                placeholder="Min Price"
-                value={min_price}
-                onChange={(e) => set_min_price(e.target.value)}
-              />
-            </div>
-
-            <span className="price_divider">–</span>
-
-            <div className="price_input_wrap">
-              <span className="rupee_prefix">₹</span>
-              <input
-                type="number"
-                className="property_filters_input"
-                placeholder="Max Price"
-                value={max_price}
-                onChange={(e) => set_max_price(e.target.value)}
-              />
-            </div>
-          </div>
+        <FilterField>
+          <SelectField
+            value={max_price}
+            onChange={set_max_price}
+            placeholder={is_rent ? 'Monthly Rent (Up to)' : 'Budget (Up to)'}
+          >
+            {max_price && !budget_options.some((opt) => opt.value === max_price) && (
+              <option value={max_price}>
+                Up to ₹{Number(max_price).toLocaleString('en-IN')}
+              </option>
+            )}
+            {budget_options.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </SelectField>
         </FilterField>
 
         {/* Two filters per row under price */}
         {is_residential && (
           <div className="property_filters_grid">
-            <FilterField icon="bed" label="Bedrooms (BHK)">
+            <FilterField>
               <SelectField
                 value={bedrooms}
                 onChange={set_bedrooms}
-                placeholder="Any"
+                placeholder="Bedrooms (BHK)"
               >
                 <option value="1">1 BHK</option>
                 <option value="2">2 BHK</option>
@@ -525,11 +532,11 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="bath" label="Bathrooms">
+            <FilterField>
               <SelectField
                 value={bathrooms}
                 onChange={set_bathrooms}
-                placeholder="Any Bathrooms"
+                placeholder="Bathrooms"
               >
                 <option value="1">1 Bathroom</option>
                 <option value="2">2 Bathrooms</option>
@@ -538,11 +545,11 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="floor" label="Floor">
+            <FilterField>
               <SelectField
                 value={floor}
                 onChange={set_floor}
-                placeholder="Any Floor"
+                placeholder="Floor"
               >
                 <option value="0">Ground Floor</option>
                 <option value="1">1st Floor</option>
@@ -552,11 +559,11 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="furnishing" label="Furnishing">
+            <FilterField>
               <SelectField
                 value={furnishing}
                 onChange={set_furnishing}
-                placeholder="Any Furnishing"
+                placeholder="Furnishing"
               >
                 <option value="unfurnished">Unfurnished</option>
                 <option value="semi-furnished">Semi-Furnished</option>
@@ -564,22 +571,22 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="parking" label="Parking">
+            <FilterField>
               <SelectField
                 value={parking}
                 onChange={set_parking}
-                placeholder="Any Parking"
+                placeholder="Parking"
               >
                 <option value="true">Available</option>
                 <option value="false">Not Available</option>
               </SelectField>
             </FilterField>
 
-            <FilterField icon="sort" label="Sort By">
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Newest First">
-                <option value="newest">Newest First</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
+            <FilterField>
+              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
+                <option value="newest">Sort: Newest First</option>
+                <option value="price_asc">Sort: Price (Low to High)</option>
+                <option value="price_desc">Sort: Price (High to Low)</option>
               </SelectField>
             </FilterField>
           </div>
@@ -587,14 +594,11 @@ export default function PropertyFilters({
 
         {is_pg_or_hostel && (
           <div className="property_filters_grid">
-            <FilterField
-              icon="home"
-              label={filter_group === 'pg' ? 'PG Type' : 'Hostel Type'}
-            >
+            <FilterField>
               <SelectField
                 value={pg_type}
                 onChange={set_pg_type}
-                placeholder="Any Type"
+                placeholder={filter_group === 'pg' ? 'PG Type' : 'Hostel Type'}
               >
                 <option value="boys">Boys</option>
                 <option value="girls">Girls</option>
@@ -602,11 +606,11 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="bed" label="Sharing">
+            <FilterField>
               <SelectField
                 value={sharing_type}
                 onChange={set_sharing_type}
-                placeholder="Any Sharing"
+                placeholder="Room Sharing"
               >
                 <option value="single">Single Room</option>
                 <option value="double">Double Sharing</option>
@@ -615,22 +619,22 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="home" label="Food Facility">
+            <FilterField>
               <SelectField
                 value={food_included}
                 onChange={set_food_included}
-                placeholder="Any Option"
+                placeholder="Food Facility"
               >
                 <option value="true">Food Included</option>
                 <option value="false">Food Not Included</option>
               </SelectField>
             </FilterField>
 
-            <FilterField icon="sort" label="Sort By">
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Newest First">
-                <option value="newest">Newest First</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
+            <FilterField>
+              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
+                <option value="newest">Sort: Newest First</option>
+                <option value="price_asc">Sort: Price (Low to High)</option>
+                <option value="price_desc">Sort: Price (High to Low)</option>
               </SelectField>
             </FilterField>
           </div>
@@ -638,11 +642,11 @@ export default function PropertyFilters({
 
         {is_land && (
           <div className="property_filters_grid">
-            <FilterField icon="building" label="Land Type">
+            <FilterField>
               <SelectField
                 value={land_type}
                 onChange={set_land_type}
-                placeholder="Any Land Type"
+                placeholder="Land Type"
               >
                 <option value="residential_plot">Residential Plot</option>
                 <option value="commercial_plot">Commercial Plot</option>
@@ -650,11 +654,11 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="location" label="Facing">
+            <FilterField>
               <SelectField
                 value={facing}
                 onChange={set_facing}
-                placeholder="Any Facing"
+                placeholder="Facing"
               >
                 <option value="north">North</option>
                 <option value="south">South</option>
@@ -667,31 +671,31 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="budget" label="Min Area">
+            <FilterField>
               <input
                 type="number"
                 className="property_filters_input"
-                placeholder="Min Area"
+                placeholder="Min Area (sq.ft)"
                 value={min_area}
                 onChange={(e) => set_min_area(e.target.value)}
               />
             </FilterField>
 
-            <FilterField icon="budget" label="Max Area">
+            <FilterField>
               <input
                 type="number"
                 className="property_filters_input"
-                placeholder="Max Area"
+                placeholder="Max Area (sq.ft)"
                 value={max_area}
                 onChange={(e) => set_max_area(e.target.value)}
               />
             </FilterField>
 
-            <FilterField icon="sort" label="Sort By">
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Newest First">
-                <option value="newest">Newest First</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
+            <FilterField>
+              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
+                <option value="newest">Sort: Newest First</option>
+                <option value="price_asc">Sort: Price (Low to High)</option>
+                <option value="price_desc">Sort: Price (High to Low)</option>
               </SelectField>
             </FilterField>
           </div>
@@ -699,11 +703,11 @@ export default function PropertyFilters({
 
         {is_commercial && (
           <div className="property_filters_grid">
-            <FilterField icon="furnishing" label="Furnishing">
+            <FilterField>
               <SelectField
                 value={furnishing}
                 onChange={set_furnishing}
-                placeholder="Any Furnishing"
+                placeholder="Furnishing"
               >
                 <option value="unfurnished">Unfurnished</option>
                 <option value="semi-furnished">Semi-Furnished</option>
@@ -711,42 +715,42 @@ export default function PropertyFilters({
               </SelectField>
             </FilterField>
 
-            <FilterField icon="parking" label="Parking">
+            <FilterField>
               <SelectField
                 value={parking}
                 onChange={set_parking}
-                placeholder="Any Parking"
+                placeholder="Parking"
               >
                 <option value="true">Available</option>
                 <option value="false">Not Available</option>
               </SelectField>
             </FilterField>
 
-            <FilterField icon="budget" label="Min Area">
+            <FilterField>
               <input
                 type="number"
                 className="property_filters_input"
-                placeholder="Min Area"
+                placeholder="Min Area (sq.ft)"
                 value={min_area}
                 onChange={(e) => set_min_area(e.target.value)}
               />
             </FilterField>
 
-            <FilterField icon="budget" label="Max Area">
+            <FilterField>
               <input
                 type="number"
                 className="property_filters_input"
-                placeholder="Max Area"
+                placeholder="Max Area (sq.ft)"
                 value={max_area}
                 onChange={(e) => set_max_area(e.target.value)}
               />
             </FilterField>
 
-            <FilterField icon="sort" label="Sort By">
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Newest First">
-                <option value="newest">Newest First</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
+            <FilterField>
+              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
+                <option value="newest">Sort: Newest First</option>
+                <option value="price_asc">Sort: Price (Low to High)</option>
+                <option value="price_desc">Sort: Price (High to Low)</option>
               </SelectField>
             </FilterField>
           </div>

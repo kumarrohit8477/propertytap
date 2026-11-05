@@ -42,6 +42,16 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', on_key_down);
   }, [mobile_open]);
 
+  const is_auth_page =
+    pathname?.startsWith('/login') ||
+    pathname?.startsWith('/signup') ||
+    pathname?.startsWith('/forgot_password') ||
+    pathname?.startsWith('/reset_password');
+
+  if (is_auth_page) {
+    return null;
+  }
+
   return (
     <header className="navbar_header">
       <div className="navbar_container">

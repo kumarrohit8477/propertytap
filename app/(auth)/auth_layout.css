@@ -1,12 +1,13 @@
 .auth_page_layout {
   position: relative;
-  min-height: 85vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 3rem 1rem;
+  padding: 2.5rem 1rem;
   box-sizing: border-box;
 }
 
@@ -49,4 +50,33 @@
   max-width: 480px;
   display: flex;
   justify-content: center;
+}
+
+.auth_form_close_btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f1f5f9;
+  color: #475569;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+  padding: 0;
+}
+
+.auth_form_close_btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  transform: scale(1.06);
+}
+
+.auth_form_close_btn:active {
+  transform: scale(0.96);
 }

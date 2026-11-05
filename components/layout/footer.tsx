@@ -1,10 +1,25 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 import './footer.css';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  const is_auth_page =
+    pathname?.startsWith('/login') ||
+    pathname?.startsWith('/signup') ||
+    pathname?.startsWith('/forgot_password') ||
+    pathname?.startsWith('/reset_password');
+
+  if (is_auth_page) {
+    return null;
+  }
+
   return (
     <footer className="footer_wrapper">
       <div className="footer_main">

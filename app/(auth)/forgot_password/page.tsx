@@ -2,16 +2,27 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { X } from 'lucide-react';
 import { reset_password_request } from '@/lib/auth/auth_service';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import './forgot_password.css';
 
 export default function ForgotPasswordPage() {
+  const router = useRouter();
   const [email, set_email] = useState('');
   const [loading, set_loading] = useState(false);
   const [submitted, set_submitted] = useState(false);
   const [error_msg, set_error_msg] = useState<string | null>(null);
+
+  const handle_back = () => {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/login');
+    }
+  };
 
   const handle_submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +42,16 @@ export default function ForgotPasswordPage() {
   return (
     <div className="forgot_password_container">
       <form className="forgot_password_card" onSubmit={handle_submit}>
+        <button
+          type="button"
+          onClick={handle_back}
+          className="auth_form_close_btn"
+          aria-label="Back"
+          title="Go back"
+        >
+          <X size={18} strokeWidth={2.5} />
+        </button>
+
         <h2 style={{ fontSize: '1.5rem', fontWeight: 800, textAlign: 'center', margin: 0 }}>Reset Password</h2>
         <p style={{ fontSize: '0.875rem', color: '#6b7280', textAlign: 'center', marginTop: '-0.5rem' }}>
           Enter your registered email address to receive password reset instructions.

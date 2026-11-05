@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { X } from 'lucide-react';
 import { update_user_password } from '@/lib/auth/auth_service';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
@@ -12,6 +13,14 @@ export default function ResetPasswordPage() {
   const [password, set_password] = useState('');
   const [loading, set_loading] = useState(false);
   const [error_msg, set_error_msg] = useState<string | null>(null);
+
+  const handle_back = () => {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/login');
+    }
+  };
 
   const handle_submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +40,16 @@ export default function ResetPasswordPage() {
   return (
     <div className="reset_password_container">
       <form className="reset_password_card" onSubmit={handle_submit}>
+        <button
+          type="button"
+          onClick={handle_back}
+          className="auth_form_close_btn"
+          aria-label="Back"
+          title="Go back"
+        >
+          <X size={18} strokeWidth={2.5} />
+        </button>
+
         <h2 style={{ fontSize: '1.5rem', fontWeight: 800, textAlign: 'center', margin: 0 }}>Set New Password</h2>
 
         {error_msg && (

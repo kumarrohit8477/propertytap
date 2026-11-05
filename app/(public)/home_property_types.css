@@ -2,6 +2,7 @@
 .hpt_section {
   background: #ffffff;
   padding: 56px 0 52px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .hpt_container {
@@ -12,11 +13,11 @@
 
 .hpt_header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .hpt_title {
-  font-size: 1.85rem;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
   font-weight: 800;
   color: #111827;
   margin: 0 0 8px;
@@ -25,12 +26,12 @@
 }
 
 .hpt_subtitle {
-  font-size: 0.95rem;
-  color: #6b7280;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  color: #64748b;
   margin: 0;
 }
 
-/* 7-column grid */
+/* Desktop Grid (7 columns) */
 .hpt_grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -50,6 +51,8 @@
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hpt_card:hover {
@@ -57,6 +60,10 @@
   border-color: #cbd5e1;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
   transform: translateY(-2px);
+}
+
+.hpt_card:active {
+  transform: scale(0.98);
 }
 
 .hpt_img_wrap {
@@ -86,16 +93,78 @@
   line-height: 1.3;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .hpt_grid { grid-template-columns: repeat(4, 1fr); }
+/* ── Tablet (768px - 1024px) ─────────────────── */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hpt_grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
 }
 
-@media (max-width: 640px) {
-  .hpt_grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .hpt_title { font-size: 1.5rem; }
+/* ── Mobile View (< 768px) App-Like Horizontal Snap Scroll ─ */
+@media (max-width: 768px) {
+  .hpt_section {
+    padding: 38px 0 34px;
+  }
+
+  .hpt_container {
+    padding: 0 16px;
+  }
+
+  .hpt_header {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .hpt_subtitle {
+    font-size: 13px;
+  }
+
+  /* Native app-like swipe strip with peek effect */
+  .hpt_grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding: 4px 16px 14px;
+    margin: 0 -16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hpt_grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hpt_card {
+    flex: 0 0 124px;
+    width: 124px;
+    scroll-snap-align: start;
+    padding: 8px 8px 10px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .hpt_img_wrap {
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+  }
+
+  .hpt_label {
+    font-size: 12px;
+  }
 }
 
-@media (max-width: 420px) {
-  .hpt_grid { grid-template-columns: repeat(2, 1fr); }
+/* ── Small Mobile (<= 360px) ─────────────────── */
+@media (max-width: 360px) {
+  .hpt_card {
+    flex: 0 0 110px;
+    width: 110px;
+  }
+
+  .hpt_label {
+    font-size: 11.5px;
+  }
 }

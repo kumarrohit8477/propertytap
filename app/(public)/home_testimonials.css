@@ -1,8 +1,8 @@
 /* ── Testimonials ───────────────────────────── */
 .htm_section {
-  background: #f9fafb;
+  background: #f8fafc;
   padding: 60px 0 56px;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid #e2e8f0;
 }
 
 .htm_container {
@@ -17,7 +17,7 @@
 }
 
 .htm_title {
-  font-size: 1.85rem;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
   font-weight: 800;
   color: #111827;
   margin: 0 0 8px;
@@ -26,11 +26,12 @@
 }
 
 .htm_subtitle {
-  font-size: 0.95rem;
-  color: #6b7280;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  color: #64748b;
   margin: 0;
 }
 
+/* Grid (Desktop) */
 .htm_grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -39,17 +40,19 @@
 
 .htm_card {
   background: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  transition: box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .htm_card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .htm_user {
@@ -74,35 +77,103 @@
 }
 
 .htm_name {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #111827;
+  color: #0f172a;
 }
 
 .htm_role {
   font-size: 0.78rem;
-  color: #6b7280;
+  color: #64748b;
   font-weight: 500;
+  margin-top: 1px;
 }
 
 .htm_stars {
   display: flex;
-  gap: 2px;
+  gap: 3px;
 }
 
 .htm_quote {
   font-size: 0.88rem;
-  color: #374151;
+  color: #334155;
   line-height: 1.6;
   margin: 0;
   font-style: italic;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .htm_grid { grid-template-columns: 1fr 1fr; }
+/* ── Tablet (768px - 1024px) ─────────────────── */
+@media (max-width: 1024px) and (min-width: 641px) {
+  .htm_grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
 }
 
-@media (max-width: 600px) {
-  .htm_grid { grid-template-columns: 1fr; }
+/* ── Mobile View (< 640px) ──────────────────── */
+@media (max-width: 640px) {
+  .htm_section {
+    padding: 38px 0 34px;
+  }
+
+  .htm_container {
+    padding: 0 16px;
+  }
+
+  .htm_header {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  /* App-style horizontal snap carousel */
+  .htm_grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 14px;
+    padding: 4px 16px 14px;
+    margin: 0 -16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .htm_grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .htm_card {
+    flex: 0 0 min(82vw, 290px);
+    width: min(82vw, 290px);
+    scroll-snap-align: start;
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .htm_avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .htm_name {
+    font-size: 0.9rem;
+  }
+
+  .htm_quote {
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+}
+
+/* ── Small Mobile (<= 360px) ─────────────────── */
+@media (max-width: 360px) {
+  .htm_card {
+    flex: 0 0 86vw;
+    width: 86vw;
+    padding: 16px;
+  }
+
+  .htm_quote {
+    font-size: 0.8rem;
+  }
 }

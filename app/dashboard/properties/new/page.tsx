@@ -50,9 +50,15 @@ export default function NewPropertyPage() {
   useEffect(() => {
     async function load_cats() {
       const { categories: data } = await get_categories();
-      set_categories(data);
-      if (data.length > 0) {
-        set_category_id(data[0].id);
+      const EXCLUDED_CATEGORIES = ['commercial', 'residential', 'land'];
+      const filtered = (data || []).filter((cat) => {
+        const slug = (cat.slug || '').toLowerCase().trim();
+        const name = (cat.name || '').toLowerCase().trim();
+        return !EXCLUDED_CATEGORIES.includes(slug) && !EXCLUDED_CATEGORIES.includes(name);
+      });
+      set_categories(filtered);
+      if (filtered.length > 0) {
+        set_category_id(filtered[0].id);
       }
     }
     load_cats();

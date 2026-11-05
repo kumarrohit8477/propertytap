@@ -1,9 +1,16 @@
 import React from 'react';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
 import SafetyBanner from '@/components/layout/safety_banner';
 import './globals.css';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#1a56db',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://propertytap.in'),

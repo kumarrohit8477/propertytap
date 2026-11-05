@@ -39,3 +39,10 @@
   color: #2563eb;
   font-weight: 700;
 }
+
+.dashboard_nav_icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}

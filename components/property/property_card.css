@@ -1,23 +1,25 @@
 .property_card {
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid #e5e7eb;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
 }
 
 .property_card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.08);
 }
 
 .property_card_image_wrapper {
   position: relative;
   width: 100%;
-  height: 200px;
+  aspect-ratio: 16 / 10;
+  max-height: 220px;
   background-color: #f3f4f6;
   overflow: hidden;
 }
@@ -26,19 +28,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.property_card:hover .property_card_image {
+  transform: scale(1.04);
 }
 
 .property_card_badge_purpose {
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: #2563eb;
+  background-color: #1a56db;
   color: #ffffff;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
+  padding: 0.3rem 0.65rem;
+  border-radius: 9999px;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .property_card_content {
@@ -56,45 +65,84 @@
 }
 
 .property_card_title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #111827;
+  color: #0f172a;
   margin: 0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.property_card_price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f766e;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.property_card_location {
+  font-size: 0.84rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.property_card_price {
-  font-size: 1.125rem;
-  font-weight: 800;
-  color: #059669;
-}
-
-.property_card_location {
-  font-size: 0.875rem;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
 .property_card_meta {
   display: flex;
-  gap: 0.75rem;
-  font-size: 0.8rem;
-  color: #4b5563;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #475569;
   padding: 0.5rem 0;
-  border-top: 1px solid #f3f4f6;
-  border-bottom: 1px solid #f3f4f6;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.property_card_meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f8fafc;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .property_card_lister {
-  font-size: 0.8rem;
-  color: #9ca3af;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .property_card_actions {
   margin-top: auto;
   padding-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .property_card_content {
+    padding: 0.85rem;
+    gap: 0.4rem;
+  }
+
+  .property_card_title {
+    font-size: 0.98rem;
+  }
+
+  .property_card_price {
+    font-size: 1.05rem;
+  }
+
+  .property_card_location {
+    font-size: 0.8rem;
+  }
 }

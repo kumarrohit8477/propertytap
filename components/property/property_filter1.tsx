@@ -154,129 +154,154 @@ export default function PropertyFilters({
             value={city}
             onChange={(e) => set_city(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handle_search()}
+            aria-label="Search location, city or area"
           />
-        </div>
-
-        <div className="hero_search_divider" />
-
-        {/* Property Type Dropdown */}
-        <div className="hero_search_field" ref={type_ref}>
-          <button
-            type="button"
-            className={`hero_search_dropdown_btn ${!category_id ? 'hero_select_placeholder' : ''}`}
-            onClick={() => set_open_dropdown(open_dropdown === 'type' ? null : 'type')}
-            aria-haspopup="listbox"
-            aria-expanded={open_dropdown === 'type'}
-          >
-            <span className="hero_search_btn_text">{type_display_label}</span>
-            <div className={`hero_select_arrow ${open_dropdown === 'type' ? 'hero_arrow_open' : ''}`}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </div>
-          </button>
-
-          {open_dropdown === 'type' && (
-            <div className="hero_search_menu" role="listbox">
-              <button
-                type="button"
-                className={`hero_menu_item ${!category_id ? 'hero_menu_item_selected' : ''}`}
-                onClick={() => {
-                  handle_category_change('');
-                  set_open_dropdown(null);
-                }}
-                role="option"
-                aria-selected={!category_id}
-              >
-                <span>Any</span>
-                {!category_id && (
-                  <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-              </button>
-              {SEEKER_FILTER_GROUPS.map((group) => {
-                const is_selected = category_id === group.key;
-                return (
-                  <button
-                    key={group.key}
-                    type="button"
-                    className={`hero_menu_item ${is_selected ? 'hero_menu_item_selected' : ''}`}
-                    onClick={() => {
-                      handle_category_change(group.key);
-                      set_open_dropdown(null);
-                    }}
-                    role="option"
-                    aria-selected={is_selected}
-                  >
-                    <span>{group.label}</span>
-                    {is_selected && (
-                      <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+          {city && (
+            <button
+              type="button"
+              className="hero_search_clear"
+              onClick={() => set_city('')}
+              aria-label="Clear location search"
+            >
+              &times;
+            </button>
           )}
         </div>
 
-        <div className="hero_search_divider" />
+        <div className="hero_search_divider hero_search_divider_1" />
 
-        {/* Budget Dropdown */}
-        <div className="hero_search_field" ref={budget_ref}>
-          <button
-            type="button"
-            className={`hero_search_dropdown_btn ${!budget ? 'hero_select_placeholder' : ''}`}
-            onClick={() => set_open_dropdown(open_dropdown === 'budget' ? null : 'budget')}
-            aria-haspopup="listbox"
-            aria-expanded={open_dropdown === 'budget'}
-          >
-            <span className="hero_search_btn_text">{budget_display_label}</span>
-            <div className={`hero_select_arrow ${open_dropdown === 'budget' ? 'hero_arrow_open' : ''}`}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </div>
-          </button>
+        {/* Group of Filters (Property Type + Budget) */}
+        <div className="hero_search_filters_group">
+          {/* Property Type Dropdown */}
+          <div className="hero_search_field hero_search_field_type" ref={type_ref}>
+            <button
+              type="button"
+              className={`hero_search_dropdown_btn ${!category_id ? 'hero_select_placeholder' : ''}`}
+              onClick={() => set_open_dropdown(open_dropdown === 'type' ? null : 'type')}
+              aria-haspopup="listbox"
+              aria-expanded={open_dropdown === 'type'}
+            >
+              <span className="hero_search_field_icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </span>
+              <span className="hero_search_btn_text">{type_display_label}</span>
+              <div className={`hero_select_arrow ${open_dropdown === 'type' ? 'hero_arrow_open' : ''}`}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
+            </button>
 
-          {open_dropdown === 'budget' && (
-            <div className="hero_search_menu" role="listbox">
-              {BUDGET_OPTIONS.map((opt) => {
-                const is_selected = budget === opt.value;
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={`hero_menu_item ${is_selected ? 'hero_menu_item_selected' : ''}`}
-                    onClick={() => {
-                      set_budget(opt.value);
-                      set_open_dropdown(null);
-                    }}
-                    role="option"
-                    aria-selected={is_selected}
-                  >
-                    <span>{opt.label}</span>
-                    {is_selected && (
-                      <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+            {open_dropdown === 'type' && (
+              <div className="hero_search_menu hero_search_menu_type" role="listbox">
+                <button
+                  type="button"
+                  className={`hero_menu_item ${!category_id ? 'hero_menu_item_selected' : ''}`}
+                  onClick={() => {
+                    handle_category_change('');
+                    set_open_dropdown(null);
+                  }}
+                  role="option"
+                  aria-selected={!category_id}
+                >
+                  <span>All Property Types</span>
+                  {!category_id && (
+                    <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </button>
+                {SEEKER_FILTER_GROUPS.map((group) => {
+                  const is_selected = category_id === group.key;
+                  return (
+                    <button
+                      key={group.key}
+                      type="button"
+                      className={`hero_menu_item ${is_selected ? 'hero_menu_item_selected' : ''}`}
+                      onClick={() => {
+                        handle_category_change(group.key);
+                        set_open_dropdown(null);
+                      }}
+                      role="option"
+                      aria-selected={is_selected}
+                    >
+                      <span>{group.label}</span>
+                      {is_selected && (
+                        <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="hero_search_divider hero_search_divider_2" />
+
+          {/* Budget Dropdown */}
+          <div className="hero_search_field hero_search_field_budget" ref={budget_ref}>
+            <button
+              type="button"
+              className={`hero_search_dropdown_btn ${!budget ? 'hero_select_placeholder' : ''}`}
+              onClick={() => set_open_dropdown(open_dropdown === 'budget' ? null : 'budget')}
+              aria-haspopup="listbox"
+              aria-expanded={open_dropdown === 'budget'}
+            >
+              <span className="hero_search_field_icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <text x="3" y="16" fontSize="13" fontWeight="bold" fill="currentColor">₹</text>
+                </svg>
+              </span>
+              <span className="hero_search_btn_text">{budget_display_label}</span>
+              <div className={`hero_select_arrow ${open_dropdown === 'budget' ? 'hero_arrow_open' : ''}`}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
+            </button>
+
+            {open_dropdown === 'budget' && (
+              <div className="hero_search_menu hero_search_menu_budget" role="listbox">
+                {BUDGET_OPTIONS.map((opt) => {
+                  const is_selected = budget === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      className={`hero_menu_item ${is_selected ? 'hero_menu_item_selected' : ''}`}
+                      onClick={() => {
+                        set_budget(opt.value);
+                        set_open_dropdown(null);
+                      }}
+                      role="option"
+                      aria-selected={is_selected}
+                    >
+                      <span>{opt.label}</span>
+                      {is_selected && (
+                        <svg className="hero_menu_check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Search Button */}
         <button type="button" className="hero_search_btn" onClick={handle_search}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          Search
+          <span className="hero_search_btn_label">Search</span>
         </button>
       </div>
     </div>

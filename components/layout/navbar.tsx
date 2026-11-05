@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -14,36 +14,99 @@ export default function Navbar() {
   const { unread_count } = use_notifications();
   const [mobile_open, set_mobile_open] = useState(false);
 
+  // Close mobile drawer on route change
+  useEffect(() => {
+    set_mobile_open(false);
+  }, [pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobile_open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobile_open]);
+
+  // Handle escape key
+  useEffect(() => {
+    const on_key_down = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobile_open) {
+        set_mobile_open(false);
+      }
+    };
+    window.addEventListener('keydown', on_key_down);
+    return () => window.removeEventListener('keydown', on_key_down);
+  }, [mobile_open]);
+
   return (
     <header className="navbar_header">
       <div className="navbar_container">
         {/* Brand Logo & Name */}
-        <Link href="/" className="navbar_brand">
+        <Link href="/" className="navbar_brand" aria-label="PropertyTap Home">
           <Image
             src="/assets/logo.png"
             alt="PropertyTap Logo"
-            width={36}
-            height={36}
+            width={34}
+            height={34}
             className="navbar_logo_img"
+            priority
           />
-          <span className="navbar_logo_text">Property<span className="navbar_logo_blue">Tap</span></span>
+          <span className="navbar_logo_text">
+            Property<span className="navbar_logo_blue">Tap</span>
+          </span>
         </Link>
 
-        {/* Center Nav Links */}
-        <nav className="navbar_nav_links">
-          <Link href="/" className={`navbar_nav_item ${pathname === '/' ? 'active' : ''}`}>Home</Link>
-          <Link href="/properties" className={`navbar_nav_item ${pathname?.startsWith('/properties') ? 'active' : ''}`}>Properties</Link>
-          <Link href="/about" className={`navbar_nav_item ${pathname === '/about' ? 'active' : ''}`}>About</Link>
-          <Link href="/how-it-works" className={`navbar_nav_item ${pathname === '/how-it-works' ? 'active' : ''}`}>How it works</Link>
-          <Link href="/contact" className={`navbar_nav_item ${pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
+        {/* Center Nav Links (Desktop) */}
+        <nav className="navbar_nav_links" aria-label="Main Navigation">
+          <Link href="/" className={`navbar_nav_item ${pathname === '/' ? 'active' : ''}`}>
+            Home
+          </Link>
+          <Link
+            href="/properties"
+            className={`navbar_nav_item ${pathname?.startsWith('/properties') ? 'active' : ''}`}
+          >
+            Properties
+          </Link>
+          <Link href="/about" className={`navbar_nav_item ${pathname === '/about' ? 'active' : ''}`}>
+            About
+          </Link>
+          <Link
+            href="/how-it-works"
+            className={`navbar_nav_item ${pathname === '/how-it-works' ? 'active' : ''}`}
+          >
+            How it works
+          </Link>
+          <Link
+            href="/contact"
+            className={`navbar_nav_item ${pathname === '/contact' ? 'active' : ''}`}
+          >
+            Contact
+          </Link>
         </nav>
 
-        {/* Right Actions */}
+        {/* Right Actions (Desktop) */}
         <div className="navbar_actions">
           {user ? (
             <div className="navbar_user_menu">
-              <Link href="/dashboard/notifications" className="navbar_notification_badge" aria-label="Notifications">
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <Link
+                href="/dashboard/notifications"
+                className="navbar_notification_badge"
+                aria-label="Notifications"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
@@ -51,43 +114,192 @@ export default function Navbar() {
                   <span className="navbar_badge_count">{unread_count}</span>
                 )}
               </Link>
-              <Link href="/dashboard" className="navbar_avatar">
+              <Link href="/dashboard" className="navbar_avatar" aria-label="Dashboard">
                 {profile?.full_name ? profile.full_name.charAt(0).toUpperCase() : 'U'}
               </Link>
               {is_admin && (
-                <Link href="/admin" className="navbar_admin_link">Admin</Link>
+                <Link href="/admin" className="navbar_admin_link">
+                  Admin
+                </Link>
               )}
             </div>
           ) : (
             <>
-              <Link href="/login" className="navbar_login_btn">Sign In</Link>
-              <Link href="/dashboard/properties/new" className="navbar_get_started_btn">List Property</Link>
+              <Link href="/login" className="navbar_login_btn">
+                Sign In
+              </Link>
+              <Link href="/dashboard/properties/new" className="navbar_get_started_btn">
+                + List Property
+              </Link>
             </>
           )}
         </div>
 
-        {/* Mobile hamburger */}
-        <button className="navbar_hamburger" onClick={() => set_mobile_open(!mobile_open)} aria-label="Toggle menu">
-          <span /><span /><span />
-        </button>
+        {/* Mobile Quick Action & Hamburger */}
+        <div className="navbar_mobile_actions">
+          {user ? (
+            <Link
+              href="/dashboard/notifications"
+              className="navbar_mobile_quick_icon"
+              aria-label="Notifications"
+            >
+              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              {unread_count > 0 && <span className="navbar_badge_count">{unread_count}</span>}
+            </Link>
+          ) : (
+            <Link href="/dashboard/properties/new" className="navbar_mobile_quick_cta">
+              + List
+            </Link>
+          )}
+
+          <button
+            className={`navbar_hamburger ${mobile_open ? 'is_active' : ''}`}
+            onClick={() => set_mobile_open(!mobile_open)}
+            aria-label={mobile_open ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobile_open}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer Backdrop & Menu */}
       {mobile_open && (
-        <div className="navbar_mobile_menu">
-          <Link href="/" className="navbar_mobile_item" onClick={() => set_mobile_open(false)}>Home</Link>
-          <Link href="/properties" className="navbar_mobile_item" onClick={() => set_mobile_open(false)}>Properties</Link>
-          <Link href="/about" className="navbar_mobile_item" onClick={() => set_mobile_open(false)}>About</Link>
-          <Link href="/how-it-works" className="navbar_mobile_item" onClick={() => set_mobile_open(false)}>How it works</Link>
-          <Link href="/contact" className="navbar_mobile_item" onClick={() => set_mobile_open(false)}>Contact</Link>
-          {!user && (
+        <div className="navbar_mobile_backdrop" onClick={() => set_mobile_open(false)} />
+      )}
+
+      <div className={`navbar_mobile_drawer ${mobile_open ? 'is_open' : ''}`}>
+        {/* Mobile User Card if logged in */}
+        {user ? (
+          <div className="navbar_mobile_user_card">
+            <div className="navbar_mobile_avatar">
+              {profile?.full_name ? profile.full_name.charAt(0).toUpperCase() : 'U'}
+            </div>
+            <div className="navbar_mobile_user_info">
+              <span className="navbar_mobile_user_name">
+                {profile?.full_name || 'My Account'}
+              </span>
+              <span className="navbar_mobile_user_email">
+                {user.email}
+              </span>
+            </div>
+            <Link
+              href="/dashboard"
+              className="navbar_mobile_profile_btn"
+              onClick={() => set_mobile_open(false)}
+            >
+              Dashboard
+            </Link>
+          </div>
+        ) : null}
+
+        {/* Mobile Nav Links */}
+        <nav className="navbar_mobile_nav_list" aria-label="Mobile Navigation Links">
+          <Link
+            href="/"
+            className={`navbar_mobile_item ${pathname === '/' ? 'active' : ''}`}
+            onClick={() => set_mobile_open(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span>Home</span>
+          </Link>
+          <Link
+            href="/properties"
+            className={`navbar_mobile_item ${pathname?.startsWith('/properties') ? 'active' : ''}`}
+            onClick={() => set_mobile_open(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18M9 21V9"/>
+            </svg>
+            <span>Properties</span>
+          </Link>
+          <Link
+            href="/about"
+            className={`navbar_mobile_item ${pathname === '/about' ? 'active' : ''}`}
+            onClick={() => set_mobile_open(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>About</span>
+          </Link>
+          <Link
+            href="/how-it-works"
+            className={`navbar_mobile_item ${pathname === '/how-it-works' ? 'active' : ''}`}
+            onClick={() => set_mobile_open(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="10 8 16 12 10 16 10 8"/>
+            </svg>
+            <span>How it works</span>
+          </Link>
+          <Link
+            href="/contact"
+            className={`navbar_mobile_item ${pathname === '/contact' ? 'active' : ''}`}
+            onClick={() => set_mobile_open(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </Link>
+
+          {is_admin && (
+            <Link
+              href="/admin"
+              className="navbar_mobile_item navbar_mobile_admin_item"
+              onClick={() => set_mobile_open(false)}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span>Admin Panel</span>
+            </Link>
+          )}
+        </nav>
+
+        {/* Mobile Action Buttons */}
+        <div className="navbar_mobile_footer_actions">
+          {user ? (
+            <Link
+              href="/dashboard/properties/new"
+              className="navbar_mobile_cta_primary"
+              onClick={() => set_mobile_open(false)}
+            >
+              + List New Property
+            </Link>
+          ) : (
             <>
-              <Link href="/login" className="navbar_mobile_item" onClick={() => set_mobile_open(false)}>Login</Link>
-              <Link href="/dashboard/properties/new" className="navbar_mobile_cta" onClick={() => set_mobile_open(false)}>List Property</Link>
+              <Link
+                href="/login"
+                className="navbar_mobile_cta_secondary"
+                onClick={() => set_mobile_open(false)}
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/dashboard/properties/new"
+                className="navbar_mobile_cta_primary"
+                onClick={() => set_mobile_open(false)}
+              >
+                + List Property (Free)
+              </Link>
             </>
           )}
         </div>
-      )}
+      </div>
     </header>
   );
 }

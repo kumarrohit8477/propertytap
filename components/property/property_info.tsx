@@ -2,6 +2,7 @@ import React from 'react';
 import { PropertyItem } from '@/types/property';
 import { format_price, format_date } from '@/lib/utils/utils';
 import ShowInterestButton from './show_interest_button';
+import CallNowButton from './call_now_button';
 import './property_info.css';
 
 interface PropertyInfoProps {
@@ -75,15 +76,23 @@ export default function PropertyInfo({ property }: PropertyInfoProps) {
           👤 {property.owner?.display_name || property.owner?.full_name || 'Property Lister'}
         </div>
         <div className="property_info_privacy_note">
-          🔒 Contact details (Phone & Email) are protected. Click <strong>Show Interest</strong> below to request contact info delivered to your Notifications.
+          🔒 Contact details (Phone & Email) are protected. Click <strong>Show Interest</strong> or <strong>Call Now</strong> to connect directly with the owner.
         </div>
       </div>
 
-      <ShowInterestButton
-        property_id={property.id}
-        owner_id={property.owner_id}
-        full_width={true}
-      />
+      <div className="property_info_actions">
+        <ShowInterestButton
+          property_id={property.id}
+          owner_id={property.owner_id}
+          full_width={true}
+        />
+        <CallNowButton
+          phone={property.owner?.phone}
+          owner_id={property.owner_id}
+          property_id={property.id}
+          full_width={true}
+        />
+      </div>
     </div>
   );
 }

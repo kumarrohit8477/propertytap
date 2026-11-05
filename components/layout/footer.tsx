@@ -26,7 +26,7 @@ export default function Footer() {
         {/* Col 1: Brand */}
         <div className="footer_col footer_brand_col">
           <div className="footer_logo_row">
-            <Image src="/assets/logo.png" alt="PropertyTap" width={28} height={28} className="footer_logo_img" />
+            <Image src="/assets/logo.png" alt="PropertyTap" width={28} height={28} className="footer_logo_img" priority={false} />
             <span className="footer_brand_name">Property<span className="footer_logo_blue">Tap</span></span>
           </div>
           <p className="footer_tagline">
@@ -35,9 +35,9 @@ export default function Footer() {
         </div>
 
         {/* Col 2: Quick Links */}
-        <div className="footer_col">
+        <div className="footer_col footer_links_col">
           <h4 className="footer_col_heading">Quick Links</h4>
-          <nav className="footer_links">
+          <nav className="footer_links" aria-label="Quick links">
             <Link href="/" className="footer_link">Home</Link>
             <Link href="/properties" className="footer_link">Properties</Link>
             <Link href="/about" className="footer_link">About Us</Link>
@@ -46,9 +46,9 @@ export default function Footer() {
         </div>
 
         {/* Col 3: Support */}
-        <div className="footer_col">
+        <div className="footer_col footer_links_col">
           <h4 className="footer_col_heading">Support</h4>
-          <nav className="footer_links">
+          <nav className="footer_links" aria-label="Support links">
             <Link href="/support" className="footer_link">Help Center</Link>
             <Link href="/terms" className="footer_link">Terms & Conditions</Link>
             <Link href="/privacy" className="footer_link">Privacy Policy</Link>
@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
 
         {/* Col 4: Follow Us */}
-        <div className="footer_col">
+        <div className="footer_col footer_social_col">
           <h4 className="footer_col_heading">Follow Us</h4>
           <div className="footer_social_row">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_fb" aria-label="Facebook">
@@ -78,7 +78,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="footer_bottom">
-        <span>© {new Date().getFullYear()} PropertyTap. All rights reserved.</span>
+        <p className="footer_copyright">© {new Date().getFullYear()} PropertyTap. All rights reserved.</p>
       </div>
     </footer>
   );

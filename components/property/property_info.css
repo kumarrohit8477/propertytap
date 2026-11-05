@@ -126,3 +126,19 @@
   font-size: 0.8rem;
   color: #1d4ed8;
 }
+
+
+.property_info_actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 500px) {
+  .property_info_actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

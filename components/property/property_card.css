@@ -126,6 +126,10 @@
 .property_card_actions {
   margin-top: auto;
   padding-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-items: start;
 }
 
 @media (max-width: 600px) {

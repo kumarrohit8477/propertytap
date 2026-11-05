@@ -10,7 +10,7 @@ export async function get_properties_server(params: PropertyFilterParams = {}) {
       *,
       category:property_categories(*),
       images:property_images(*),
-      owner:profiles(id, full_name, display_name, profile_type, avatar_url)
+      owner:profiles(id, full_name, display_name, profile_type, avatar_url, phone)
     `)
     .eq('status', 'active');
 
@@ -82,7 +82,7 @@ export async function get_property_by_id_server(id: string) {
       *,
       category:property_categories(*),
       images:property_images(*),
-      owner:profiles(id, full_name, display_name, profile_type, avatar_url)
+      owner:profiles(id, full_name, display_name, profile_type, avatar_url, phone)
     `)
     .eq('id', id)
     .single();

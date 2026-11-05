@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { PropertyItem } from '@/types/property';
 import { format_price } from '@/lib/utils/utils';
 import ShowInterestButton from './show_interest_button';
+import CallNowButton from './call_now_button';
 import './property_card.css';
 
 interface PropertyCardProps {
@@ -66,6 +67,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <ShowInterestButton
             property_id={property.id}
             owner_id={property.owner_id}
+            full_width={true}
+          />
+          <CallNowButton
+            phone={property.owner?.phone}
+            owner_id={property.owner_id}
+            property_id={property.id}
             full_width={true}
           />
         </div>

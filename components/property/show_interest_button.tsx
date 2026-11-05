@@ -38,6 +38,7 @@ export default function ShowInterestButton({
 
     if (user.id === owner_id) {
       set_error_msg('You are the owner of this property.');
+      setTimeout(() => set_error_msg(null), 3000);
       return;
     }
 
@@ -48,10 +49,11 @@ export default function ShowInterestButton({
 
     if (error) {
       if (error.message.includes('unique_property_interested_user') || error.message.includes('duplicate')) {
-        set_error_msg('You have already expressed interest in this property.');
+        set_error_msg('Already expressed interest.');
       } else {
         set_error_msg(error.message || 'Failed to express interest.');
       }
+      setTimeout(() => set_error_msg(null), 3500);
     } else {
       set_success(true);
     }
@@ -62,8 +64,8 @@ export default function ShowInterestButton({
   return (
     <div className="show_interest_wrapper">
       {success ? (
-        <div className="show_interest_success_msg">
-          ✅ Interest shared! Check Notifications for contact details.
+        <div className="show_interest_success_msg" title="Check Notifications for contact details">
+          ✅ Interest Sent
         </div>
       ) : (
         <Button
@@ -71,12 +73,13 @@ export default function ShowInterestButton({
           full_width={full_width}
           disabled={loading}
           onClick={handle_click}
+          className="show_interest_btn"
         >
           {loading ? 'Processing...' : 'Show Interest'}
         </Button>
       )}
 
-      {error_msg && <div className="show_interest_error_msg">{error_msg}</div>}
+      {error_msg && <div className="show_interest_error_msg" role="alert">{error_msg}</div>}
     </div>
   );
 }

@@ -72,21 +72,21 @@ export default function HomeFeedClient({ initial_categories }: HomeFeedClientPro
             <div className="home_hero_trust_badges">
               <span className="home_hero_badge">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  <path d="M9 12l2 2 4-4"/>
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="M9 12l2 2 4-4" />
                 </svg>
                 Verified Listings
               </span>
               <span className="home_hero_badge">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
                 Direct Owner Contact
               </span>
               <span className="home_hero_badge">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" strokeWidth="1">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
                 Trusted Platform
               </span>
@@ -97,19 +97,14 @@ export default function HomeFeedClient({ initial_categories }: HomeFeedClientPro
 
       {/* ── BROWSE BY PROPERTY TYPE ─────────────── */}
       <HomePropertyTypes />
-
       {/* ── LATEST PROPERTY FEED ────────────────── */}
       <HomeLatestFeed />
-
-      {/* ── MOBILE APP SECTION ──────────────────── */}
-      <HomeMobileApp />
-
       {/* ── WHY CHOOSE PROPERTYTAP ──────────────── */}
       <HomeWhySection />
-
       {/* ── TESTIMONIALS ────────────────────────── */}
       <HomeTestimonials />
-
+      {/* ── MOBILE APP SECTION ──────────────────── */}
+      <HomeMobileApp />
       {/* ── FINAL CTA ───────────────────────────── */}
       <HomeCtaBottom />
     </>

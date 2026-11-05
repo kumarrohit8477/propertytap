@@ -69,7 +69,7 @@ export default function LoginForm() {
       <div className="login_form_footer">
         Don&apos;t have an account?{' '}
         <Link href="/signup" className="login_form_link">
-          Sign up free
+          Sign up
         </Link>
       </div>
     </form>

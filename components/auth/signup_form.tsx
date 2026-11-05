@@ -41,7 +41,7 @@ export default function SignupForm() {
   return (
     <form className="signup_form_card" onSubmit={handle_submit}>
       <h2 className="signup_form_title">Join Property Tap</h2>
-      <p className="signup_form_subtitle">Create a free account to list &amp; discover properties with 0% brokerage</p>
+      <p className="signup_form_subtitle">Create account &amp; discover properties with 0% brokerage</p>
 
       {error_msg && <div className="signup_form_error">{error_msg}</div>}
 
@@ -65,7 +65,7 @@ export default function SignupForm() {
         <Input
           label="Phone Number"
           type="tel"
-          placeholder="e.g. +91 9876543210"
+          placeholder="e.g. 9876543210"
           value={phone}
           onChange={(e) => set_phone(e.target.value)}
           required
@@ -82,7 +82,7 @@ export default function SignupForm() {
       </div>
 
       <Button variant="primary" full_width={true} disabled={loading} type="submit">
-        {loading ? 'Creating Account...' : 'Create Free Account'}
+        {loading ? 'Creating Account...' : 'Create Account'}
       </Button>
 
       <div className="signup_form_footer">

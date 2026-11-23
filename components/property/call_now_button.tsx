@@ -31,9 +31,14 @@ export default function CallNowButton({
     e.preventDefault();
     e.stopPropagation();
 
-    // 1. If user is not logged in -> redirect to login page
+    // 1. If user is not logged in -> redirect to login page with return URL
     if (!user) {
-      router.push('/login');
+      if (typeof window !== 'undefined') {
+        const return_url = window.location.pathname + window.location.search;
+        router.push(`/login?redirect=${encodeURIComponent(return_url)}`);
+      } else {
+        router.push('/login');
+      }
       return;
     }
 

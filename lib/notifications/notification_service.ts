@@ -29,3 +29,20 @@ export async function mark_notification_as_read(notification_id: string) {
 
   return { notification: data, error };
 }
+
+export async function mark_all_notifications_as_read() {
+  const supabase = create_client();
+  const { data: user_data } = await supabase.auth.getUser();
+
+  if (!user_data.user) {
+    return { error: new Error('User not authenticated') };
+  }
+
+  const { error } = await supabase
+    .from('notifications')
+    .update({ is_read: true })
+    .eq('user_id', user_data.user.id)
+    .eq('is_read', false);
+
+  return { error };
+}

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { use_auth } from '@/hooks/use_auth';
 import { show_interest } from '@/lib/properties/property_service';
+import { create_client } from '@/lib/supabase/client';
 import Button from '@/components/ui/button';
 import './show_interest_button.css';
 
@@ -25,6 +26,36 @@ export default function ShowInterestButton({
   const [success, set_success] = useState(false);
   const [error_msg, set_error_msg] = useState<string | null>(null);
 
+  // Check if interest has already been expressed by the logged-in user
+  useEffect(() => {
+    if (!user) return;
+
+    if (typeof window !== 'undefined' && sessionStorage.getItem('just_expressed_' + property_id) === 'true') {
+      set_success(true);
+      return;
+    }
+
+    const check_interest = async () => {
+      try {
+        const supabase = create_client();
+        const { data } = await supabase
+          .from('interests')
+          .select('id')
+          .eq('property_id', property_id)
+          .eq('interested_user_id', user.id)
+          .maybeSingle();
+
+        if (data) {
+          set_success(true);
+        }
+      } catch (err) {
+        console.error('Failed to verify interest status', err);
+      }
+    };
+
+    check_interest();
+  }, [user, property_id]);
+
   const handle_click = async (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
@@ -32,7 +63,18 @@ export default function ShowInterestButton({
     }
 
     if (!user) {
-      router.push('/login');
+      if (typeof window !== 'undefined') {
+        const return_url = window.location.pathname + window.location.search;
+        sessionStorage.setItem(
+          'pending_interest',
+          JSON.stringify({ property_id, owner_id, return_url })
+        );
+        router.push(
+          `/login?redirect=${encodeURIComponent(return_url)}&interest_prop=${property_id}&owner_id=${owner_id}`
+        );
+      } else {
+        router.push('/login');
+      }
       return;
     }
 
@@ -50,11 +92,15 @@ export default function ShowInterestButton({
     if (error) {
       if (error.message.includes('unique_property_interested_user') || error.message.includes('duplicate')) {
         set_error_msg('Already expressed interest.');
+        set_success(true);
       } else {
         set_error_msg(error.message || 'Failed to express interest.');
       }
       setTimeout(() => set_error_msg(null), 3500);
     } else {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('just_expressed_' + property_id, 'true');
+      }
       set_success(true);
     }
 

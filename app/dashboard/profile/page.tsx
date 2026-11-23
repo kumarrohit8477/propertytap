@@ -5,7 +5,6 @@ import { use_auth } from '@/hooks/use_auth';
 import { update_user_profile } from '@/lib/users/user_service';
 import { update_user_password } from '@/lib/auth/auth_service';
 import { ProfileType } from '@/types/user';
-import DashboardSidebar from '@/components/layout/dashboard_sidebar';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import { format_date } from '@/lib/utils/utils';
@@ -85,14 +84,10 @@ export default function ProfilePage() {
 
   return (
     <div className="dashboard_layout_container">
-      <DashboardSidebar />
-
       <main className="dashboard_main_content">
         <div className="profile_page_header">
           <h1 className="profile_page_title">User Profile &amp; Security</h1>
-          <p className="profile_page_subtitle">
-            Manage your personal profile details, public listing identity, and security credentials.
-          </p>
+         
         </div>
 
         <div className="profile_sections_container">

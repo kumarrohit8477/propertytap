@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { sign_up_user } from '@/lib/auth/auth_service';
+import { show_interest } from '@/lib/properties/property_service';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import './signup_form.css';
@@ -42,7 +43,39 @@ export default function SignupForm() {
       set_error_msg(error.message || 'Failed to create account.');
       set_loading(false);
     } else {
-      router.push('/dashboard');
+      let target_url = '/';
+      if (typeof window !== 'undefined') {
+        const url_params = new URLSearchParams(window.location.search);
+        const query_redirect = url_params.get('redirect');
+        const query_interest = url_params.get('interest_prop');
+        const query_owner = url_params.get('owner_id');
+
+        let pending_data: { property_id: string; owner_id: string; return_url?: string } | null = null;
+        try {
+          const raw = sessionStorage.getItem('pending_interest');
+          if (raw) pending_data = JSON.parse(raw);
+        } catch {}
+
+        const prop_id = pending_data?.property_id || query_interest;
+        const o_id = pending_data?.owner_id || query_owner;
+
+        if (prop_id && o_id) {
+          try {
+            await show_interest(prop_id, o_id);
+            sessionStorage.setItem('just_expressed_' + prop_id, 'true');
+          } catch (err) {
+            console.error('Error auto-expressing interest:', err);
+          }
+          sessionStorage.removeItem('pending_interest');
+          target_url = pending_data?.return_url || query_redirect || '/properties';
+        } else if (query_redirect) {
+          target_url = query_redirect;
+        } else {
+          target_url = '/';
+        }
+      }
+
+      router.push(target_url);
       router.refresh();
     }
   };

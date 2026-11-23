@@ -1,5 +1,141 @@
-.notifications_page_container {
+/* ==========================================================================
+   PropertyTap Notifications Page Styling
+   ========================================================================== */
+
+.notifications_page_wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  width: 100%;
 }
+
+.notifications_header_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.notifications_header_text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.notifications_title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.notifications_subtitle {
+  font-size: 0.925rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.notifications_actions_row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.notifications_count_pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background-color: #eff6ff;
+  color: #1a56db;
+  border: 1px solid #bfdbfe;
+}
+
+.notifications_mark_all_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #ffffff;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.notifications_mark_all_btn:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1a56db;
+}
+
+.notifications_loading_box {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ── Tabs ── */
+.notifications_tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0;
+}
+
+.notifications_tab_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  border-radius: 0;
+}
+
+.notifications_tab_btn:hover {
+  color: #1d4ed8;
+}
+
+.notifications_tab_btn.tab_active {
+  color: #1d4ed8;
+  border-bottom-color: #1d4ed8;
+}
+
+.tab_count_badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 20px;
+}
+
+.tab_count_grey {
+  background: #e5e7eb;
+  color: #374151;
+}
+

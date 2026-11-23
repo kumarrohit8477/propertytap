@@ -6,7 +6,6 @@ import { use_auth } from '@/hooks/use_auth';
 import { get_user_my_properties } from '@/lib/properties/property_service';
 import { get_user_notifications } from '@/lib/notifications/notification_service';
 import Button from '@/components/ui/button';
-import DashboardSidebar from '@/components/layout/dashboard_sidebar';
 import './dashboard.css';
 
 export default function DashboardOverviewPage() {
@@ -27,8 +26,6 @@ export default function DashboardOverviewPage() {
 
   return (
     <div className="dashboard_layout_container">
-      <DashboardSidebar />
-
       <main className="dashboard_main_content">
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', margin: 0 }}>

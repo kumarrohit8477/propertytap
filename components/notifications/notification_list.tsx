@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { NotificationItem as NotificationType } from '@/types/notification';
 import NotificationItem from './notification_item';
+import { BellOff, ArrowRight } from 'lucide-react';
 import './notification_list.css';
 
 interface NotificationListProps {
@@ -16,9 +18,11 @@ export default function NotificationList({
 }: NotificationListProps) {
   if (notifications.length === 0) {
     return (
-      <div className="notification_list_empty">
-        <h3>No Notifications Yet</h3>
-        <p>When you express interest in a property or someone expresses interest in yours, contact details and updates will appear here.</p>
+      <div className="notif_empty_container">
+        <div className="notif_empty_icon_box">
+          <BellOff size={32} />
+        </div>
+        <h3 className="notif_empty_title">No Notifications Yet</h3>
       </div>
     );
   }

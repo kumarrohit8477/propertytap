@@ -1,5 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
-import { get_user_notifications, mark_notification_as_read } from '@/lib/notifications/notification_service';
+import {
+  get_user_notifications,
+  mark_notification_as_read,
+  mark_all_notifications_as_read,
+} from '@/lib/notifications/notification_service';
 import { NotificationItem } from '@/types/notification';
 
 export function use_notifications() {
@@ -24,7 +28,21 @@ export function use_notifications() {
     );
   };
 
+  const mark_all_read = async () => {
+    await mark_all_notifications_as_read();
+    set_notifications((prev) =>
+      prev.map((item) => ({ ...item, is_read: true }))
+    );
+  };
+
   const unread_count = notifications.filter((n) => !n.is_read).length;
 
-  return { notifications, unread_count, loading, mark_read, refetch: fetch_notifications };
+  return {
+    notifications,
+    unread_count,
+    loading,
+    mark_read,
+    mark_all_read,
+    refetch: fetch_notifications,
+  };
 }

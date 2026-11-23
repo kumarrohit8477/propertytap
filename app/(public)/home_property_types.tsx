@@ -40,6 +40,11 @@ const PROPERTY_TYPES = [
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80',
     route: '/properties?category_id=villa-warehouses',
   },
+  {
+    label: 'Land / Plot',
+    img: 'https://img.magnific.com/free-photo/view-land-plot-real-estate-business-development_23-2149916722.jpg?semt=ais_hybrid&w=740&q=80',
+    route: '/properties?category_id=land-plots',
+  },
 ];
 
 export default function HomePropertyTypes() {

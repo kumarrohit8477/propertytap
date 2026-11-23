@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { get_user_my_properties } from '@/lib/properties/property_service';
 import { PropertyItem } from '@/types/property';
 import { format_price } from '@/lib/utils/utils';
-import DashboardSidebar from '@/components/layout/dashboard_sidebar';
 import Button from '@/components/ui/button';
+import '@/app/dashboard/dashboard.css';
 import './properties.css';
 
 export default function MyPropertiesPage() {
@@ -25,17 +25,12 @@ export default function MyPropertiesPage() {
 
   return (
     <div className="dashboard_layout_container">
-      <DashboardSidebar />
-
       <main className="dashboard_main_content">
         <div className="my_properties_header">
           <div>
             <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', margin: 0 }}>
               My Listed Properties
             </h1>
-            <p style={{ color: '#6b7280', marginTop: '0.25rem' }}>
-              Manage, edit, or track interest on your active property listings.
-            </p>
           </div>
           <Link href="/dashboard/properties/new">
             <Button variant="primary">+ Post Property</Button>
@@ -78,10 +73,10 @@ export default function MyPropertiesPage() {
                         <h3 className="my_property_title">{prop.title}</h3>
                       </div>
                       <div className="my_property_meta">
-                        <span>💰 {format_price(prop.price)}</span>
-                        <span>📍 {prop.locality}, {prop.city}</span>
-                        <span>📸 {prop.images?.length || 0} photo{prop.images?.length === 1 ? '' : 's'}</span>
-                        <span>🤝 {prop.interests?.[0]?.count || 0} Interests</span>
+                        <span>{format_price(prop.price)}</span>
+                        <span>{prop.locality}, {prop.city}</span>
+                        <span>{prop.images?.length || 0} photo{prop.images?.length === 1 ? '' : 's'}</span>
+                        <span>{prop.interests?.[0]?.count || 0} Interests</span>
                       </div>
                     </div>
                   </div>

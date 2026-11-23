@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { get_property_by_id } from '@/lib/properties/property_service';
 import { create_client } from '@/lib/supabase/client';
-import DashboardSidebar from '@/components/layout/dashboard_sidebar';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
+import '@/app/dashboard/dashboard.css';
 import './property_edit.css';
 
 export default function PropertyEditPage() {
@@ -56,7 +56,6 @@ export default function PropertyEditPage() {
   if (loading) {
     return (
       <div className="dashboard_layout_container">
-        <DashboardSidebar />
         <main className="dashboard_main_content">
           <h3>Loading property...</h3>
         </main>
@@ -66,8 +65,6 @@ export default function PropertyEditPage() {
 
   return (
     <div className="dashboard_layout_container">
-      <DashboardSidebar />
-
       <main className="dashboard_main_content">
         <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', margin: 0 }}>
           Edit Property Listing

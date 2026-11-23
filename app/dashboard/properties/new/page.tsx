@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { get_categories, create_property, upload_property_images } from '@/lib/properties/property_service';
 import { PropertyCategory, PropertyPurpose } from '@/types/property';
 import { get_filter_group_for_category } from '@/lib/config/property_filters_config';
-import DashboardSidebar from '@/components/layout/dashboard_sidebar';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
+import '@/app/dashboard/dashboard.css';
 import './new_property.css';
 
 export default function NewPropertyPage() {
@@ -135,8 +135,6 @@ export default function NewPropertyPage() {
 
   return (
     <div className="dashboard_layout_container">
-      <DashboardSidebar />
-
       <main className="dashboard_main_content">
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', margin: 0 }}>

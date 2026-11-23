@@ -14,14 +14,16 @@
   align-items: flex-start;
 }
 
-/* Sidebar */
+/* Sidebar - Fixed/sticky on scroll with no movement */
 .properties_sidebar_container {
   width: 300px;
   flex-shrink: 0;
   position: sticky;
-  top: calc(75px + 1.5rem);
-  height: calc(100vh - 75px - 3rem);
+  top: 84px;
+  align-self: flex-start;
+  height: fit-content;
   box-sizing: border-box;
+  z-index: 20;
 }
 
 /* Main Content Area */

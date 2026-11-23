@@ -522,7 +522,7 @@ export default function PropertyFilters({
               <SelectField
                 value={bedrooms}
                 onChange={set_bedrooms}
-                placeholder="Bedrooms (BHK)"
+                placeholder="BHK"
               >
                 <option value="1">1 BHK</option>
                 <option value="2">2 BHK</option>

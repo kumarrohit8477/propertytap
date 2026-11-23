@@ -228,7 +228,7 @@ export default function NewPropertyPage() {
                 <>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
                     <Input label="Area (sqft)" type="number" placeholder="e.g. 1200" value={area} onChange={(e) => set_area(e.target.value)} />
-                    <Input label="Bedrooms (BHK)" type="number" placeholder="e.g. 2" value={bedrooms} onChange={(e) => set_bedrooms(e.target.value)} />
+                    <Input label="BHK" type="number" placeholder="e.g. 2" value={bedrooms} onChange={(e) => set_bedrooms(e.target.value)} />
                     <Input label="Bathrooms" type="number" placeholder="e.g. 2" value={bathrooms} onChange={(e) => set_bathrooms(e.target.value)} />
                   </div>
 

@@ -92,7 +92,7 @@ export default function PropertyMapView({
                     </span>
                     <h4 className="property_map_item_title">{prop.title}</h4>
                     <span className="property_map_item_location">
-                      📍 {prop.locality}, {prop.city}
+                      {prop.locality}, {prop.city}
                     </span>
 
                     <div className="property_map_item_actions">
@@ -146,7 +146,7 @@ export default function PropertyMapView({
                 {selected_property.title}
               </strong>
               <span className="property_map_float_loc">
-                📍 {selected_property.locality}, {selected_property.city} ·{' '}
+                {selected_property.locality}, {selected_property.city} ·{' '}
                 <strong>{format_price(selected_property.price)}</strong>
               </span>
             </div>

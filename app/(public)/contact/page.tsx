@@ -80,24 +80,46 @@ export default function ContactPage() {
     set_loading(true);
 
     try {
-      const res = await fetch('/api/contact', {
+      const topic_label = TOPICS.find((t) => t.id === topic)?.label || topic;
+
+      // 1. Submit directly to Web3Forms (Delivers directly to info@propertytap.in)
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
+          access_key: '630a6e29-cd9f-4666-ae6b-aab557307034',
           name: name.trim(),
           email: email.trim(),
-          phone: clean_phone || undefined,
-          topic,
+          phone: clean_phone || 'Not provided',
+          topic: topic_label,
           message: message.trim(),
+          subject: `[PropertyTap] New Inquiry: ${topic_label} from ${name.trim()}`,
+          from_name: 'PropertyTap Contact Form',
         }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to send message. Please try again.');
+        throw new Error(data.message || 'Failed to send message. Please try again.');
       }
+
+      // 2. Background database backup (non-blocking)
+      try {
+        fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name.trim(),
+            email: email.trim(),
+            phone: clean_phone || undefined,
+            topic,
+            message: message.trim(),
+          }),
+        }).catch(() => {});
+      } catch {}
 
       set_submitted(true);
     } catch (err: any) {

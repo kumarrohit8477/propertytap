@@ -32,11 +32,18 @@ export default function SignupForm() {
     set_loading(true);
     set_error_msg(null);
 
+    const clean_phone = phone.replace(/\D/g, '');
+    if (clean_phone.length !== 10) {
+      set_error_msg('Please enter a valid 10-digit mobile number.');
+      set_loading(false);
+      return;
+    }
+
     const { error } = await sign_up_user({
       email,
       password,
       full_name,
-      phone,
+      phone: clean_phone,
     });
 
     if (error) {
@@ -117,9 +124,12 @@ export default function SignupForm() {
         <Input
           label="Phone Number"
           type="tel"
-          placeholder="e.g. 9876543210"
+          inputMode="numeric"
+          maxLength={10}
+          pattern="[0-9]{10}"
+          placeholder="10-digit mobile number"
           value={phone}
-          onChange={(e) => set_phone(e.target.value)}
+          onChange={(e) => set_phone(e.target.value.replace(/\D/g, '').slice(0, 10))}
           required
         />
         <Input

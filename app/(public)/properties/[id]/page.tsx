@@ -6,7 +6,7 @@ import { get_property_by_id_server } from '@/lib/properties/property_service_ser
 import { PropertyItem } from '@/types/property';
 import PropertyGallery from '@/components/property/property_gallery';
 import PropertyInfo from '@/components/property/property_info';
-import Button from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 import './property_detail.css';
 
 interface Props {
@@ -93,15 +93,33 @@ export default async function PropertyDetailPage({ params }: Props) {
     <div className="property_detail_wrapper">
       <PropertySchema property={property} />
 
-      <div style={{ marginBottom: '1rem' }}>
-        <Link href="/properties" style={{ textDecoration: 'none', color: '#2563eb', fontWeight: 600 }}>
-          &larr; Back to Properties Feed
+      {/* ── Breadcrumb & Top Navigation Bar ── */}
+      <div className="property_detail_top_nav">
+        <Link href="/properties" className="property_detail_back_btn">
+          <ArrowLeft size={16} />
+          <span>Back to Properties</span>
         </Link>
+        <nav className="property_breadcrumbs" aria-label="Breadcrumb">
+          <Link href="/">Home</Link>
+          <span className="breadcrumb_sep">/</span>
+          <Link href="/properties">Properties</Link>
+          <span className="breadcrumb_sep">/</span>
+          <Link href={`/properties?city=${encodeURIComponent(property.city)}`}>
+            {property.city}
+          </Link>
+          <span className="breadcrumb_sep">/</span>
+          <span className="breadcrumb_current">{property.title}</span>
+        </nav>
       </div>
 
+      {/* ── Two-Column Layout ── */}
       <div className="property_detail_container">
-        <PropertyGallery images={property.images} title={property.title} />
-        <PropertyInfo property={property} />
+        <div className="property_detail_gallery_col">
+          <PropertyGallery images={property.images} title={property.title} />
+        </div>
+        <aside className="property_detail_info_col">
+          <PropertyInfo property={property} />
+        </aside>
       </div>
     </div>
   );

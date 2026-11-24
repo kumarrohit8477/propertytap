@@ -59,6 +59,7 @@ export default function ContactPage() {
   const [name, set_name] = useState('');
   const [email, set_email] = useState('');
   const [phone, set_phone] = useState('');
+  const [phone_error, set_phone_error] = useState<string | null>(null);
   const [message, set_message] = useState('');
   const [loading, set_loading] = useState(false);
   const [submitted, set_submitted] = useState(false);
@@ -66,6 +67,14 @@ export default function ContactPage() {
 
   const handle_submit = (e: React.FormEvent) => {
     e.preventDefault();
+    set_phone_error(null);
+
+    const clean_phone = phone.replace(/\D/g, '');
+    if (clean_phone && clean_phone.length !== 10) {
+      set_phone_error('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
     set_loading(true);
 
     setTimeout(() => {
@@ -256,16 +265,27 @@ export default function ContactPage() {
 
                     <div className="form_field_group">
                       <label className="form_label" htmlFor="contact_phone">
-                        Phone / WhatsApp <span className="optional_label">(Optional)</span>
+                        Phone / WhatsApp <span className="optional_label">(Optional, 10 digits)</span>
                       </label>
                       <input
                         id="contact_phone"
                         type="tel"
+                        inputMode="numeric"
+                        maxLength={10}
+                        pattern="[0-9]{10}"
                         className="form_input"
-                        placeholder="+91 98765 43210"
+                        placeholder="e.g. 9876543210"
                         value={phone}
-                        onChange={(e) => set_phone(e.target.value)}
+                        onChange={(e) => {
+                          set_phone(e.target.value.replace(/\D/g, '').slice(0, 10));
+                          if (phone_error) set_phone_error(null);
+                        }}
                       />
+                      {phone_error && (
+                        <span style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
+                          {phone_error}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -301,7 +321,7 @@ export default function ContactPage() {
                   </button>
 
                   <p className="form_privacy_notice">
-                    🔒 Your information is confidential and will never be shared with third parties.
+                    Your information is confidential and will never be shared with third parties.
                   </p>
                 </form>
               )}

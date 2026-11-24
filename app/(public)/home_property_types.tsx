@@ -42,7 +42,7 @@ const PROPERTY_TYPES = [
   },
   {
     label: 'Land / Plot',
-    img: 'https://img.magnific.com/free-photo/view-land-plot-real-estate-business-development_23-2149916722.jpg?semt=ais_hybrid&w=740&q=80',
+    img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80',
     route: '/properties?category_id=land-plots',
   },
 ];

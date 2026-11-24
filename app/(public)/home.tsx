@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { PropertyCategory, PropertyFilterParams } from '@/types/property';
+import { PropertyCategory, PropertyFilterParams, PropertyItem } from '@/types/property';
 import PropertyFilters from '@/components/property/property_filter1';
 import HomePropertyTypes from './home_property_types';
 import HomeLatestFeed from './home_latest_feed';
@@ -14,9 +14,10 @@ import './home.css';
 
 interface HomeFeedClientProps {
   initial_categories: PropertyCategory[];
+  initial_properties?: PropertyItem[];
 }
 
-export default function HomeFeedClient({ initial_categories }: HomeFeedClientProps) {
+export default function HomeFeedClient({ initial_categories, initial_properties = [] }: HomeFeedClientProps) {
   const router = useRouter();
 
   const handle_filter_change = (filters: PropertyFilterParams) => {
@@ -98,7 +99,7 @@ export default function HomeFeedClient({ initial_categories }: HomeFeedClientPro
       {/* ── BROWSE BY PROPERTY TYPE ─────────────── */}
       <HomePropertyTypes />
       {/* ── LATEST PROPERTY FEED ────────────────── */}
-      <HomeLatestFeed />
+      <HomeLatestFeed initial_properties={initial_properties} />
       {/* ── WHY CHOOSE PROPERTYTAP ──────────────── */}
       <HomeWhySection />
       {/* ── TESTIMONIALS ────────────────────────── */}

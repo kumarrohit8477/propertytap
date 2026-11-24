@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PropertyCard from '@/components/property/property_card';
 import PropertyFilters from '@/components/property/property_filters';
+import PropertyMapView from '@/components/property/property_map_view';
+import { LayoutGrid, Map as MapIcon } from 'lucide-react';
 import { get_properties } from '@/lib/properties/property_service';
 import { PropertyItem, PropertyCategory, PropertyFilterParams } from '@/types/property';
 
@@ -23,6 +25,7 @@ export default function PropertiesFeedClient({
   const [properties, set_properties] = useState<PropertyItem[]>(initial_properties);
   const [categories] = useState<PropertyCategory[]>(initial_categories);
   const [loading, set_loading] = useState(false);
+  const [view_mode, set_view_mode] = useState<'list' | 'map'>('list');
   const [filters, set_filters] = useState<PropertyFilterParams>(() => {
     return (
       initial_filters || {
@@ -95,12 +98,35 @@ export default function PropertiesFeedClient({
       {/* Main Content Area */}
       <main className="properties_main_container">
         <div className="properties_results_header">
-          <h1 className="properties_page_title">Browse All Properties</h1>
-          {!loading && properties.length > 0 && (
-            <span className="properties_results_count">
-              Showing <strong>{properties.length}</strong> {properties.length === 1 ? 'property' : 'properties'}
-            </span>
-          )}
+          <div>
+            <h1 className="properties_page_title">Browse All Properties</h1>
+            {!loading && properties.length > 0 && (
+              <span className="properties_results_count">
+                Showing <strong>{properties.length}</strong> {properties.length === 1 ? 'property' : 'properties'}
+              </span>
+            )}
+          </div>
+
+          <div className="properties_view_toggle" role="group" aria-label="View mode">
+            <button
+              type="button"
+              className={`view_toggle_btn ${view_mode === 'list' ? 'active' : ''}`}
+              onClick={() => set_view_mode('list')}
+              title="Show properties in a list grid"
+            >
+              <LayoutGrid size={16} />
+              <span>List View</span>
+            </button>
+            <button
+              type="button"
+              className={`view_toggle_btn ${view_mode === 'map' ? 'active' : ''}`}
+              onClick={() => set_view_mode('map')}
+              title="Explore properties on Google Maps"
+            >
+              <MapIcon size={16} />
+              <span>Google Map</span>
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -112,6 +138,8 @@ export default function PropertiesFeedClient({
             <h3>No matching properties found</h3>
             <p>Try searching for a different city or clearing some filters.</p>
           </div>
+        ) : view_mode === 'map' ? (
+          <PropertyMapView properties={properties} current_city={filters.city} />
         ) : (
           <div className="properties_page_grid">
             {properties.map((prop) => (

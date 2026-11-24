@@ -30,14 +30,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             className="property_card_image"
           />
         </Link>
-        <span className="property_card_badge_purpose">
+        <span className={`property_card_badge_purpose ${property.purpose === 'rent' ? 'property_card_badge_rent' : 'property_card_badge_sale'}`}>
           For {property.purpose === 'rent' ? 'Rent' : 'Sale'}
         </span>
       </div>
 
       <div className="property_card_content">
         <div className="property_card_header">
-          <h3 className="property_card_title">
+          <h3 className="property_card_title" style={{ textTransform: 'uppercase' }}>
             <Link href={`/properties/${property.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
               {property.title}
             </Link>
@@ -50,13 +50,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         <div className="property_card_location">
-          📍 {property.locality}, {property.city}
+          {property.locality}, {property.city}
         </div>
 
         <div className="property_card_meta">
-          <span>🏠 {category_name}</span>
-          {property.bedrooms !== null && property.bedrooms !== undefined && <span>🛏️ {property.bedrooms} BHK</span>}
-          {property.area && <span>📐 {property.area} {property.area_unit || 'sqft'}</span>}
+          <span>{category_name}</span>
+          {property.bedrooms !== null && property.bedrooms !== undefined && <span> {property.bedrooms} BHK</span>}
+          {property.area && <span> {property.area} {property.area_unit || 'sqft'}</span>}
         </div>
 
         <div className="property_card_lister">

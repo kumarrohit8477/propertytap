@@ -172,6 +172,18 @@
   min-width: 0;
 }
 
+.property_filters_location_row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.property_filters_location_row .property_filters_input_wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
 .property_filters_select,
 .property_filters_input {
   width: 100%;

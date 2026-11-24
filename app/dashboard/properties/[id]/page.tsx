@@ -25,7 +25,7 @@ export default function PropertyEditPage() {
       if (!property_id) return;
       const { property } = await get_property_by_id(property_id);
       if (property) {
-        set_title(property.title);
+        set_title(property.title.toUpperCase());
         set_price(String(property.price));
         set_description(property.description || '');
       }
@@ -41,7 +41,7 @@ export default function PropertyEditPage() {
     await supabase
       .from('properties')
       .update({
-        title,
+        title: title.toUpperCase(),
         price: Number(price),
         description,
         updated_at: new Date().toISOString(),
@@ -71,7 +71,7 @@ export default function PropertyEditPage() {
         </h1>
 
         <form className="property_edit_card" onSubmit={handle_save}>
-          <Input label="Property Title" value={title} onChange={(e) => set_title(e.target.value)} required />
+          <Input label="Property Title" value={title} onChange={(e) => set_title(e.target.value.toUpperCase())} required />
           <Input label="Price (₹)" type="number" value={price} onChange={(e) => set_price(e.target.value)} required />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
             <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Description</label>

@@ -9,6 +9,7 @@ import {
   get_category_ids_for_filter,
   get_seeker_group_key,
 } from '@/lib/config/property_filters_config';
+import NearMeModal, { NearMeSelection } from './near_me_modal';
 import './property_filter1.css';
 
 interface PropertyFiltersProps {
@@ -125,6 +126,24 @@ export default function PropertyFilters({
       sharing_type: is_pg_or_hostel && sharing_type ? sharing_type : undefined,
       land_type: is_land && land_type ? land_type : undefined,
       facing: is_land && facing ? facing : undefined,
+      sort_by: 'newest',
+    });
+  };
+
+  const handle_near_me_select = (selection: NearMeSelection) => {
+    const chosen_city = selection.city;
+    set_city(chosen_city);
+
+    const chosen_cat_id = selection.category_id || '';
+    set_category_id(chosen_cat_id);
+
+    const cat_ids = get_category_ids_for_filter(chosen_cat_id, categories);
+
+    on_filter_change({
+      city: chosen_city,
+      category_id: chosen_cat_id || undefined,
+      category_ids: cat_ids.length > 0 ? cat_ids : undefined,
+      purpose: chosen_cat_id === 'hostel-pg' ? 'rent' : undefined,
       sort_by: 'newest',
     });
   };
@@ -303,6 +322,16 @@ export default function PropertyFilters({
           </svg>
           <span className="hero_search_btn_label">Search</span>
         </button>
+      </div>
+
+      {/* Near Me Button - Placed just right of the search box */}
+      <div className="hero_search_near_me">
+        <NearMeModal
+          on_select={handle_near_me_select}
+          trigger_button_text="Near Me"
+          className="hero_near_me_btn"
+          show_icon
+        />
       </div>
     </div>
   );

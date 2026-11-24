@@ -9,6 +9,7 @@ import {
   get_category_ids_for_filter,
   get_seeker_group_key,
 } from '@/lib/config/property_filters_config';
+import NearMeModal, { NearMeSelection } from './near_me_modal';
 import Button from '@/components/ui/button';
 import './property_filters.css';
 
@@ -217,6 +218,28 @@ export default function PropertyFilters({
     if (max_price && !target_options.some((opt) => opt.value === max_price)) {
       set_max_price('');
     }
+  };
+
+  const handle_near_me_select = (selection: NearMeSelection) => {
+    const chosen_city = selection.city;
+    set_city(chosen_city);
+
+    const chosen_cat_id = selection.category_id || '';
+    set_category_id(chosen_cat_id);
+
+    const new_group = get_filter_group_for_category(chosen_cat_id, categories);
+    const new_purpose = new_group === 'pg' ? 'rent' : purpose;
+    if (new_group === 'pg') set_purpose('rent');
+
+    const cat_ids = get_category_ids_for_filter(chosen_cat_id, categories);
+
+    on_filter_change({
+      city: chosen_city,
+      category_id: chosen_cat_id || undefined,
+      category_ids: cat_ids.length > 0 ? cat_ids : undefined,
+      purpose: new_purpose ? (new_purpose as PropertyFilterParams['purpose']) : undefined,
+      sort_by: sort_by as PropertyFilterParams['sort_by'],
+    });
   };
 
   useEffect(() => {
@@ -482,17 +505,20 @@ export default function PropertyFilters({
         </FilterField>
 
         <FilterField>
-          <div className="property_filters_input_wrapper">
-            <span className="input_icon">
-              <Icon name="location" size={17} />
-            </span>
-            <input
-              type="text"
-              className="property_filters_input with_icon"
-              placeholder="City / Location"
-              value={city}
-              onChange={(e) => set_city(e.target.value)}
-            />
+          <div className="property_filters_location_row">
+            <div className="property_filters_input_wrapper">
+              <span className="input_icon">
+                <Icon name="location" size={17} />
+              </span>
+              <input
+                type="text"
+                className="property_filters_input with_icon"
+                placeholder="City / Location"
+                value={city}
+                onChange={(e) => set_city(e.target.value)}
+              />
+            </div>
+            <NearMeModal on_select={handle_near_me_select} trigger_button_text="Near Me" />
           </div>
         </FilterField>
 

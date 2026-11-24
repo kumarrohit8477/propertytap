@@ -1,76 +1,168 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { PropertyItem } from '@/types/property';
+import { get_properties } from '@/lib/properties/property_service';
+import PropertyCard from '@/components/property/property_card';
 import './home_latest_feed.css';
 
-const SAMPLE_PROPERTIES = [
+interface HomeLatestFeedProps {
+  initial_properties?: PropertyItem[];
+}
+
+const FALLBACK_PROPERTIES: PropertyItem[] = [
   {
-    id: '1',
-    badge: 'For Sale',
-    badge_color: 'indigo',
-    img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',
-    title: '3 BHK Independent House',
-    price: '₹85,00,000',
-    price_suffix: '',
-    location: 'Indira Nagar, Lucknow',
-    beds: 3,
-    baths: 3,
-    area: '1,600',
-    href: '/properties',
+    id: 'sample-1',
+    owner_id: 'sample-owner-1',
+    category_id: 'sample-cat-1',
+    title: 'SPACIOUS 3 BHK INDEPENDENT HOUSE',
+    purpose: 'sale',
+    price: 8500000,
+    city: 'Lucknow',
+    locality: 'Indira Nagar',
+    bedrooms: 3,
+    bathrooms: 3,
+    area: 1600,
+    area_unit: 'sq.ft',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: { id: 'c1', name: 'House', slug: 'house', is_active: true },
+    images: [
+      {
+        id: 'i1',
+        property_id: 'sample-1',
+        image_url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',
+        sort_order: 1,
+        is_primary: true,
+      },
+    ],
+    owner: {
+      id: 'sample-owner-1',
+      full_name: 'Rajesh Kumar',
+      display_name: 'Rajesh Kumar',
+      phone: '9876543210',
+    },
   },
   {
-    id: '2',
-    badge: 'For Rent',
-    badge_color: 'sky',
-    img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80',
-    title: '2 BHK Apartment',
-    price: '₹18,000',
-    price_suffix: '/ month',
-    location: 'Sector 62, Noida',
-    beds: 2,
-    baths: 2,
-    area: '1,200',
-    href: '/properties',
+    id: 'sample-2',
+    owner_id: 'sample-owner-2',
+    category_id: 'sample-cat-2',
+    title: 'LUXURY 2 BHK APARTMENT',
+    purpose: 'rent',
+    price: 18000,
+    city: 'Noida',
+    locality: 'Sector 62',
+    bedrooms: 2,
+    bathrooms: 2,
+    area: 1200,
+    area_unit: 'sq.ft',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: { id: 'c2', name: 'Apartment', slug: 'apartment', is_active: true },
+    images: [
+      {
+        id: 'i2',
+        property_id: 'sample-2',
+        image_url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80',
+        sort_order: 1,
+        is_primary: true,
+      },
+    ],
+    owner: {
+      id: 'sample-owner-2',
+      full_name: 'Priya Sharma',
+      display_name: 'Priya Sharma',
+      phone: '9812345678',
+    },
   },
   {
-    id: '3',
-    badge: 'PG / Hostel',
-    badge_color: 'purple',
-    img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80',
-    title: 'Girls PG (Fully Furnished)',
-    price: '₹7,500',
-    price_suffix: '/ month',
-    location: 'Lajpat Nagar, Delhi',
-    beds: 1,
-    baths: 1,
-    area: '360',
-    href: '/properties',
+    id: 'sample-3',
+    owner_id: 'sample-owner-3',
+    category_id: 'sample-cat-3',
+    title: 'MODERN GIRLS PG (FULLY FURNISHED)',
+    purpose: 'rent',
+    price: 7500,
+    city: 'Delhi',
+    locality: 'Lajpat Nagar',
+    bedrooms: 1,
+    bathrooms: 1,
+    area: 360,
+    area_unit: 'sq.ft',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: { id: 'c3', name: 'Hostel / PG', slug: 'hostel-pg', is_active: true },
+    images: [
+      {
+        id: 'i3',
+        property_id: 'sample-3',
+        image_url: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80',
+        sort_order: 1,
+        is_primary: true,
+      },
+    ],
+    owner: {
+      id: 'sample-owner-3',
+      full_name: 'Sunita Mehra',
+      display_name: 'Sunita PG Care',
+      phone: '9988776655',
+    },
   },
   {
-    id: '4',
-    badge: 'Commercial',
-    badge_color: 'amber',
-    img: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&q=80',
-    title: 'Shop for Rent',
-    price: '₹45,000',
-    price_suffix: '/ month',
-    location: 'MG Road, Gurgaon',
-    beds: null,
-    baths: null,
-    area: '1,000',
-    href: '/properties',
+    id: 'sample-4',
+    owner_id: 'sample-owner-4',
+    category_id: 'sample-cat-4',
+    title: 'COMMERCIAL SHOP FOR RENT',
+    purpose: 'rent',
+    price: 45000,
+    city: 'Gurgaon',
+    locality: 'MG Road',
+    bedrooms: null,
+    bathrooms: null,
+    area: 1000,
+    area_unit: 'sq.ft',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: { id: 'c4', name: 'Commercial', slug: 'commercial', is_active: true },
+    images: [
+      {
+        id: 'i4',
+        property_id: 'sample-4',
+        image_url: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&q=80',
+        sort_order: 1,
+        is_primary: true,
+      },
+    ],
+    owner: {
+      id: 'sample-owner-4',
+      full_name: 'Vikas Gupta',
+      display_name: 'Vikas Properties',
+      phone: '9871122334',
+    },
   },
 ];
 
-const BADGE_COLORS: Record<string, string> = {
-  indigo: '#4f46e5',
-  sky: '#0284c7',
-  purple: '#7c3aed',
-  amber: '#ea580c',
-};
+export default function HomeLatestFeed({ initial_properties = [] }: HomeLatestFeedProps) {
+  const [properties, set_properties] = useState<PropertyItem[]>(initial_properties);
 
-export default function HomeLatestFeed() {
+  useEffect(() => {
+    if (initial_properties.length === 0) {
+      get_properties({ limit: 4 }).then(({ properties: fetched }) => {
+        if (fetched && fetched.length > 0) {
+          set_properties(fetched);
+        }
+      });
+    } else {
+      set_properties(initial_properties);
+    }
+  }, [initial_properties]);
+
+  const display_list = properties && properties.length > 0 ? properties : FALLBACK_PROPERTIES;
+
   return (
     <section className="hlf_section">
       <div className="hlf_container">
@@ -85,63 +177,8 @@ export default function HomeLatestFeed() {
         </div>
 
         <div className="hlf_grid">
-          {SAMPLE_PROPERTIES.map((prop) => (
-            <Link href={prop.href} key={prop.id} className="hlf_card">
-              <div className="hlf_img_wrap">
-                <img src={prop.img} alt={prop.title} className="hlf_img" />
-                <span
-                  className="hlf_badge"
-                  style={{ background: BADGE_COLORS[prop.badge_color] }}
-                >
-                  {prop.badge}
-                </span>
-                <button className="hlf_wishlist" aria-label="Save">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-              </div>
-              <div className="hlf_content">
-                <h3 className="hlf_card_title">{prop.title}</h3>
-                <div className="hlf_price">
-                  {prop.price}
-                  {prop.price_suffix && <span className="hlf_price_suffix">{prop.price_suffix}</span>}
-                </div>
-                <div className="hlf_location">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  {prop.location}
-                </div>
-                <div className="hlf_meta">
-                  {prop.beds !== null && (
-                    <span>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/>
-                        <path d="M2 14h20M6 14v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/>
-                      </svg>
-                      {prop.beds} Beds
-                    </span>
-                  )}
-                  {prop.baths !== null && (
-                    <span>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M4 12h16M4 12a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H4z"/>
-                      </svg>
-                      {prop.baths} Baths
-                    </span>
-                  )}
-                  <span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="3" width="18" height="18" rx="2"/>
-                      <path d="M3 9h18M9 21V9"/>
-                    </svg>
-                    {prop.area} sq.ft
-                  </span>
-                </div>
-              </div>
-            </Link>
+          {display_list.slice(0, 4).map((prop) => (
+            <PropertyCard key={prop.id} property={prop} />
           ))}
         </div>
       </div>

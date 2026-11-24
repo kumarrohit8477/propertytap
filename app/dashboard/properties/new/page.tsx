@@ -66,11 +66,16 @@ export default function NewPropertyPage() {
 
   const filter_group = get_filter_group_for_category(category_id, categories);
 
+  const MAX_IMAGES = 10;
+
   const handle_image_select = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selected = Array.from(e.target.files);
-      set_image_files((prev) => [...prev, ...selected]);
-      const urls = selected.map((f) => URL.createObjectURL(f));
+      const remaining = MAX_IMAGES - image_files.length;
+      if (remaining <= 0) return;
+      const allowed = selected.slice(0, remaining);
+      set_image_files((prev) => [...prev, ...allowed]);
+      const urls = allowed.map((f) => URL.createObjectURL(f));
       set_preview_urls((prev) => [...prev, ...urls]);
     }
   };
@@ -94,7 +99,7 @@ export default function NewPropertyPage() {
     const { data: new_prop, error } = await create_property({
       category_id,
       purpose,
-      title,
+      title: title.toUpperCase(),
       description,
       price: Number(price),
       city,
@@ -204,7 +209,7 @@ export default function NewPropertyPage() {
           {step === 3 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <h3>Step 3: Property Location &amp; Details</h3>
-              <Input label="Property Title" placeholder="e.g. Spacious Property Title" value={title} onChange={(e) => set_title(e.target.value)} required />
+              <Input label="Property Title" placeholder="e.g. SPACIOUS 2BHK FLAT" value={title} onChange={(e) => set_title(e.target.value.toUpperCase())} required style={{ textTransform: 'uppercase' }} />
               <Input
                 label={filter_group === 'pg' || filter_group === 'hostel' ? "Monthly Rent (₹)" : "Price (₹)"}
                 type="number"
@@ -360,22 +365,31 @@ export default function NewPropertyPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <h3>Step 4: Upload Property Images</h3>
 
-              <label className="image_upload_dropzone">
+              <label className="image_upload_dropzone" style={image_files.length >= MAX_IMAGES ? { opacity: 0.5, pointerEvents: 'none', cursor: 'not-allowed' } : {}}>
                 <input
                   type="file"
                   accept="image/png, image/jpeg, image/webp, image/gif"
                   multiple
+                  disabled={image_files.length >= MAX_IMAGES}
                   onChange={handle_image_select}
                   style={{ display: 'none' }}
                 />
                 <span style={{ fontSize: '2.25rem' }}>📸</span>
                 <span style={{ fontWeight: 700, color: '#1f2937', fontSize: '1rem' }}>
-                  Click to select property photos
+                  {image_files.length >= MAX_IMAGES ? 'Maximum 10 photos selected' : 'Click to select property photos'}
                 </span>
                 <span style={{ fontSize: '0.85rem', color: '#6b7280' }}>
-                  Supports PNG, JPG, WEBP or GIF (Select one or multiple)
+                  {image_files.length >= MAX_IMAGES
+                    ? 'Remove a photo to add another'
+                    : `Supports PNG, JPG, WEBP or GIF · ${MAX_IMAGES - image_files.length} of ${MAX_IMAGES} slots remaining`}
                 </span>
               </label>
+
+              {image_files.length >= MAX_IMAGES && (
+                <p style={{ fontSize: '0.85rem', color: '#b45309', margin: 0, backgroundColor: '#fffbeb', border: '1px solid #fcd34d', padding: '0.6rem 0.85rem', borderRadius: '6px' }}>
+                  ⚠️ <strong>Limit reached:</strong> You can upload a maximum of {MAX_IMAGES} photos per property.
+                </p>
+              )}
 
               <p style={{ fontSize: '0.85rem', color: '#4b5563', margin: 0, backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '0.6rem 0.85rem', borderRadius: '6px' }}>
                 💡 <strong>Tip:</strong> The first image with the &quot;COVER&quot; badge will be used as the primary card image shown in search results and property listings.
@@ -384,7 +398,7 @@ export default function NewPropertyPage() {
               {preview_urls.length > 0 && (
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <strong style={{ fontSize: '0.95rem' }}>Selected Photos ({preview_urls.length})</strong>
+                    <strong style={{ fontSize: '0.95rem' }}>Selected Photos ({preview_urls.length}/{MAX_IMAGES})</strong>
                     <button
                       type="button"
                       onClick={() => {
@@ -444,7 +458,7 @@ export default function NewPropertyPage() {
                   <p style={{ color: '#059669', fontWeight: 800, fontSize: '1.25rem', margin: '0.35rem 0' }}>
                     ₹{price || 0} / {purpose}
                   </p>
-                  <p style={{ color: '#4b5563', margin: 0, fontSize: '0.9rem' }}>📍 {locality || 'Locality'}, {city || 'City'}</p>
+                  <p style={{ color: '#4b5563', margin: 0, fontSize: '0.9rem' }}>{locality || 'Locality'}, {city || 'City'}</p>
                   {description && (
                     <p style={{ fontSize: '0.85rem', color: '#6b7280', marginTop: '0.5rem', maxHeight: '48px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {description}

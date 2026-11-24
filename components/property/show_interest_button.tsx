@@ -111,7 +111,7 @@ export default function ShowInterestButton({
     <div className="show_interest_wrapper">
       {success ? (
         <div className="show_interest_success_msg" title="Check Notifications for contact details">
-          ✅ Interest Sent
+          Interest Sent
         </div>
       ) : (
         <Button

@@ -21,6 +21,7 @@ export default function ProfilePage() {
   const [phone, set_phone] = useState('');
   const [saving_profile, set_saving_profile] = useState(false);
   const [profile_success, set_profile_success] = useState(false);
+  const [profile_error, set_profile_error] = useState<string | null>(null);
 
   // Password Form State
   const [new_password, set_new_password] = useState('');
@@ -33,21 +34,29 @@ export default function ProfilePage() {
       set_full_name(profile.full_name || '');
       set_display_name(profile.display_name || profile.full_name || '');
       set_profile_type(profile.profile_type || 'individual');
-      set_phone(profile.phone || '');
+      set_phone(profile.phone ? profile.phone.replace(/\D/g, '').slice(-10) : '');
     }
   }, [profile]);
 
   // Handle Profile Update
   const handle_save_profile = async (e: React.FormEvent) => {
     e.preventDefault();
-    set_saving_profile(true);
+    set_profile_error(null);
     set_profile_success(false);
+
+    const clean_phone = phone.replace(/\D/g, '');
+    if (clean_phone && clean_phone.length !== 10) {
+      set_profile_error('Mobile number must be exactly 10 digits.');
+      return;
+    }
+
+    set_saving_profile(true);
 
     await update_user_profile({
       full_name,
       display_name: display_name.trim() || full_name,
       profile_type,
-      phone,
+      phone: clean_phone || null,
     });
 
     set_saving_profile(false);
@@ -118,6 +127,13 @@ export default function ProfilePage() {
               </div>
             )}
 
+            {profile_error && (
+              <div className="profile_alert profile_alert_error">
+                <AlertCircle size={16} />
+                <span>{profile_error}</span>
+              </div>
+            )}
+
             <div className="profile_field_group">
               <label className="profile_label">
                 Listing Provider Type
@@ -150,10 +166,17 @@ export default function ProfilePage() {
             />
 
             <Input
-              label="Phone Number"
+              label="Phone Number (10 digits)"
+              type="tel"
+              inputMode="numeric"
+              maxLength={10}
+              pattern="[0-9]{10}"
               value={phone}
-              onChange={(e) => set_phone(e.target.value)}
-              placeholder="e.g. +91 9876543210"
+              onChange={(e) => {
+                set_phone(e.target.value.replace(/\D/g, '').slice(0, 10));
+                if (profile_error) set_profile_error(null);
+              }}
+              placeholder="e.g. 9876543210"
             />
 
             <Input

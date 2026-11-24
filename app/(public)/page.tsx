@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { get_categories_server } from '@/lib/properties/property_service_server';
+import { get_categories_server, get_properties_server } from '@/lib/properties/property_service_server';
 import HomeFeedClient from './home';
 import './home.css';
 
@@ -21,12 +21,16 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const { categories } = await get_categories_server();
+  const [{ categories }, { properties }] = await Promise.all([
+    get_categories_server(),
+    get_properties_server({ limit: 4 }),
+  ]);
 
   return (
     <div>
       <HomeFeedClient
         initial_categories={categories}
+        initial_properties={properties}
       />
     </div>
   );

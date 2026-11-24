@@ -27,9 +27,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-48x48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
       { url: '/icon.png', type: 'image/png', sizes: '512x512' },
-      { url: '/assets/logo.png', type: 'image/png' },
     ],
     shortcut: '/favicon.ico',
     apple: [

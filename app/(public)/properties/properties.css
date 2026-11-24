@@ -34,11 +34,48 @@
 
 .properties_results_header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+/* List vs Map View Toggle */
+.properties_view_toggle {
+  display: inline-flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  gap: 4px;
+}
+
+.view_toggle_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.view_toggle_btn:hover {
+  color: #0f172a;
+}
+
+.view_toggle_btn.active {
+  background: #ffffff;
+  color: #1a56db;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
 }
 
 .properties_page_title {

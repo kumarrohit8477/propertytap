@@ -63,11 +63,13 @@ export default function ContactPage() {
   const [message, set_message] = useState('');
   const [loading, set_loading] = useState(false);
   const [submitted, set_submitted] = useState(false);
+  const [error_msg, set_error_msg] = useState<string | null>(null);
   const [active_faq, set_active_faq] = useState<number | null>(0);
 
-  const handle_submit = (e: React.FormEvent) => {
+  const handle_submit = async (e: React.FormEvent) => {
     e.preventDefault();
     set_phone_error(null);
+    set_error_msg(null);
 
     const clean_phone = phone.replace(/\D/g, '');
     if (clean_phone && clean_phone.length !== 10) {
@@ -77,14 +79,40 @@ export default function ContactPage() {
 
     set_loading(true);
 
-    setTimeout(() => {
-      set_loading(false);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          phone: clean_phone || undefined,
+          topic,
+          message: message.trim(),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to send message. Please try again.');
+      }
+
       set_submitted(true);
-    }, 600);
+    } catch (err: any) {
+      console.error('Contact submit error:', err);
+      set_error_msg(
+        err?.message || 'Something went wrong. Please try again or reach out to us at info@propertytap.in.'
+      );
+    } finally {
+      set_loading(false);
+    }
   };
 
   const handle_reset = () => {
     set_submitted(false);
+    set_error_msg(null);
     set_name('');
     set_email('');
     set_phone('');
@@ -304,6 +332,12 @@ export default function ContactPage() {
                       required
                     />
                   </div>
+
+                  {error_msg && (
+                    <div style={{ color: '#ef4444', background: '#fef2f2', border: '1px solid #fee2e2', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', lineHeight: 1.5 }}>
+                      {error_msg}
+                    </div>
+                  )}
 
                   {/* Submit Button */}
                   <button type="submit" className="form_submit_btn" disabled={loading}>

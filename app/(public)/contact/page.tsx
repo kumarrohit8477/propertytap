@@ -54,6 +54,10 @@ const TOPICS = [
   { id: 'partnership', label: 'Partnership / Business' },
 ];
 
+const WEB3FORMS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ||
+  '59d85fcd-1820-423f-bbd3-20f6ae5a1fff';
+
 export default function ContactPage() {
   const [topic, set_topic] = useState('general');
   const [name, set_name] = useState('');
@@ -90,7 +94,7 @@ export default function ContactPage() {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          access_key: '630a6e29-cd9f-4666-ae6b-aab557307034',
+          access_key: WEB3FORMS_KEY,
           name: name.trim(),
           email: email.trim(),
           phone: clean_phone || 'Not provided',

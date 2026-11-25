@@ -101,7 +101,7 @@ export default function NearMeModal({
         onClick={start_location_detection}
         title="Find properties near your current location"
       >
-        {show_icon && (
+        {show_icon ? (
           <svg
             width="15"
             height="15"
@@ -119,8 +119,9 @@ export default function NearMeModal({
             <line x1="2" y1="12" x2="6" y2="12" />
             <line x1="18" y1="12" x2="22" y2="12" />
           </svg>
+        ) : (
+          <span className="near_me_trigger_dot" />
         )}
-        <span className="near_me_trigger_dot" />
         <span className="near_me_trigger_text">{trigger_button_text}</span>
       </button>
 

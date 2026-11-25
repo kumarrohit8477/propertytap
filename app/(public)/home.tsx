@@ -58,8 +58,10 @@ export default function HomeFeedClient({ initial_categories, initial_properties 
               <span className="home_hero_title_blue">Your Next Property</span>
             </h1>
             <p className="home_hero_subtitle">
-              PropertyTap connects property seekers and owners directly.<br className="desktop_break" />
-              Find homes, apartments, PGs, offices, shops and more —<br className="desktop_break" />
+              PropertyTap connects property seekers and owners directly.{' '}
+              <br className="desktop_break" />
+              Find homes, apartments, PGs, offices, shops and more —{' '}
+              <br className="desktop_break" />
               all in one place.
             </p>
 
@@ -76,20 +78,20 @@ export default function HomeFeedClient({ initial_categories, initial_properties 
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <path d="M9 12l2 2 4-4" />
                 </svg>
-                Verified Listings
+                <span>Verified Listings</span>
               </span>
               <span className="home_hero_badge">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
-                Direct Owner Contact
+                <span>Direct<span className="home_hero_badge_opt"> Contact</span></span>
               </span>
               <span className="home_hero_badge">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" strokeWidth="1">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
-                Trusted Platform
+                <span>Trusted Platform</span>
               </span>
             </div>
           </div>

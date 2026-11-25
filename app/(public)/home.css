@@ -177,15 +177,15 @@
   .home_hero_overlay {
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.92) 50%,
-      rgba(255, 255, 255, 0.97) 100%
+      rgba(255, 255, 255, 0.97) 0%,
+      rgba(255, 255, 255, 0.93) 50%,
+      rgba(255, 255, 255, 0.98) 100%
     );
   }
 
   .home_hero_inner {
     min-height: auto;
-    padding: 28px 16px 26px;
+    padding: 22px 16px 20px;
   }
 
   .home_hero_left {
@@ -196,14 +196,14 @@
   .home_hero_label {
     font-size: 11px;
     padding: 4px 11px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .home_hero_title {
-    font-size: clamp(26px, 7.5vw, 36px);
-    line-height: 1.16;
+    font-size: clamp(24px, 7vw, 34px);
+    line-height: 1.18;
     letter-spacing: -0.03em;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .desktop_break {
@@ -213,38 +213,76 @@
   .home_hero_subtitle {
     font-size: 13.5px;
     line-height: 1.5;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     color: #475569;
   }
 
   .home_hero_trust_badges {
-    gap: 8px;
-    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 14px;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
   }
 
   .home_hero_badge {
-    font-size: 11px;
-    padding: 5px 11px;
-    gap: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: clamp(9.5px, 2.7vw, 11px);
+    font-weight: 600;
+    padding: 6px 3px;
+    border-radius: 9999px;
+    white-space: nowrap;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    letter-spacing: -0.01em;
+  }
+
+  .home_hero_badge svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .home_hero_badge_opt {
+    display: none;
   }
 }
 
 /* ── Small Mobile (<= 360px) ─────────────────── */
 @media (max-width: 360px) {
   .home_hero_inner {
-    padding: 22px 12px 20px;
+    padding: 18px 12px 16px;
   }
 
   .home_hero_title {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .home_hero_subtitle {
-    font-size: 13px;
+    font-size: 12.5px;
+    margin-bottom: 14px;
+  }
+
+  .home_hero_trust_badges {
+    gap: 4px;
   }
 
   .home_hero_badge {
-    font-size: 10.5px;
-    padding: 4px 9px;
+    font-size: 9.5px;
+    padding: 5px 2px;
+    gap: 3px;
+  }
+
+  .home_hero_badge svg {
+    width: 12px;
+    height: 12px;
   }
 }

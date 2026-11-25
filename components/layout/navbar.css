@@ -546,6 +546,40 @@
   to { opacity: 1; }
 }
 
+@media (max-width: 540px) {
+  .navbar_container {
+    height: 58px;
+    padding: 0 0.85rem;
+  }
+
+  .navbar_mobile_actions {
+    gap: 0.5rem;
+  }
+
+  .navbar_mobile_signin_pill {
+    display: none;
+  }
+
+  .navbar_mobile_quick_cta {
+    padding: 0.38rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .navbar_hamburger {
+    width: 38px;
+    height: 38px;
+  }
+
+  .navbar_mobile_backdrop {
+    top: 58px;
+  }
+
+  .navbar_mobile_drawer {
+    top: 58px;
+    height: calc(100vh - 58px);
+  }
+}
+
 @media (max-width: 360px) {
   .navbar_container {
     padding: 0 0.75rem;

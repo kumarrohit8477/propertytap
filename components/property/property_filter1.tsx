@@ -314,18 +314,29 @@ export default function PropertyFilters({
           </div>
         </div>
 
-        {/* Search Button */}
-        <button type="button" className="hero_search_btn" onClick={handle_search}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <span className="hero_search_btn_label">Search</span>
-        </button>
+        {/* Search Action Buttons */}
+        <div className="hero_search_actions">
+          <button type="button" className="hero_search_btn" onClick={handle_search}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span className="hero_search_btn_label">Search</span>
+          </button>
+
+          <div className="hero_search_near_me_mobile">
+            <NearMeModal
+              on_select={handle_near_me_select}
+              trigger_button_text="Near Me"
+              className="hero_near_me_btn hero_near_me_btn_mobile"
+              show_icon
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Near Me Button - Placed just right of the search box */}
-      <div className="hero_search_near_me">
+      {/* Near Me Button - Placed just right of the search box (Desktop) */}
+      <div className="hero_search_near_me hero_search_near_me_desktop">
         <NearMeModal
           on_select={handle_near_me_select}
           trigger_button_text="Near Me"

@@ -293,6 +293,19 @@
   margin-left: 8px;
 }
 
+/* Search Actions Container (Desktop uses display: contents) */
+.hero_search_actions {
+  display: contents;
+}
+
+.hero_search_near_me_mobile {
+  display: none;
+}
+
+.hero_search_near_me_desktop {
+  display: flex;
+}
+
 /* Search button */
 .hero_search_btn {
   height: 44px;
@@ -354,34 +367,67 @@
 @media (max-width: 768px) {
   .hero_search_wrapper {
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
     max-width: 100%;
   }
 
   .hero_search_box {
     width: 100%;
     height: auto;
-    padding: 10px;
+    padding: 14px 12px;
     flex-direction: column;
-    gap: 8px;
-    border-radius: 16px;
+    gap: 10px;
+    border-radius: 18px;
     background: #ffffff;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   }
 
-  .hero_search_near_me {
+  /* Desktop near me is hidden on mobile */
+  .hero_search_near_me_desktop {
+    display: none;
+  }
+
+  /* Mobile search actions grid */
+  .hero_search_actions {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 10px;
     width: 100%;
+    margin-top: 2px;
   }
 
-  .hero_near_me_btn {
+  .hero_search_near_me_mobile {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero_near_me_btn_mobile {
     width: 100%;
     height: 48px;
     border-radius: 12px;
     justify-content: center;
-    background: #ffffff;
-    border: 1px solid #dbeafe;
-    box-shadow: 0 4px 14px rgba(26, 86, 219, 0.08);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1a56db;
+    box-shadow: none;
     font-size: 14px;
+    font-weight: 700;
+    padding: 0 10px;
+    gap: 7px;
+  }
+
+  .hero_near_me_btn_mobile:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    color: #1648c4;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .hero_near_me_btn_mobile:active {
+    background: #bfdbfe;
+    transform: none;
   }
 
   .hero_search_divider {
@@ -392,17 +438,19 @@
   .hero_search_location {
     width: 100%;
     min-width: 0;
-    height: 48px;
+    height: 64px;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 0 14px;
+    border-radius: 12px;
+    padding: 0 16px;
+    gap: 12px;
     box-sizing: border-box;
   }
 
   /* Prevent Safari 16px auto-zoom */
   .hero_search_input {
-    font-size: 16px;
+    padding: 10px 0;
+    font-size: 15.5px;
   }
 
   .hero_search_input::placeholder {
@@ -413,16 +461,16 @@
   .hero_search_filters_group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
     width: 100%;
   }
 
   .hero_search_field {
     width: 100%;
-    height: 46px;
+    height: 48px;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
+    border-radius: 12px;
     min-width: 0;
     transition: border-color 0.15s ease, background-color 0.15s ease;
   }
@@ -437,13 +485,15 @@
   }
 
   .hero_search_dropdown_btn {
-    padding: 0 26px 0 10px;
-    font-size: 13px;
+    padding: 0 24px 0 12px;
+    font-size: 13.5px;
   }
 
   .hero_search_menu {
     max-height: 240px;
     box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
+    -webkit-overflow-scrolling: touch;
+    z-index: 1000;
   }
 
   .hero_search_menu_type {
@@ -459,42 +509,51 @@
     min-width: 180px;
   }
 
-  /* Search button full width */
+  /* Search button */
   .hero_search_btn {
     width: 100%;
     min-width: 0;
     height: 48px;
-    margin: 2px 0 0 0;
-    border-radius: 10px;
+    margin: 0;
+    border-radius: 12px;
     justify-content: center;
     font-size: 15px;
-    box-shadow: 0 4px 14px rgba(26, 86, 219, 0.35);
+    box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
   }
 }
 
 /* ── Small Mobile (<= 360px) ─────────────────── */
 @media (max-width: 360px) {
   .hero_search_box {
-    padding: 8px;
-    gap: 6px;
+    padding: 10px 8px;
+    gap: 8px;
+  }
+
+  .hero_search_actions {
+    gap: 8px;
   }
 
   .hero_search_location {
-    height: 44px;
-    padding: 0 10px;
+    height: 60px;
+    padding: 0 14px;
   }
 
   .hero_search_field {
-    height: 44px;
+    height: 46px;
   }
 
   .hero_search_dropdown_btn {
-    padding: 0 22px 0 8px;
-    font-size: 12px;
+    padding: 0 20px 0 10px;
+    font-size: 12.5px;
   }
 
   .hero_search_btn {
-    height: 44px;
+    height: 46px;
     font-size: 14px;
+  }
+
+  .hero_near_me_btn_mobile {
+    height: 46px;
+    font-size: 13px;
   }
 }

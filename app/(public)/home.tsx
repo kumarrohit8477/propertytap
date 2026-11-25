@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { PropertyCategory, PropertyFilterParams, PropertyItem } from '@/types/property';
 import PropertyFilters from '@/components/property/property_filter1';
@@ -37,12 +38,13 @@ export default function HomeFeedClient({ initial_categories, initial_properties 
       {/* ── HERO ─────────────────────────────────── */}
       <section className="home_hero_section">
         <div className="home_hero_background">
-          <img
+          <Image
             src="/assets/herobg.png"
             alt="Modern property"
+            fill
+            priority
             className="home_hero_background_image"
-            fetchPriority="high"
-            loading="eager"
+            sizes="100vw"
           />
           <div className="home_hero_overlay" />
         </div>

@@ -13,7 +13,7 @@ import './navbar.css';
 export default function Navbar() {
   const pathname = usePathname();
   const { user, profile, is_admin } = use_auth();
-  const { unread_count } = use_notifications();
+  const { unread_count } = use_notifications(user?.id ?? null);
   const [mobile_open, set_mobile_open] = useState(false);
   const [user_modal_open, set_user_modal_open] = useState(false);
 

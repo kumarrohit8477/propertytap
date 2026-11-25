@@ -215,13 +215,59 @@ export async function create_property(payload: Partial<PropertyItem>) {
   return { data: data as PropertyItem, error: null };
 }
 
-export async function upload_property_images(property_id: string, files: File[]) {
+export async function upload_property_images(
+  property_id: string,
+  files: File[],
+  options?: { start_order?: number; has_existing_primary?: boolean }
+) {
   const supabase = create_client();
+  const { data: user_data } = await supabase.auth.getUser();
+  if (!user_data.user) {
+    return { images: [], error: new Error('User not authenticated') };
+  }
+
+  // 1. Ownership check: Only owner or admin can upload
+  const { data: property, error: prop_error } = await supabase
+    .from('properties')
+    .select('owner_id')
+    .eq('id', property_id)
+    .single();
+
+  if (prop_error || !property) {
+    return { images: [], error: new Error('Property listing not found') };
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user_data.user.id)
+    .single();
+
+  if (property.owner_id !== user_data.user.id && profile?.role !== 'admin') {
+    return { images: [], error: new Error('Access denied: Only the property owner can upload pictures.') };
+  }
+
+  // 2. Strict limit: Up to 10 photos total
+  const { count } = await supabase
+    .from('property_images')
+    .select('*', { count: 'exact', head: true })
+    .eq('property_id', property_id);
+
+  const existing_count = count || 0;
+  if (existing_count >= 10) {
+    return { images: [], error: new Error('Maximum limit of 10 photos reached for this property.') };
+  }
+
+  const remaining_slots = 10 - existing_count;
+  const files_to_upload = files.slice(0, remaining_slots);
+
   const uploaded_images: any[] = [];
   const errors: string[] = [];
+  const start_order = options?.start_order ?? existing_count;
+  const has_existing_primary = options?.has_existing_primary ?? (existing_count > 0);
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
+  for (let i = 0; i < files_to_upload.length; i++) {
+    const file = files_to_upload[i];
     const file_ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
     const file_name = `${property_id}/${Date.now()}_${i}.${file_ext}`;
 
@@ -242,7 +288,7 @@ export async function upload_property_images(property_id: string, files: File[])
       .from('property_images')
       .getPublicUrl(upload_data.path);
 
-    const is_primary = i === 0;
+    const is_primary = !has_existing_primary && i === 0;
 
     const { data: db_image, error: db_error } = await supabase
       .from('property_images')
@@ -250,7 +296,7 @@ export async function upload_property_images(property_id: string, files: File[])
         property_id,
         image_url: public_url_data.publicUrl,
         storage_path: upload_data.path,
-        sort_order: i,
+        sort_order: start_order + i,
         is_primary,
       })
       .select()
@@ -268,6 +314,104 @@ export async function upload_property_images(property_id: string, files: File[])
     images: uploaded_images,
     error: errors.length > 0 ? new Error(errors.join('; ')) : null,
   };
+}
+
+export async function delete_property_image(image_id: string, property_id: string, storage_path?: string | null) {
+  const supabase = create_client();
+  const { data: user_data } = await supabase.auth.getUser();
+  if (!user_data.user) {
+    return { success: false, error: new Error('User not authenticated') };
+  }
+
+  // Ownership check: Only owner or admin can delete
+  const { data: property } = await supabase
+    .from('properties')
+    .select('owner_id')
+    .eq('id', property_id)
+    .single();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user_data.user.id)
+    .single();
+
+  if (!property || (property.owner_id !== user_data.user.id && profile?.role !== 'admin')) {
+    return { success: false, error: new Error('Access denied: Only the property owner can delete pictures.') };
+  }
+
+  if (storage_path) {
+    try {
+      await supabase.storage.from('property_images').remove([storage_path]);
+    } catch (err) {
+      console.warn('Storage deletion failed, continuing with DB record deletion', err);
+    }
+  }
+
+  const { error } = await supabase
+    .from('property_images')
+    .delete()
+    .eq('id', image_id);
+
+  if (error) {
+    return { success: false, error };
+  }
+
+  // Ensure there is always a primary image if images remain
+  const { data: remaining } = await supabase
+    .from('property_images')
+    .select('id, is_primary')
+    .eq('property_id', property_id)
+    .order('sort_order', { ascending: true });
+
+  if (remaining && remaining.length > 0) {
+    const has_primary = remaining.some((img) => img.is_primary);
+    if (!has_primary) {
+      await supabase
+        .from('property_images')
+        .update({ is_primary: true })
+        .eq('id', remaining[0].id);
+    }
+  }
+
+  return { success: true, error: null };
+}
+
+export async function set_primary_property_image(property_id: string, image_id: string) {
+  const supabase = create_client();
+  const { data: user_data } = await supabase.auth.getUser();
+  if (!user_data.user) {
+    return { success: false, error: new Error('User not authenticated') };
+  }
+
+  // Ownership check: Only owner or admin can update cover
+  const { data: property } = await supabase
+    .from('properties')
+    .select('owner_id')
+    .eq('id', property_id)
+    .single();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user_data.user.id)
+    .single();
+
+  if (!property || (property.owner_id !== user_data.user.id && profile?.role !== 'admin')) {
+    return { success: false, error: new Error('Access denied: Only the property owner can update pictures.') };
+  }
+
+  await supabase
+    .from('property_images')
+    .update({ is_primary: false })
+    .eq('property_id', property_id);
+
+  const { error } = await supabase
+    .from('property_images')
+    .update({ is_primary: true })
+    .eq('id', image_id);
+
+  return { success: !error, error };
 }
 
 export async function get_categories() {

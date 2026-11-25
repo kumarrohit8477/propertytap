@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { use_auth } from '@/hooks/use_auth';
 import { PropertyItem } from '@/types/property';
 import { format_price, format_date } from '@/lib/utils/utils';
 import { getGoogleMapsDirectionsUrl } from '@/lib/utils/geolocation';
@@ -24,6 +26,7 @@ import {
   Check,
   Sparkles,
   Lock,
+  Pencil,
 } from 'lucide-react';
 import './property_info.css';
 
@@ -32,6 +35,7 @@ interface PropertyInfoProps {
 }
 
 export default function PropertyInfo({ property }: PropertyInfoProps) {
+  const { user } = use_auth();
   const [copied, set_copied] = useState(false);
 
   const is_rent = property.purpose === 'rent';
@@ -321,6 +325,52 @@ export default function PropertyInfo({ property }: PropertyInfoProps) {
           </span>
         </div>
       </div>
+
+      {/* ── Owner Quick Actions ── */}
+      {user?.id === property.owner_id && (
+        <div style={{
+          backgroundColor: '#eff6ff',
+          border: '1px solid #bfdbfe',
+          borderRadius: '10px',
+          padding: '0.85rem 1rem',
+          marginBottom: '1rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '0.75rem',
+          flexWrap: 'wrap'
+        }}>
+          <div>
+            <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1e40af' }}>
+              You own this listing
+            </div>
+            <div style={{ fontSize: '0.75rem', color: '#3b82f6' }}>
+              Update photos (up to 10), pricing, and details
+            </div>
+          </div>
+          <Link href={`/dashboard/properties/${property.id}`}>
+            <button
+              type="button"
+              style={{
+                backgroundColor: '#1d4ed8',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '0.45rem 0.85rem',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+              }}
+            >
+              <Pencil size={13} />
+              <span>Edit / Update Photos</span>
+            </button>
+          </Link>
+        </div>
+      )}
 
       {/* ── Primary Action Buttons ── */}
       <div className="property_info_actions">

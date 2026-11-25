@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   const [{ categories }, { properties }] = await Promise.all([
     get_categories_server(),

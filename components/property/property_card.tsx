@@ -28,6 +28,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             src={primary_image}
             alt={property.title}
             className="property_card_image"
+            loading="lazy"
           />
         </Link>
         <span className={`property_card_badge_purpose ${property.purpose === 'rent' ? 'property_card_badge_rent' : 'property_card_badge_sale'}`}>

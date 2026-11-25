@@ -13,7 +13,6 @@ export default function HomeMobileApp() {
             width={640}
             height={440}
             className="hma_mockup_img"
-            priority
             sizes="(max-width: 900px) 90vw, 520px"
           />
         </div>

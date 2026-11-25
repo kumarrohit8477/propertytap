@@ -16,6 +16,15 @@ export async function update_session(request: NextRequest) {
     return response;
   }
 
+  const url = request.nextUrl.clone();
+  const isDashboard = url.pathname.startsWith('/dashboard');
+  const isAdmin = url.pathname.startsWith('/admin');
+
+  // Skip remote Supabase auth calls for all public pages to ensure fast load times
+  if (!isDashboard && !isAdmin) {
+    return response;
+  }
+
   const supabase = createServerClient(supabase_url, supabase_anon_key, {
     cookies: {
       get(name: string) {
@@ -44,16 +53,14 @@ export async function update_session(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  const url = request.nextUrl.clone();
-
   // Protect /dashboard routes
-  if (url.pathname.startsWith('/dashboard') && !user) {
+  if (isDashboard && !user) {
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
   // Protect /admin routes
-  if (url.pathname.startsWith('/admin')) {
+  if (isAdmin) {
     if (!user) {
       url.pathname = '/login';
       return NextResponse.redirect(url);

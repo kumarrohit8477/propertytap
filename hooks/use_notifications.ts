@@ -6,20 +6,31 @@ import {
 } from '@/lib/notifications/notification_service';
 import { NotificationItem } from '@/types/notification';
 
-export function use_notifications() {
+export function use_notifications(userId?: string | null | boolean) {
   const [notifications, set_notifications] = useState<NotificationItem[]>([]);
-  const [loading, set_loading] = useState(true);
+  const [loading, set_loading] = useState(false);
 
   const fetch_notifications = useCallback(async () => {
+    if (userId === null || userId === false) {
+      set_notifications([]);
+      set_loading(false);
+      return;
+    }
+
     set_loading(true);
     const { notifications: data } = await get_user_notifications();
     set_notifications(data);
     set_loading(false);
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
+    if (userId === null || userId === false) {
+      set_notifications([]);
+      set_loading(false);
+      return;
+    }
     fetch_notifications();
-  }, [fetch_notifications]);
+  }, [userId, fetch_notifications]);
 
   const mark_read = async (id: string) => {
     await mark_notification_as_read(id);

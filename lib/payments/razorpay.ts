@@ -1,4 +1,4 @@
-export const RAZORPAY_KEY_ID = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
+export const RAZORPAY_KEY_ID = process.env.PUBLIC_RAZORPAY_KEY_ID || '';
 
 /**
  * Dynamically loads the Razorpay checkout script into the DOM.

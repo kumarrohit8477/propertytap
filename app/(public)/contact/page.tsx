@@ -55,7 +55,7 @@ const TOPICS = [
 ];
 
 const WEB3FORMS_KEY =
-  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ||
+  process.env.PUBLIC_WEB3FORMS_ACCESS_KEY ||
   '59d85fcd-1820-423f-bbd3-20f6ae5a1fff';
 
 export default function ContactPage() {

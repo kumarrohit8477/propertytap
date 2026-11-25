@@ -203,7 +203,7 @@
     font-size: clamp(24px, 7vw, 34px);
     line-height: 1.18;
     letter-spacing: -0.03em;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
   }
 
   .desktop_break {
@@ -211,10 +211,7 @@
   }
 
   .home_hero_subtitle {
-    font-size: 13.5px;
-    line-height: 1.5;
-    margin-bottom: 16px;
-    color: #475569;
+    display: none;
   }
 
   .home_hero_trust_badges {
@@ -264,10 +261,6 @@
 
   .home_hero_title {
     font-size: 22px;
-  }
-
-  .home_hero_subtitle {
-    font-size: 12.5px;
     margin-bottom: 14px;
   }
 

@@ -4,6 +4,14 @@
   flex-direction: column;
 }
 
+.btn_text_short {
+  display: none;
+}
+
+.btn_text_full {
+  display: inline;
+}
+
 .call_now_wrapper_full {
   width: 100%;
 }

@@ -111,7 +111,8 @@ export default function ShowInterestButton({
     <div className="show_interest_wrapper">
       {success ? (
         <div className="show_interest_success_msg" title="Check Notifications for contact details">
-          Interest Sent
+          <span className="btn_text_full">Interest Sent</span>
+          <span className="btn_text_short">Sent</span>
         </div>
       ) : (
         <Button
@@ -121,7 +122,14 @@ export default function ShowInterestButton({
           onClick={handle_click}
           className="show_interest_btn"
         >
-          {loading ? 'Processing...' : 'Show Interest'}
+          {loading ? (
+            'Processing...'
+          ) : (
+            <>
+              <span className="btn_text_full">Show Interest</span>
+              <span className="btn_text_short">Interest</span>
+            </>
+          )}
         </Button>
       )}
 

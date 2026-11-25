@@ -112,6 +112,41 @@
    BODY
    ========================= */
 
+.property_filters_row_scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.property_filter_mobile_reset_pill {
+  display: none;
+}
+
+.property_filters_input_clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #e2e8f0;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  font-size: 11px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.property_filters_input_clear:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
 .property_filters_body {
   display: flex;
   flex-direction: column;
@@ -425,142 +460,192 @@
 }
 
 /* =========================
-   MOBILE
+   MOBILE RESPONSIVE (< 868px)
+   Row-wise filters + Top search bar
+   Auto-applied on selection
    ========================= */
 
-@media (max-width: 480px) {
+@media (max-width: 868px) {
   .property_filters_card {
     height: auto;
     max-height: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
     overflow: visible;
-    border-radius: 15px;
   }
 
+  /* Hide the big desktop header card on mobile */
   .property_filters_header {
-    min-height: 58px;
-    padding: 9px 11px;
-    border-radius: 15px 15px 0 0;
+    display: none;
   }
 
-  .property_filters_header_icon {
-    width: 34px;
-    height: 34px;
-    flex-basis: 34px;
-    border-radius: 9px;
-  }
-
-  .property_filters_header_title {
-    gap: 7px;
-  }
-
-  .property_filters_header_title h3 {
-    font-size: 18px;
-  }
-
-  .property_filters_badge {
-    min-width: 23px;
-    height: 23px;
-    padding: 0 6px;
-    font-size: 11px;
-  }
-
-  .property_filters_reset_btn {
-    min-height: 34px;
-    padding: 0 9px;
-    border-radius: 8px;
-    font-size: 11px;
+  /* Hide the desktop Apply Filters button on mobile */
+  .property_filters_actions {
+    display: none;
   }
 
   .property_filters_body {
-    padding: 12px;
-    gap: 11px;
+    padding: 0;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
   }
 
-  .property_filters_grid {
-    gap: 10px 7px;
+  /* Search box on top */
+  .property_filters_location_field {
+    width: 100%;
   }
 
-  .property_filters_label {
-    font-size: 11px;
+  .property_filters_location_row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
   }
 
-  .property_filters_select,
-  .property_filters_input,
-  .price_input_wrap {
-    height: 39px;
-    font-size: 11.5px;
+  .property_filters_location_row .property_filters_input_wrapper {
+    flex: 1;
+    min-width: 0;
+    position: relative;
   }
 
-  .property_filters_select {
-    padding-left: 9px;
+  .property_filters_location_row .property_filters_input {
+    height: 38px;
+    font-size: 13px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding-left: 32px;
     padding-right: 28px;
   }
 
-  .property_filters_select_arrow {
-    right: 8px;
-    font-size: 17px;
+  /* Horizontal row-wise scroll of filter pills */
+  .property_filters_row_scroll {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 2px 4px;
+    margin: 0 -2px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .property_filters_input {
-    padding-left: 9px;
-  }
-
-  .property_filters_input.with_icon {
-    padding-left: 31px;
-  }
-
-  .property_filters_input_wrapper .input_icon {
-    left: 9px;
-  }
-
-  .property_filters_pill {
-    height: 32px;
-    font-size: 11px;
-  }
-
-  .property_filters_price_row {
-    grid-template-columns: minmax(0, 1fr) 12px minmax(0, 1fr);
-    gap: 4px;
-  }
-
-  .rupee_prefix {
-    width: 29px;
-    flex-basis: 29px;
-    font-size: 13px;
-  }
-
-  .property_filters_actions {
-    padding: 0 12px 12px;
-  }
-
-  .property_filters_actions button {
-    min-height: 43px;
-  }
-}
-
-/* =========================
-   VERY SMALL DEVICES
-   ========================= */
-
-@media (max-width: 350px) {
-  .property_filters_header {
-    padding-left: 9px;
-    padding-right: 9px;
-  }
-
-  .property_filters_body {
-    padding: 10px;
-  }
-
-  .property_filters_grid {
-    gap: 8px 5px;
-  }
-
-  .property_filters_reset_btn {
-    padding: 0 7px;
-  }
-
-  .property_filters_reset_btn svg {
+  .property_filters_row_scroll::-webkit-scrollbar {
     display: none;
+  }
+
+  .property_filters_row_scroll .property_filters_group {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  /* Purpose pills: All | Rent | Sale */
+  .property_filters_purpose_group .property_filters_pills {
+    display: inline-flex;
+    gap: 2px;
+    background: #f1f5f9;
+    padding: 2px;
+    border-radius: 9999px;
+    border: 1px solid #e2e8f0;
+    height: 32px;
+    align-items: center;
+    width: auto;
+  }
+
+  .property_filters_purpose_group .property_filter_pill {
+    padding: 0 10px;
+    height: 26px;
+    font-size: 11.5px;
+    font-weight: 600;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    color: #475569;
+    white-space: nowrap;
+  }
+
+  .property_filters_purpose_group .property_filter_pill.active {
+    background: #1a56db;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(26, 86, 219, 0.25);
+  }
+
+  /* Select dropdown pills */
+  .property_filters_row_scroll .property_filters_select_wrap {
+    height: 32px;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition: all 0.15s ease;
+    width: auto;
+  }
+
+  .property_filters_row_scroll .property_filters_select_wrap.has_selected_value {
+    background: #eff6ff;
+    border-color: #2563eb;
+  }
+
+  .property_filters_row_scroll .property_filters_select {
+    height: 30px;
+    padding: 0 24px 0 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #334155;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    width: auto;
+  }
+
+  .property_filters_row_scroll .property_filters_select_wrap.has_selected_value .property_filters_select {
+    color: #1d4ed8;
+    font-weight: 600;
+  }
+
+  .property_filters_row_scroll .property_filters_select_arrow {
+    right: 8px;
+    font-size: 13px;
+    color: #64748b;
+    pointer-events: none;
+  }
+
+  .property_filters_row_scroll .property_filters_select_wrap.has_selected_value .property_filters_select_arrow {
+    color: #1d4ed8;
+  }
+
+  /* Mobile Reset Pill */
+  .property_filter_mobile_reset_pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 9999px;
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+
+  .property_filter_mobile_reset_pill:hover {
+    background: #fee2e2;
   }
 }

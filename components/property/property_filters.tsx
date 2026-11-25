@@ -104,7 +104,7 @@ function SelectField({
   children: React.ReactNode;
 }) {
   return (
-    <div className="property_filters_select_wrap">
+    <div className={`property_filters_select_wrap ${value ? 'has_selected_value' : ''}`}>
       <select
         className={`property_filters_select ${!value ? 'property_select_placeholder' : ''}`}
         value={value}
@@ -363,48 +363,196 @@ export default function PropertyFilters({
     }
   };
 
-  const handle_apply = () => {
-    const cat_ids = get_category_ids_for_filter(category_id, categories);
+  const emit_filter_change = (overrides?: Partial<{
+    city: string;
+    purpose: string;
+    category_id: string;
+    max_price: string;
+    bedrooms: string;
+    bathrooms: string;
+    floor: string;
+    furnishing: string;
+    parking: string;
+    sort_by: string;
+    pg_type: string;
+    sharing_type: string;
+    food_included: string;
+    land_type: string;
+    facing: string;
+    min_area: string;
+    max_area: string;
+  }>) => {
+    const eff_city = overrides && 'city' in overrides ? overrides.city! : city;
+    const eff_purpose = overrides && 'purpose' in overrides ? overrides.purpose! : purpose;
+    const eff_cat = overrides && 'category_id' in overrides ? overrides.category_id! : category_id;
+    const eff_max_price = overrides && 'max_price' in overrides ? overrides.max_price! : max_price;
+    const eff_bedrooms = overrides && 'bedrooms' in overrides ? overrides.bedrooms! : bedrooms;
+    const eff_bathrooms = overrides && 'bathrooms' in overrides ? overrides.bathrooms! : bathrooms;
+    const eff_floor = overrides && 'floor' in overrides ? overrides.floor! : floor;
+    const eff_furnishing = overrides && 'furnishing' in overrides ? overrides.furnishing! : furnishing;
+    const eff_parking = overrides && 'parking' in overrides ? overrides.parking! : parking;
+    const eff_sort = overrides && 'sort_by' in overrides ? overrides.sort_by! : sort_by;
+    const eff_pg_type = overrides && 'pg_type' in overrides ? overrides.pg_type! : pg_type;
+    const eff_sharing = overrides && 'sharing_type' in overrides ? overrides.sharing_type! : sharing_type;
+    const eff_food = overrides && 'food_included' in overrides ? overrides.food_included! : food_included;
+    const eff_land = overrides && 'land_type' in overrides ? overrides.land_type! : land_type;
+    const eff_facing = overrides && 'facing' in overrides ? overrides.facing! : facing;
+    const eff_min_area = overrides && 'min_area' in overrides ? overrides.min_area! : min_area;
+    const eff_max_area = overrides && 'max_area' in overrides ? overrides.max_area! : max_area;
+
+    const cat_ids = get_category_ids_for_filter(eff_cat, categories);
+    const eff_group = get_filter_group_for_category(eff_cat, categories);
+    const eff_is_res = eff_group === 'residential' || eff_group === 'all';
+    const eff_is_comm = eff_group === 'commercial';
+    const eff_is_pg = eff_group === 'pg' || eff_group === 'hostel';
+    const eff_is_land = eff_group === 'land';
 
     on_filter_change({
-      city: city.trim() || undefined,
-      purpose: (filter_group === 'pg' ? 'rent' : purpose) as PropertyFilterParams['purpose'] || undefined,
-      category_id: category_id || undefined,
+      city: eff_city.trim() || undefined,
+      purpose: (eff_group === 'pg' ? 'rent' : eff_purpose) as PropertyFilterParams['purpose'] || undefined,
+      category_id: eff_cat || undefined,
       category_ids: cat_ids.length > 0 ? cat_ids : undefined,
       min_price: undefined,
-      max_price: max_price ? Number(max_price) : undefined,
-      bedrooms: is_residential && bedrooms ? Number(bedrooms) : undefined,
-      bathrooms: filter_group === 'residential' && bathrooms ? Number(bathrooms) : undefined,
+      max_price: eff_max_price ? Number(eff_max_price) : undefined,
+      bedrooms: eff_is_res && eff_bedrooms ? Number(eff_bedrooms) : undefined,
+      bathrooms: eff_group === 'residential' && eff_bathrooms ? Number(eff_bathrooms) : undefined,
       furnishing:
-        (is_residential || is_commercial) && furnishing
-          ? furnishing
+        (eff_is_res || eff_is_comm) && eff_furnishing
+          ? eff_furnishing
           : undefined,
       parking:
-        (is_residential || is_commercial) && parking !== ''
-          ? parking === 'true'
+        (eff_is_res || eff_is_comm) && eff_parking !== ''
+          ? eff_parking === 'true'
           : undefined,
       floor:
-        filter_group === 'residential' && floor !== ''
-          ? Number(floor)
+        eff_group === 'residential' && eff_floor !== ''
+          ? Number(eff_floor)
           : undefined,
-      pg_type: is_pg_or_hostel && pg_type ? pg_type : undefined,
-      sharing_type: is_pg_or_hostel && sharing_type ? sharing_type : undefined,
+      pg_type: eff_is_pg && eff_pg_type ? eff_pg_type : undefined,
+      sharing_type: eff_is_pg && eff_sharing ? eff_sharing : undefined,
       food_included:
-        is_pg_or_hostel && food_included !== ''
-          ? food_included === 'true'
+        eff_is_pg && eff_food !== ''
+          ? eff_food === 'true'
           : undefined,
-      land_type: is_land && land_type ? land_type : undefined,
-      facing: is_land && facing ? facing : undefined,
+      land_type: eff_is_land && eff_land ? eff_land : undefined,
+      facing: eff_is_land && eff_facing ? eff_facing : undefined,
       min_area:
-        (is_land || is_commercial) && min_area
-          ? Number(min_area)
+        (eff_is_land || eff_is_comm) && eff_min_area
+          ? Number(eff_min_area)
           : undefined,
       max_area:
-        (is_land || is_commercial) && max_area
-          ? Number(max_area)
+        (eff_is_land || eff_is_comm) && eff_max_area
+          ? Number(eff_max_area)
           : undefined,
-      sort_by: sort_by as PropertyFilterParams['sort_by'],
+      sort_by: (eff_sort || 'newest') as PropertyFilterParams['sort_by'],
     });
+  };
+
+  const handle_apply = () => {
+    emit_filter_change();
+  };
+
+  // Debounced search on city input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (city !== (initial_filters.city || '')) {
+        emit_filter_change({ city });
+      }
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [city, initial_filters.city]);
+
+  const handle_purpose_select = (new_p: string) => {
+    handle_purpose_change(new_p);
+    let new_max_price = max_price;
+    if (new_p === 'rent' && max_price && Number(max_price) > 500000) {
+      new_max_price = '';
+      set_max_price('');
+    } else if (new_p === 'sale' && max_price && Number(max_price) < 500000) {
+      new_max_price = '';
+      set_max_price('');
+    }
+    emit_filter_change({ purpose: new_p, max_price: new_max_price });
+  };
+
+  const handle_category_select = (new_cat_id: string) => {
+    handle_category_change(new_cat_id);
+    const new_group = get_filter_group_for_category(new_cat_id, categories);
+    let new_purpose = purpose;
+    let new_max_price = max_price;
+    let new_bedrooms = bedrooms;
+    let new_bathrooms = bathrooms;
+    let new_floor = floor;
+    let new_furnishing = furnishing;
+    let new_parking = parking;
+
+    if (new_group === 'pg') {
+      new_purpose = 'rent';
+      if (max_price && !RENT_BUDGET_OPTIONS.some((opt) => opt.value === max_price)) {
+        new_max_price = '';
+      }
+      new_bedrooms = '';
+      new_bathrooms = '';
+      new_floor = '';
+      new_furnishing = '';
+      new_parking = '';
+    } else if (new_group === 'land') {
+      new_bedrooms = '';
+      new_bathrooms = '';
+      new_furnishing = '';
+      new_parking = '';
+      new_floor = '';
+    } else if (new_group === 'commercial') {
+      new_bedrooms = '';
+      new_bathrooms = '';
+      new_floor = '';
+    }
+
+    emit_filter_change({
+      category_id: new_cat_id,
+      purpose: new_purpose,
+      max_price: new_max_price,
+      bedrooms: new_bedrooms,
+      bathrooms: new_bathrooms,
+      floor: new_floor,
+      furnishing: new_furnishing,
+      parking: new_parking,
+    });
+  };
+
+  const handle_budget_select = (val: string) => {
+    set_max_price(val);
+    emit_filter_change({ max_price: val });
+  };
+
+  const handle_bedrooms_select = (val: string) => {
+    set_bedrooms(val);
+    emit_filter_change({ bedrooms: val });
+  };
+
+  const handle_bathrooms_select = (val: string) => {
+    set_bathrooms(val);
+    emit_filter_change({ bathrooms: val });
+  };
+
+  const handle_floor_select = (val: string) => {
+    set_floor(val);
+    emit_filter_change({ floor: val });
+  };
+
+  const handle_furnishing_select = (val: string) => {
+    set_furnishing(val);
+    emit_filter_change({ furnishing: val });
+  };
+
+  const handle_parking_select = (val: string) => {
+    set_parking(val);
+    emit_filter_change({ parking: val });
+  };
+
+  const handle_sort_select = (val: string) => {
+    set_sort_by(val);
+    emit_filter_change({ sort_by: val });
   };
 
   const handle_reset = () => {
@@ -453,58 +601,8 @@ export default function PropertyFilters({
       </div>
 
       <div className="property_filters_body">
-        <FilterField>
-          <SelectField
-            value={category_id}
-            onChange={handle_category_change}
-            placeholder="Property Type"
-          >
-            {SEEKER_FILTER_GROUPS.map((group) => (
-              <option key={group.key} value={group.key}>
-                {group.label}
-              </option>
-            ))}
-          </SelectField>
-        </FilterField>
-
-        <FilterField>
-          <div className="property_filters_pills">
-            <button
-              type="button"
-              className={`property_filter_pill ${
-                purpose === '' && filter_group !== 'pg' ? 'active' : ''
-              }`}
-              onClick={() => filter_group !== 'pg' && handle_purpose_change('')}
-              disabled={filter_group === 'pg'}
-            >
-              All
-            </button>
-
-            <button
-              type="button"
-              className={`property_filter_pill ${
-                purpose === 'rent' || filter_group === 'pg' ? 'active' : ''
-              }`}
-              onClick={() => handle_purpose_change('rent')}
-            >
-              Rent
-            </button>
-
-            {filter_group !== 'pg' && (
-              <button
-                type="button"
-                className={`property_filter_pill ${
-                  purpose === 'sale' ? 'active' : ''
-                }`}
-                onClick={() => handle_purpose_change('sale')}
-              >
-                Sale
-              </button>
-            )}
-          </div>
-        </FilterField>
-
-        <FilterField>
+        {/* Search Box on Top */}
+        <div className="property_filters_location_field">
           <div className="property_filters_location_row">
             <div className="property_filters_input_wrapper">
               <span className="input_icon">
@@ -513,274 +611,302 @@ export default function PropertyFilters({
               <input
                 type="text"
                 className="property_filters_input with_icon"
-                placeholder="City / Location"
+                placeholder="Search city, locality..."
                 value={city}
                 onChange={(e) => set_city(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    emit_filter_change({ city });
+                  }
+                }}
               />
+              {city && (
+                <button
+                  type="button"
+                  className="property_filters_input_clear"
+                  onClick={() => {
+                    set_city('');
+                    emit_filter_change({ city: '' });
+                  }}
+                  aria-label="Clear location search"
+                >
+                  ✕
+                </button>
+              )}
             </div>
             <NearMeModal on_select={handle_near_me_select} trigger_button_text="Near Me" />
           </div>
-        </FilterField>
+        </div>
 
-        <FilterField>
-          <SelectField
-            value={max_price}
-            onChange={set_max_price}
-            placeholder={is_rent ? 'Monthly Rent (Up to)' : 'Budget (Up to)'}
-          >
-            {max_price && !budget_options.some((opt) => opt.value === max_price) && (
-              <option value={max_price}>
-                Up to ₹{Number(max_price).toLocaleString('en-IN')}
-              </option>
-            )}
-            {budget_options.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </SelectField>
-        </FilterField>
-
-        {/* Two filters per row under price */}
-        {is_residential && (
-          <div className="property_filters_grid">
-            <FilterField>
-              <SelectField
-                value={bedrooms}
-                onChange={set_bedrooms}
-                placeholder="BHK"
+        {/* Row-wise scrollable strip of filters on mobile / vertical stack on desktop */}
+        <div className="property_filters_row_scroll">
+          {/* Purpose pills: All | Rent | Sale */}
+          <div className="property_filters_group property_filters_purpose_group">
+            <div className="property_filters_pills">
+              <button
+                type="button"
+                className={`property_filter_pill ${
+                  purpose === '' && filter_group !== 'pg' ? 'active' : ''
+                }`}
+                onClick={() => filter_group !== 'pg' && handle_purpose_select('')}
+                disabled={filter_group === 'pg'}
               >
-                <option value="1">1 BHK</option>
-                <option value="2">2 BHK</option>
-                <option value="3">3 BHK</option>
-                <option value="4">4 BHK</option>
-                <option value="5">5+ BHK</option>
-              </SelectField>
-            </FilterField>
+                All
+              </button>
 
-            <FilterField>
-              <SelectField
-                value={bathrooms}
-                onChange={set_bathrooms}
-                placeholder="Bathrooms"
+              <button
+                type="button"
+                className={`property_filter_pill ${
+                  purpose === 'rent' || filter_group === 'pg' ? 'active' : ''
+                }`}
+                onClick={() => handle_purpose_select('rent')}
               >
-                <option value="1">1 Bathroom</option>
-                <option value="2">2 Bathrooms</option>
-                <option value="3">3 Bathrooms</option>
-                <option value="4">4+ Bathrooms</option>
-              </SelectField>
-            </FilterField>
+                Rent
+              </button>
 
-            <FilterField>
-              <SelectField
-                value={floor}
-                onChange={set_floor}
-                placeholder="Floor"
-              >
-                <option value="0">Ground Floor</option>
-                <option value="1">1st Floor</option>
-                <option value="2">2nd Floor</option>
-                <option value="3">3rd Floor</option>
-                <option value="4">4th Floor &amp; Above</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField
-                value={furnishing}
-                onChange={set_furnishing}
-                placeholder="Furnishing"
-              >
-                <option value="unfurnished">Unfurnished</option>
-                <option value="semi-furnished">Semi-Furnished</option>
-                <option value="fully-furnished">Fully Furnished</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField
-                value={parking}
-                onChange={set_parking}
-                placeholder="Parking"
-              >
-                <option value="true">Available</option>
-                <option value="false">Not Available</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
-                <option value="newest">Sort: Newest First</option>
-                <option value="price_asc">Sort: Price (Low to High)</option>
-                <option value="price_desc">Sort: Price (High to Low)</option>
-              </SelectField>
-            </FilterField>
+              {filter_group !== 'pg' && (
+                <button
+                  type="button"
+                  className={`property_filter_pill ${
+                    purpose === 'sale' ? 'active' : ''
+                  }`}
+                  onClick={() => handle_purpose_select('sale')}
+                >
+                  Sale
+                </button>
+              )}
+            </div>
           </div>
-        )}
 
-        {is_pg_or_hostel && (
-          <div className="property_filters_grid">
-            <FilterField>
-              <SelectField
-                value={pg_type}
-                onChange={set_pg_type}
-                placeholder={filter_group === 'pg' ? 'PG Type' : 'Hostel Type'}
-              >
-                <option value="boys">Boys</option>
-                <option value="girls">Girls</option>
-                <option value="co-living">Co-Living</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField
-                value={sharing_type}
-                onChange={set_sharing_type}
-                placeholder="Room Sharing"
-              >
-                <option value="single">Single Room</option>
-                <option value="double">Double Sharing</option>
-                <option value="triple">Triple Sharing</option>
-                <option value="four_plus">4+ Sharing</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField
-                value={food_included}
-                onChange={set_food_included}
-                placeholder="Food Facility"
-              >
-                <option value="true">Food Included</option>
-                <option value="false">Food Not Included</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
-                <option value="newest">Sort: Newest First</option>
-                <option value="price_asc">Sort: Price (Low to High)</option>
-                <option value="price_desc">Sort: Price (High to Low)</option>
-              </SelectField>
-            </FilterField>
+          {/* Property Type Dropdown */}
+          <div className="property_filters_group">
+            <SelectField
+              value={category_id}
+              onChange={handle_category_select}
+              placeholder="Property Type"
+            >
+              {SEEKER_FILTER_GROUPS.map((group) => (
+                <option key={group.key} value={group.key}>
+                  {group.label}
+                </option>
+              ))}
+            </SelectField>
           </div>
-        )}
 
-        {is_land && (
-          <div className="property_filters_grid">
-            <FilterField>
-              <SelectField
-                value={land_type}
-                onChange={set_land_type}
-                placeholder="Land Type"
-              >
-                <option value="residential_plot">Residential Plot</option>
-                <option value="commercial_plot">Commercial Plot</option>
-                <option value="agricultural_land">Agricultural Land</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField
-                value={facing}
-                onChange={set_facing}
-                placeholder="Facing"
-              >
-                <option value="north">North</option>
-                <option value="south">South</option>
-                <option value="east">East</option>
-                <option value="west">West</option>
-                <option value="north_east">North-East</option>
-                <option value="north_west">North-West</option>
-                <option value="south_east">South-East</option>
-                <option value="south_west">South-West</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <input
-                type="number"
-                className="property_filters_input"
-                placeholder="Min Area (sq.ft)"
-                value={min_area}
-                onChange={(e) => set_min_area(e.target.value)}
-              />
-            </FilterField>
-
-            <FilterField>
-              <input
-                type="number"
-                className="property_filters_input"
-                placeholder="Max Area (sq.ft)"
-                value={max_area}
-                onChange={(e) => set_max_area(e.target.value)}
-              />
-            </FilterField>
-
-            <FilterField>
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
-                <option value="newest">Sort: Newest First</option>
-                <option value="price_asc">Sort: Price (Low to High)</option>
-                <option value="price_desc">Sort: Price (High to Low)</option>
-              </SelectField>
-            </FilterField>
+          {/* Budget Dropdown */}
+          <div className="property_filters_group">
+            <SelectField
+              value={max_price}
+              onChange={handle_budget_select}
+              placeholder={is_rent ? 'Monthly Rent' : 'Budget (Up to)'}
+            >
+              {max_price && !budget_options.some((opt) => opt.value === max_price) && (
+                <option value={max_price}>
+                  Up to ₹{Number(max_price).toLocaleString('en-IN')}
+                </option>
+              )}
+              {budget_options.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </SelectField>
           </div>
-        )}
 
-        {is_commercial && (
-          <div className="property_filters_grid">
-            <FilterField>
-              <SelectField
-                value={furnishing}
-                onChange={set_furnishing}
-                placeholder="Furnishing"
-              >
-                <option value="unfurnished">Unfurnished</option>
-                <option value="semi-furnished">Semi-Furnished</option>
-                <option value="fully-furnished">Fully Furnished</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <SelectField
-                value={parking}
-                onChange={set_parking}
-                placeholder="Parking"
-              >
-                <option value="true">Available</option>
-                <option value="false">Not Available</option>
-              </SelectField>
-            </FilterField>
-
-            <FilterField>
-              <input
-                type="number"
-                className="property_filters_input"
-                placeholder="Min Area (sq.ft)"
-                value={min_area}
-                onChange={(e) => set_min_area(e.target.value)}
-              />
-            </FilterField>
-
-            <FilterField>
-              <input
-                type="number"
-                className="property_filters_input"
-                placeholder="Max Area (sq.ft)"
-                value={max_area}
-                onChange={(e) => set_max_area(e.target.value)}
-              />
-            </FilterField>
-
-            <FilterField>
-              <SelectField value={sort_by} onChange={set_sort_by} placeholder="Sort By">
-                <option value="newest">Sort: Newest First</option>
-                <option value="price_asc">Sort: Price (Low to High)</option>
-                <option value="price_desc">Sort: Price (High to Low)</option>
-              </SelectField>
-            </FilterField>
+          {/* Sort By Dropdown */}
+          <div className="property_filters_group">
+            <SelectField value={sort_by} onChange={handle_sort_select} placeholder="Sort By">
+              <option value="newest">Sort: Newest First</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+            </SelectField>
           </div>
-        )}
+
+          {/* Residential Fields */}
+          {is_residential && (
+            <>
+              <div className="property_filters_group">
+                <SelectField
+                  value={bedrooms}
+                  onChange={handle_bedrooms_select}
+                  placeholder="BHK"
+                >
+                  <option value="1">1 BHK</option>
+                  <option value="2">2 BHK</option>
+                  <option value="3">3 BHK</option>
+                  <option value="4">4 BHK</option>
+                  <option value="5">5+ BHK</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={furnishing}
+                  onChange={handle_furnishing_select}
+                  placeholder="Furnishing"
+                >
+                  <option value="unfurnished">Unfurnished</option>
+                  <option value="semi-furnished">Semi-Furnished</option>
+                  <option value="fully-furnished">Fully Furnished</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={parking}
+                  onChange={handle_parking_select}
+                  placeholder="Parking"
+                >
+                  <option value="true">Available</option>
+                  <option value="false">Not Available</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={bathrooms}
+                  onChange={handle_bathrooms_select}
+                  placeholder="Bathrooms"
+                >
+                  <option value="1">1 Bathroom</option>
+                  <option value="2">2 Bathrooms</option>
+                  <option value="3">3 Bathrooms</option>
+                  <option value="4">4+ Bathrooms</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={floor}
+                  onChange={handle_floor_select}
+                  placeholder="Floor"
+                >
+                  <option value="0">Ground Floor</option>
+                  <option value="1">1st Floor</option>
+                  <option value="2">2nd Floor</option>
+                  <option value="3">3rd Floor</option>
+                  <option value="4">4th Floor &amp; Above</option>
+                </SelectField>
+              </div>
+            </>
+          )}
+
+          {/* PG / Hostel Fields */}
+          {is_pg_or_hostel && (
+            <>
+              <div className="property_filters_group">
+                <SelectField
+                  value={pg_type}
+                  onChange={(val) => { set_pg_type(val); emit_filter_change({ pg_type: val }); }}
+                  placeholder={filter_group === 'pg' ? 'PG Type' : 'Hostel Type'}
+                >
+                  <option value="boys">Boys</option>
+                  <option value="girls">Girls</option>
+                  <option value="co-living">Co-Living</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={sharing_type}
+                  onChange={(val) => { set_sharing_type(val); emit_filter_change({ sharing_type: val }); }}
+                  placeholder="Room Sharing"
+                >
+                  <option value="single">Single Room</option>
+                  <option value="double">Double Sharing</option>
+                  <option value="triple">Triple Sharing</option>
+                  <option value="four_plus">4+ Sharing</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={food_included}
+                  onChange={(val) => { set_food_included(val); emit_filter_change({ food_included: val }); }}
+                  placeholder="Food Facility"
+                >
+                  <option value="true">Food Included</option>
+                  <option value="false">Food Not Included</option>
+                </SelectField>
+              </div>
+            </>
+          )}
+
+          {/* Land Fields */}
+          {is_land && (
+            <>
+              <div className="property_filters_group">
+                <SelectField
+                  value={land_type}
+                  onChange={(val) => { set_land_type(val); emit_filter_change({ land_type: val }); }}
+                  placeholder="Land Type"
+                >
+                  <option value="residential_plot">Residential Plot</option>
+                  <option value="commercial_plot">Commercial Plot</option>
+                  <option value="agricultural_land">Agricultural Land</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={facing}
+                  onChange={(val) => { set_facing(val); emit_filter_change({ facing: val }); }}
+                  placeholder="Facing"
+                >
+                  <option value="north">North</option>
+                  <option value="south">South</option>
+                  <option value="east">East</option>
+                  <option value="west">West</option>
+                  <option value="north_east">North-East</option>
+                  <option value="north_west">North-West</option>
+                  <option value="south_east">South-East</option>
+                  <option value="south_west">South-West</option>
+                </SelectField>
+              </div>
+            </>
+          )}
+
+          {/* Commercial Fields */}
+          {is_commercial && (
+            <>
+              <div className="property_filters_group">
+                <SelectField
+                  value={furnishing}
+                  onChange={handle_furnishing_select}
+                  placeholder="Furnishing"
+                >
+                  <option value="unfurnished">Unfurnished</option>
+                  <option value="semi-furnished">Semi-Furnished</option>
+                  <option value="fully-furnished">Fully Furnished</option>
+                </SelectField>
+              </div>
+
+              <div className="property_filters_group">
+                <SelectField
+                  value={parking}
+                  onChange={handle_parking_select}
+                  placeholder="Parking"
+                >
+                  <option value="true">Available</option>
+                  <option value="false">Not Available</option>
+                </SelectField>
+              </div>
+            </>
+          )}
+
+          {/* Mobile Reset Pill */}
+          {active_count > 0 && (
+            <button
+              type="button"
+              className="property_filter_mobile_reset_pill"
+              onClick={handle_reset}
+              title="Reset all filters"
+            >
+              <Icon name="reset" size={13} />
+              <span>Reset</span>
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="property_filters_actions">

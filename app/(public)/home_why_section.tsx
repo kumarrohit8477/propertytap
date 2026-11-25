@@ -10,7 +10,6 @@ const FEATURES = [
       </div>
     ),
     title: 'Direct Connectivity',
-    desc: 'Connect directly with owners and genuine property seekers.',
   },
   {
     icon: (
@@ -19,7 +18,6 @@ const FEATURES = [
       </div>
     ),
     title: 'Verified Listings',
-    desc: 'Authentic and verified properties.',
   },
   {
     icon: (
@@ -28,7 +26,6 @@ const FEATURES = [
       </div>
     ),
     title: 'Wide Range',
-    desc: 'Homes, PGs, offices, shops and more.',
   },
   {
     icon: (
@@ -37,11 +34,8 @@ const FEATURES = [
       </div>
     ),
     title: 'Easy & Fast',
-    desc: 'Find the right property quickly with smart filters.',
   },
 ];
-
-
 
 export default function HomeWhySection() {
   return (
@@ -49,18 +43,14 @@ export default function HomeWhySection() {
       <div className="hwy_container">
         <div className="hwy_header">
           <h2 className="hwy_title">Why Choose PropertyTap?</h2>
-          <p className="hwy_subtitle">We make property search simple, transparent and hassle-free.</p>
         </div>
 
-        {/* Feature cards */}
+        {/* Feature cards - 4 items in one row */}
         <div className="hwy_grid">
           {FEATURES.map((f) => (
             <div key={f.title} className="hwy_card">
               <div className="hwy_icon">{f.icon}</div>
-              <div>
-                <h3 className="hwy_card_title">{f.title}</h3>
-                <p className="hwy_card_desc">{f.desc}</p>
-              </div>
+              <h3 className="hwy_card_title">{f.title}</h3>
             </div>
           ))}
         </div>

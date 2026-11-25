@@ -100,7 +100,14 @@ export default function CallNowButton({
         aria-label="Call Now"
       >
         <Phone size={14} className="call_now_icon" />
-        <span>{loading ? 'Connecting...' : 'Call Now'}</span>
+        {loading ? (
+          <span>Connecting...</span>
+        ) : (
+          <>
+            <span className="btn_text_full">Call Now</span>
+            <span className="btn_text_short">Call</span>
+          </>
+        )}
       </button>
 
       {error_msg && (

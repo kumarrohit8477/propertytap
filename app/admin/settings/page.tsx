@@ -16,7 +16,7 @@ export default function AdminSettingsPage() {
         <div className="admin_settings_card">
           <h3 style={{ margin: 0 }}>Global Brokerage &amp; Platform Fee Configuration</h3>
           <p style={{ color: '#4b5563', margin: 0, fontSize: '0.9rem' }}>
-            Property Tap Brokerage Charge: <strong>₹0 (0%)</strong>. Property Tap does not charge brokerage on property transactions.
+            PropertyTap Brokerage Charge: <strong>₹0 (0%)</strong>. PropertyTap does not charge brokerage on property transactions.
           </p>
 
           <div style={{ marginTop: '1rem' }}>

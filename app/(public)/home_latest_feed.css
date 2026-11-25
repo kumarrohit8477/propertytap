@@ -55,14 +55,36 @@
   color: #1648c4;
 }
 
-/* Grid (Desktop) */
+/* Grid (Desktop: Single row horizontal scroll with 10 cards) */
 .hlf_grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   gap: 20px;
+  padding: 4px 0 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hlf_grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hlf_grid::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+
+.hlf_grid::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
 }
 
 .hlf_grid .property_card {
+  flex: 0 0 280px;
+  width: 280px;
+  scroll-snap-align: start;
   height: 100%;
 }
 
@@ -239,10 +261,10 @@
   }
 }
 
-/* ── Mobile View (< 640px) ──────────────────── */
-@media (max-width: 640px) {
+/* ── Mobile View (< 768px) ──────────────────── */
+@media (max-width: 768px) {
   .hlf_section {
-    padding: 38px 0 34px;
+    padding: 28px 0 24px;
   }
 
   .hlf_container {
@@ -250,23 +272,34 @@
   }
 
   .hlf_header {
+    display: flex;
     align-items: center;
-    margin-bottom: 18px;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .hlf_title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .hlf_subtitle {
+    display: none;
   }
 
   .hlf_view_all {
     font-size: 0.8rem;
-    padding: 5px 12px;
+    padding: 4px 10px;
   }
 
-  /* App-style horizontal swipe strip with scroll-snap */
+  /* Single row horizontal swipe strip with scroll-snap: 2 cards per row */
   .hlf_grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 14px;
-    padding: 4px 16px 16px;
-    margin: 0 -16px;
+    gap: 10px;
+    padding: 4px 12px 14px;
+    margin: 0 -12px;
     scrollbar-width: none;
     -ms-overflow-style: none;
     -webkit-overflow-scrolling: touch;
@@ -276,55 +309,36 @@
     display: none;
   }
 
+  /* Exactly 2 cards per row on mobile in horizontal scroll */
   .hlf_grid .property_card {
-    flex: 0 0 min(84vw, 300px);
-    width: min(84vw, 300px);
+    flex: 0 0 calc((100vw - 34px) / 2);
+    width: calc((100vw - 34px) / 2);
+    min-width: 145px;
+    max-width: 220px;
     scroll-snap-align: start;
   }
 
   .hlf_card {
-    flex: 0 0 min(82vw, 290px);
-    width: min(82vw, 290px);
-    scroll-snap-align: start;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  }
-
-  .hlf_img_wrap {
-    height: 165px;
-  }
-
-  .hlf_content {
-    padding: 14px;
-    gap: 6px;
-  }
-
-  .hlf_card_title {
-    font-size: 0.92rem;
-    min-height: auto;
-  }
-
-  .hlf_price {
-    font-size: 1.05rem;
-  }
-
-  .hlf_meta {
-    gap: 6px;
-  }
-
-  .hlf_meta span {
-    font-size: 0.72rem;
-    padding: 2px 6px;
+    flex: unset;
+    width: 100%;
   }
 }
 
 /* ── Small Mobile (<= 360px) ─────────────────── */
 @media (max-width: 360px) {
-  .hlf_card {
-    flex: 0 0 86vw;
-    width: 86vw;
+  .hlf_container {
+    padding: 0 8px;
   }
 
-  .hlf_img_wrap {
-    height: 150px;
+  .hlf_grid {
+    gap: 8px;
+    padding: 4px 8px 12px;
+    margin: 0 -8px;
+  }
+
+  .hlf_grid .property_card {
+    flex: 0 0 calc((100vw - 24px) / 2);
+    width: calc((100vw - 24px) / 2);
+    min-width: 140px;
   }
 }

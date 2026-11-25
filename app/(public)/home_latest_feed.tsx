@@ -151,7 +151,7 @@ export default function HomeLatestFeed({ initial_properties = [] }: HomeLatestFe
 
   useEffect(() => {
     if (initial_properties.length === 0) {
-      get_properties({ limit: 4 }).then(({ properties: fetched }) => {
+      get_properties({ limit: 10 }).then(({ properties: fetched }) => {
         if (fetched && fetched.length > 0) {
           set_properties(fetched);
         }
@@ -177,7 +177,7 @@ export default function HomeLatestFeed({ initial_properties = [] }: HomeLatestFe
         </div>
 
         <div className="hlf_grid">
-          {display_list.slice(0, 4).map((prop) => (
+          {display_list.slice(0, 10).map((prop) => (
             <PropertyCard key={prop.id} property={prop} />
           ))}
         </div>

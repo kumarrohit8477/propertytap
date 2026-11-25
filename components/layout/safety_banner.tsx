@@ -31,7 +31,7 @@ export default function SafetyBanner() {
             </svg>
           </span>
           <p className="safety_banner_text">
-            <strong className="safety_banner_title">Safety First:</strong> Property Tap is a discovery platform, not a party to any transaction. Never send money without independently verifying identity, ownership, documents, and physical existence.
+            <strong className="safety_banner_title">Safety First:</strong> PropertyTap is a discovery platform, not a party to any transaction. Never send money without independently verifying identity, ownership, documents, and physical existence.
           </p>
         </div>
         <button

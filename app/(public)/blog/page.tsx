@@ -25,7 +25,7 @@ export default function BlogPage() {
 
   return (
     <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 1.5rem', fontFamily: 'inherit' }}>
-      <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#0d1b34', marginBottom: '12px' }}>Property Tap Blog</h1>
+      <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#0d1b34', marginBottom: '12px' }}>PropertyTap Blog</h1>
       <p style={{ fontSize: '16px', color: '#64748b', marginBottom: '40px', lineHeight: 1.6 }}>
         Insights, real-estate guides, and market trends to help you make smarter property decisions.
       </p>

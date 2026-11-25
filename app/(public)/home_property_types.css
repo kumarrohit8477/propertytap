@@ -119,61 +119,80 @@
 /* ── Mobile View (< 768px) ───────────────────── */
 @media (max-width: 768px) {
   .hpt_section {
-    padding: 34px 0 30px;
+    padding: 28px 0 24px;
   }
 
   .hpt_container {
-    padding: 0 16px;
+    padding: 0 12px;
   }
 
   .hpt_header {
-    text-align: center;
-    margin-bottom: 18px;
+    text-align: left;
+    margin-bottom: 16px;
   }
 
   .hpt_title {
-    font-size: clamp(1.4rem, 2.4vw, 1.8rem);
-    margin: 0 0 6px;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    margin: 0 0 4px;
   }
 
   .hpt_subtitle {
-    font-size: 13px;
+    font-size: 12.5px;
   }
 
-  /* 2 columns on mobile devices for clean, large cards */
+  /* 4 columns on mobile devices - exactly 2 rows of 4 */
   .hpt_grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .hpt_card {
-    border-radius: 14px;
-    padding: 8px 8px 12px;
+    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
   }
 
+  .hpt_card {
+    border-radius: 12px;
+    padding: 6px 4px 8px;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  }
+
   .hpt_img_wrap {
-    aspect-ratio: 16 / 11;
-    border-radius: 10px;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
   }
 
   .hpt_label {
-    font-size: 13px;
+    font-size: clamp(10px, 2.7vw, 11.5px);
+    line-height: 1.2;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    word-break: break-word;
   }
 }
 
 /* ── Small Mobile (<= 380px) ─────────────────── */
 @media (max-width: 380px) {
+  .hpt_container {
+    padding: 0 8px;
+  }
+
   .hpt_grid {
-    gap: 8px;
+    gap: 5px;
   }
 
   .hpt_card {
-    padding: 6px 6px 10px;
-    gap: 6px;
+    padding: 5px 3px 6px;
+    gap: 4px;
+    border-radius: 10px;
+  }
+
+  .hpt_img_wrap {
+    border-radius: 6px;
   }
 
   .hpt_label {
-    font-size: 12px;
+    font-size: 9.5px;
+    min-height: 24px;
+    line-height: 1.15;
   }
 }

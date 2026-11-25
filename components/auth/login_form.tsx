@@ -87,7 +87,7 @@ export default function LoginForm() {
       </button>
 
       <h2 className="login_form_title">Welcome Back</h2>
-      <p className="login_form_subtitle">Log in to Property Tap to manage listings and interests</p>
+      <p className="login_form_subtitle">Log in to PropertyTap to manage listings and interests</p>
 
       {error_msg && <div className="login_form_error">{error_msg}</div>}
 

@@ -99,7 +99,7 @@ export default function SignupForm() {
         <X size={18} strokeWidth={2.5} />
       </button>
 
-      <h2 className="signup_form_title">Join Property Tap</h2>
+      <h2 className="signup_form_title">Join PropertyTap</h2>
       <p className="signup_form_subtitle">Create account &amp; discover properties with 0% brokerage</p>
 
       {error_msg && <div className="signup_form_error">{error_msg}</div>}

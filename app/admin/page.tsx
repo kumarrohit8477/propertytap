@@ -49,7 +49,7 @@ export default function AdminOverviewPage() {
       <main className="admin_main_content">
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', margin: 0 }}>
-            Property Tap System Overview
+            PropertyTap System Overview
           </h1>
           <p style={{ color: '#6b7280', marginTop: '0.25rem' }}>
             Platform metrics, active listings, user reports, and moderation control.

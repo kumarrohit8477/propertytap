@@ -141,24 +141,63 @@
 }
 
 @media (max-width: 868px) {
-  .properties_layout_wrapper {
-    flex-direction: column;
+  .properties_page_container {
+    padding: 0 0 1.5rem;
+    gap: 0;
   }
 
+  .properties_layout_wrapper {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Sticky filters on mobile - stays pinned while properties scroll */
   .properties_sidebar_container {
     width: 100%;
-    position: static;
+    position: sticky;
+    top: 62px;
+    z-index: 100;
+    background: #ffffff;
+    padding: 8px 14px 10px;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    border-bottom: 1px solid #e2e8f0;
+    box-sizing: border-box;
     height: auto;
+  }
+
+  .properties_main_container {
+    padding: 14px 16px 2rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .properties_page_title {
+    font-size: 1.35rem;
+  }
+
+  .properties_results_header {
+    margin-bottom: 12px;
+  }
+
+  .properties_page_grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 }
 
-@media (max-width: 640px) {
-  .properties_page_grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+@media (max-width: 600px) {
+  .properties_sidebar_container {
+    top: 58px;
+    padding: 8px 10px 10px;
   }
 
-  .properties_page_container {
-    padding: 1.5rem 1rem;
+  .properties_main_container {
+    padding: 12px 10px 2rem;
+  }
+
+  .properties_page_grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

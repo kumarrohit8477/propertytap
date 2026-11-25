@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const [{ categories }, { properties }] = await Promise.all([
     get_categories_server(),
-    get_properties_server({ limit: 4 }),
+    get_properties_server({ limit: 10 }),
   ]);
 
   return (

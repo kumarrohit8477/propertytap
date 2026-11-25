@@ -1,7 +1,8 @@
 /* ── Why Choose PropertyTap ─────────────────── */
 .hwy_section {
   background: #ffffff;
-  padding: 60px 0 54px;
+  padding: 36px 0 32px;
+  border: none;
 }
 
 .hwy_container {
@@ -12,30 +13,24 @@
 
 .hwy_header {
   text-align: center;
-  margin-bottom: 38px;
+  margin-bottom: 24px;
 }
 
 .hwy_title {
-  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.65rem);
   font-weight: 800;
   color: #111827;
-  margin: 0 0 8px;
+  margin: 0;
   letter-spacing: -0.03em;
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
 }
 
-.hwy_subtitle {
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
-  color: #64748b;
-  margin: 0;
-}
-
-/* Feature grid (Desktop) */
+/* Feature grid (Desktop: 4 items in one row) */
 .hwy_grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-  margin-bottom: 44px;
+  gap: 16px;
+  margin-bottom: 0;
 }
 
 .hwy_card {
@@ -44,11 +39,12 @@
   align-items: center;
   text-align: center;
   background: #ffffff;
-  border: 1px solid #eef2f6;
-  border-radius: 16px;
-  padding: 28px 20px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  border: none;
+  border-radius: 14px;
+  padding: 18px 12px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+  gap: 10px;
 }
 
 .hwy_card:hover {
@@ -57,13 +53,13 @@
 }
 
 .hwy_icon {
-  margin-bottom: 16px;
+  margin-bottom: 0;
   flex-shrink: 0;
 }
 
 .hwy_icon_circle {
-  width: 58px;
-  height: 58px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -80,109 +76,57 @@
 .hwy_icon_amber { background: #fef3c7; }
 
 .hwy_card_title {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #111827;
-  margin: 0 0 6px;
-  line-height: 1.3;
-}
-
-.hwy_card_desc {
-  font-size: 0.85rem;
-  color: #64748b;
   margin: 0;
-  line-height: 1.5;
-}
-
-/* Stats bar */
-.hwy_stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 22px 24px;
-}
-
-.hwy_stat_item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-
-.hwy_stat_icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.hwy_stat_text {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.hwy_stat_value {
-  font-size: 1.55rem;
-  font-weight: 800;
-  color: #111827;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-}
-
-.hwy_stat_label {
-  font-size: 0.78rem;
-  color: #64748b;
-  font-weight: 600;
-  margin-top: 2px;
+  line-height: 1.3;
 }
 
 /* ── Tablet (768px - 1024px) ─────────────────── */
 @media (max-width: 1024px) and (min-width: 769px) {
   .hwy_grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-  }
-  .hwy_stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 22px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
   }
 }
 
 /* ── Mobile View (< 768px) ──────────────────── */
 @media (max-width: 768px) {
   .hwy_section {
-    padding: 38px 0 34px;
+    padding: 24px 0 20px;
   }
 
   .hwy_container {
-    padding: 0 16px;
+    padding: 0 12px;
   }
 
   .hwy_header {
     text-align: left;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
   }
 
-  /* App-style list cards on mobile */
+  .hwy_title {
+    font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+  }
+
+  /* 4 icons horizontally in one single row */
   .hwy_grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 0;
   }
 
   .hwy_card {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    text-align: left;
-    gap: 14px;
-    padding: 14px 16px;
-    border-radius: 14px;
+    text-align: center;
+    gap: 6px;
+    padding: 10px 4px 8px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
   }
 
   .hwy_icon {
@@ -190,71 +134,53 @@
   }
 
   .hwy_icon_circle {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .hwy_icon_circle img {
+    max-width: 22px !important;
+    max-height: 22px !important;
   }
 
   .hwy_card_title {
-    font-size: 0.95rem;
-    margin: 0 0 3px;
-  }
-
-  .hwy_card_desc {
-    font-size: 0.8rem;
-  }
-
-  /* Mobile 2x2 stats tiles */
-  .hwy_stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 14px 10px;
-    border-radius: 14px;
-  }
-
-  .hwy_stat_item {
-    gap: 8px;
-    padding: 6px;
-  }
-
-  .hwy_stat_value {
-    font-size: 1.25rem;
-  }
-
-  .hwy_stat_label {
-    font-size: 0.72rem;
-  }
-
-  .hwy_stat_icon svg {
-    width: 22px;
-    height: 22px;
+    font-size: clamp(9.5px, 2.5vw, 11px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    min-height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+    text-align: center;
   }
 }
 
-/* ── Small Mobile (<= 360px) ─────────────────── */
-@media (max-width: 360px) {
+/* ── Small Mobile (<= 380px) ─────────────────── */
+@media (max-width: 380px) {
+  .hwy_container {
+    padding: 0 8px;
+  }
+
+  .hwy_grid {
+    gap: 5px;
+  }
+
   .hwy_card {
-    padding: 12px;
-    gap: 10px;
+    padding: 8px 2px 6px;
+    gap: 4px;
+    border-radius: 10px;
+    border: none;
   }
 
   .hwy_icon_circle {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
   }
 
   .hwy_card_title {
-    font-size: 0.9rem;
-  }
-
-  .hwy_card_desc {
-    font-size: 0.76rem;
-  }
-
-  .hwy_stat_value {
-    font-size: 1.15rem;
-  }
-
-  .hwy_stat_label {
-    font-size: 0.68rem;
+    font-size: 9px;
+    min-height: 22px;
   }
 }

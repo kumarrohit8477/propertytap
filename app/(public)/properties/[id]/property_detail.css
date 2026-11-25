@@ -126,10 +126,14 @@
 
 @media (max-width: 768px) {
   .property_detail_wrapper {
-    padding: 1.25rem 1rem 6rem; /* Extra bottom padding for mobile sticky action bar */
+    padding: 0.85rem 0.85rem 5.5rem; /* Extra bottom padding for mobile sticky action bar */
   }
 
   .property_detail_top_nav {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .property_detail_container {
+    gap: 1rem;
   }
 }

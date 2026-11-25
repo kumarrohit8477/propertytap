@@ -1,9 +1,9 @@
-import { create_server_client } from '@/lib/supabase/server';
+import { create_client } from '@/lib/supabase/client';
 import { PropertyFilterParams, PropertyItem, PropertyCategory } from '@/types/property';
 import { get_category_ids_for_filter } from '@/lib/config/property_filters_config';
 
 export async function get_properties_server(params: PropertyFilterParams = {}) {
-  const supabase = create_server_client();
+  const supabase = create_client();
   let query = supabase
     .from('properties')
     .select(`
@@ -75,7 +75,7 @@ export async function get_properties_server(params: PropertyFilterParams = {}) {
 }
 
 export async function get_property_by_id_server(id: string) {
-  const supabase = create_server_client();
+  const supabase = create_client();
   const { data, error } = await supabase
     .from('properties')
     .select(`
@@ -91,7 +91,7 @@ export async function get_property_by_id_server(id: string) {
 }
 
 export async function get_categories_server() {
-  const supabase = create_server_client();
+  const supabase = create_client();
   const { data, error } = await supabase
     .from('property_categories')
     .select('*')

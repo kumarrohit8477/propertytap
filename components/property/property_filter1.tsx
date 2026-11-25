@@ -167,6 +167,8 @@ export default function PropertyFilters({
             </svg>
           </div>
           <input
+            id="hero_search_input"
+            name="location"
             type="text"
             className="hero_search_input"
             placeholder="Search location, city or area..."

@@ -378,6 +378,7 @@ export default function PropertyInfo({ property }: PropertyInfoProps) {
           property_id={property.id}
           owner_id={property.owner_id}
           full_width={true}
+          check_on_mount={true}
         />
         <CallNowButton
           phone={property.owner?.phone}

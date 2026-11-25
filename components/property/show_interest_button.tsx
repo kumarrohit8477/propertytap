@@ -12,12 +12,14 @@ interface ShowInterestButtonProps {
   property_id: string;
   owner_id: string;
   full_width?: boolean;
+  check_on_mount?: boolean;
 }
 
 export default function ShowInterestButton({
   property_id,
   owner_id,
   full_width = false,
+  check_on_mount = false,
 }: ShowInterestButtonProps) {
   const { user } = use_auth();
   const router = useRouter();
@@ -28,13 +30,14 @@ export default function ShowInterestButton({
 
   // Check if interest has already been expressed by the logged-in user
   useEffect(() => {
-    if (!user) return;
+    if (!user || !check_on_mount) return;
 
     if (typeof window !== 'undefined' && sessionStorage.getItem('just_expressed_' + property_id) === 'true') {
       set_success(true);
       return;
     }
 
+    let is_mounted = true;
     const check_interest = async () => {
       try {
         const supabase = create_client();
@@ -45,16 +48,20 @@ export default function ShowInterestButton({
           .eq('interested_user_id', user.id)
           .maybeSingle();
 
-        if (data) {
+        if (data && is_mounted) {
           set_success(true);
         }
       } catch (err) {
-        console.error('Failed to verify interest status', err);
+        console.warn('Could not verify interest status', err);
       }
     };
 
     check_interest();
-  }, [user, property_id]);
+
+    return () => {
+      is_mounted = false;
+    };
+  }, [user, property_id, check_on_mount]);
 
   const handle_click = async (e?: React.MouseEvent) => {
     if (e) {

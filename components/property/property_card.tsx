@@ -28,6 +28,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             src={primary_image}
             alt={property.title}
             className="property_card_image"
+            width={400}
+            height={250}
             loading="lazy"
           />
         </Link>

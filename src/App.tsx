@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
 import SafetyBanner from '@/components/layout/safety_banner';
@@ -29,7 +29,6 @@ import ForgotPasswordPage from '@/app/(auth)/forgot_password/page';
 import ResetPasswordPage from '@/app/(auth)/reset_password/page';
 
 // Dashboard Pages
-import DashboardPage from '@/app/dashboard/page';
 import MyPropertiesPage from '@/app/dashboard/properties/page';
 import NewPropertyPage from '@/app/dashboard/properties/new/page';
 import PropertyEditPage from '@/app/dashboard/properties/[id]/page';
@@ -111,11 +110,7 @@ export default function App() {
             {/* Protected Dashboard Routes */}
             <Route
               path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardPage />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/dashboard/properties" replace />}
             />
             <Route
               path="/dashboard/properties"

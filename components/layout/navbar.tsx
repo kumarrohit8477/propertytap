@@ -316,30 +316,6 @@ export default function Navbar() {
       )}
 
       <div className={`navbar_mobile_drawer ${mobile_open ? 'is_open' : ''}`}>
-        {/* Mobile User Card if logged in */}
-        {user ? (
-          <div className="navbar_mobile_user_card">
-            <div className="navbar_mobile_avatar">
-              {profile?.full_name ? profile.full_name.charAt(0).toUpperCase() : 'U'}
-            </div>
-            <div className="navbar_mobile_user_info">
-              <span className="navbar_mobile_user_name">
-                {profile?.full_name || 'My Account'}
-              </span>
-              <span className="navbar_mobile_user_email">
-                {user.email}
-              </span>
-            </div>
-            <Link
-              href="/dashboard"
-              className="navbar_mobile_profile_btn"
-              onClick={() => set_mobile_open(false)}
-            >
-              Dashboard
-            </Link>
-          </div>
-        ) : null}
-
         {/* Mobile Nav Links */}
         <nav className="navbar_mobile_nav_list" aria-label="Mobile Navigation Links">
           <Link
@@ -422,13 +398,6 @@ export default function Navbar() {
                 onClick={() => set_mobile_open(false)}
               >
                 + List Property (Free)
-              </Link>
-              <Link
-                href="/dashboard"
-                className="navbar_mobile_cta_secondary"
-                onClick={() => set_mobile_open(false)}
-              >
-                Go to Dashboard
               </Link>
               <button
                 type="button"

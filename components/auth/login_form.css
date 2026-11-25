@@ -13,6 +13,39 @@
   width: 100%;
   max-width: 440px;
   margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.auth_form_close_btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f1f5f9;
+  color: #475569;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.auth_form_close_btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  transform: scale(1.06);
+}
+
+.auth_form_close_btn:active {
+  transform: scale(0.96);
 }
 
 .login_form_title {
@@ -59,4 +92,29 @@
 
 .login_form_link:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login_form_card {
+    padding: 2rem 1.25rem 1.75rem;
+    border-radius: 16px;
+    gap: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .login_form_title {
+    font-size: 1.35rem;
+  }
+
+  .login_form_subtitle {
+    font-size: 0.825rem;
+    margin-top: -0.35rem;
+  }
+
+  .auth_form_close_btn {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+  }
 }

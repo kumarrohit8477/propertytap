@@ -9,6 +9,18 @@ export default defineConfig(({ mode }) => {
   // Load environment variables from .env and .env.local without requiring a prefix
   const env = loadEnv(mode, process.cwd(), '');
 
+  const get_env = (...keys: string[]) => {
+    for (const k of keys) {
+      if (env[k]) return env[k];
+    }
+    return '';
+  };
+
+  const supabase_url = get_env('PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL', 'VITE_SUPABASE_URL');
+  const supabase_anon_key = get_env('PUBLIC_SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY', 'VITE_SUPABASE_ANON_KEY');
+  const razorpay_key = get_env('PUBLIC_RAZORPAY_KEY_ID', 'NEXT_PUBLIC_RAZORPAY_KEY_ID', 'VITE_RAZORPAY_KEY_ID', 'RAZORPAY_KEY_ID');
+  const web3forms_key = get_env('PUBLIC_WEB3FORMS_ACCESS_KEY', 'NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY', 'VITE_WEB3FORMS_ACCESS_KEY', 'WEB3FORMS_ACCESS_KEY');
+
   return {
     plugins: [react()],
     resolve: {
@@ -20,18 +32,14 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      'process.env.PUBLIC_SUPABASE_URL': JSON.stringify(
-        env.PUBLIC_SUPABASE_URL || env.VITE_SUPABASE_URL || ''
-      ),
-      'process.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(
-        env.PUBLIC_SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY || ''
-      ),
-      'process.env.PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(
-        env.PUBLIC_RAZORPAY_KEY_ID || env.VITE_RAZORPAY_KEY_ID || ''
-      ),
-      'process.env.PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(
-        env.PUBLIC_WEB3FORMS_ACCESS_KEY || env.VITE_WEB3FORMS_ACCESS_KEY || ''
-      ),
+      'process.env.PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
+      'process.env.NEXT_PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
+      'process.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
+      'process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
+      'process.env.PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(razorpay_key),
+      'process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(razorpay_key),
+      'process.env.PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
+      'process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
     },
     server: {
       port: 3000,

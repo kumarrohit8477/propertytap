@@ -50,6 +50,7 @@
   max-width: 480px;
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .auth_form_close_btn {
@@ -69,6 +70,9 @@
   transition: all 0.2s ease;
   z-index: 10;
   padding: 0;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .auth_form_close_btn:hover {
@@ -79,4 +83,17 @@
 
 .auth_form_close_btn:active {
   transform: scale(0.96);
+}
+
+@media (max-width: 480px) {
+  .auth_page_layout {
+    padding: 1rem 0.75rem;
+  }
+
+  .auth_form_close_btn {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+  }
 }

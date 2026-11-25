@@ -22,6 +22,7 @@ import BlogPage from '@/app/(public)/blog/page';
 import NotFoundPage from '@/app/not-found';
 
 // Auth Pages
+import AuthLayout from '@/app/(auth)/layout';
 import LoginPage from '@/app/(auth)/login/page';
 import SignupPage from '@/app/(auth)/signup/page';
 import ForgotPasswordPage from '@/app/(auth)/forgot_password/page';
@@ -74,10 +75,38 @@ export default function App() {
             <Route path="/blog" element={<BlogPage />} />
 
             {/* Auth Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgot_password" element={<ForgotPasswordPage />} />
-            <Route path="/reset_password" element={<ResetPasswordPage />} />
+            <Route
+              path="/login"
+              element={
+                <AuthLayout>
+                  <LoginPage />
+                </AuthLayout>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <AuthLayout>
+                  <SignupPage />
+                </AuthLayout>
+              }
+            />
+            <Route
+              path="/forgot_password"
+              element={
+                <AuthLayout>
+                  <ForgotPasswordPage />
+                </AuthLayout>
+              }
+            />
+            <Route
+              path="/reset_password"
+              element={
+                <AuthLayout>
+                  <ResetPasswordPage />
+                </AuthLayout>
+              }
+            />
 
             {/* Protected Dashboard Routes */}
             <Route

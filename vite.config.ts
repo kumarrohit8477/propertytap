@@ -16,10 +16,10 @@ export default defineConfig(({ mode }) => {
     return '';
   };
 
-  const supabase_url = get_env('PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL', 'VITE_SUPABASE_URL');
-  const supabase_anon_key = get_env('PUBLIC_SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY', 'VITE_SUPABASE_ANON_KEY');
+  const supabase_url = get_env('PUBLIC_SUPABASE_URL', 'PUBLIC_SUPABASE_URL', 'PUBLIC_SUPABASE_URL');
+  const supabase_anon_key = get_env('PUBLIC_SUPABASE_ANON_KEY', 'PUBLIC_SUPABASE_ANON_KEY', 'PUBLIC_SUPABASE_ANON_KEY');
   const razorpay_key = get_env('PUBLIC_RAZORPAY_KEY_ID', 'NEXT_PUBLIC_RAZORPAY_KEY_ID', 'VITE_RAZORPAY_KEY_ID', 'RAZORPAY_KEY_ID');
-  const web3forms_key = get_env('PUBLIC_WEB3FORMS_ACCESS_KEY', 'NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY', 'VITE_WEB3FORMS_ACCESS_KEY', 'WEB3FORMS_ACCESS_KEY');
+  const web3forms_key = get_env('WEB3FORMS_ACCESS_KEY', 'WEB3FORMS_ACCESS_KEY', 'WEB3FORMS_ACCESS_KEY', 'WEB3FORMS_ACCESS_KEY');
 
   return {
     plugins: [react()],
@@ -33,13 +33,13 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       'process.env.PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
-      'process.env.NEXT_PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
+      'process.env.PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
       'process.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
-      'process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
+      'process.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
       'process.env.PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(razorpay_key),
       'process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(razorpay_key),
-      'process.env.PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
-      'process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
+      'process.env.WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
+      'process.env.WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
     },
     server: {
       port: 3000,

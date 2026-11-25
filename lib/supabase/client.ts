@@ -2,14 +2,14 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase_url =
   process.env.PUBLIC_SUPABASE_URL ||
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) ||
+  process.env.PUBLIC_SUPABASE_URL ||
+  (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SUPABASE_URL) ||
   '';
 
 const supabase_anon_key =
   process.env.PUBLIC_SUPABASE_ANON_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ||
+  process.env.PUBLIC_SUPABASE_ANON_KEY ||
+  (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SUPABASE_ANON_KEY) ||
   '';
 
 let client_instance: ReturnType<typeof createClient> | null = null;

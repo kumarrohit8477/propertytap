@@ -139,3 +139,53 @@
   color: #374151;
 }
 
+@media (max-width: 640px) {
+  .dashboard_layout_container {
+    padding: 1rem 0.75rem 2.5rem;
+  }
+
+  .notifications_page_wrapper {
+    gap: 0.9rem;
+  }
+
+  .notifications_title {
+    font-size: 1.35rem;
+  }
+
+  .notifications_subtitle {
+    font-size: 0.82rem;
+  }
+
+  .notifications_header_row {
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .notifications_actions_row {
+    gap: 0.45rem;
+  }
+
+  .notifications_count_pill,
+  .notifications_mark_all_btn {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  .notifications_tabs {
+    gap: 0.2rem;
+  }
+
+  .notifications_tab_btn {
+    gap: 0.3rem;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .tab_count_badge {
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    font-size: 0.62rem;
+  }
+}
+

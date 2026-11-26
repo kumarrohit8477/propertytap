@@ -323,25 +323,86 @@
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .notification_card {
-    padding: 1.15rem 1rem;
+    padding: 0.8rem 0.75rem;
+    border-radius: 12px;
+    gap: 0.7rem;
   }
 
   .notif_header {
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .notif_header_left {
+    gap: 0.6rem;
+  }
+
+  .notif_icon_box {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+
+  .notif_title {
+    font-size: 0.9rem;
+  }
+
+  .notif_time {
+    font-size: 0.7rem;
   }
 
   .notif_mark_read_btn {
-    align-self: flex-start;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .notif_details_box {
+    padding: 0.7rem;
+    border-radius: 10px;
+    gap: 0.65rem;
+  }
+
+  .notif_identity_row {
+    gap: 0.6rem;
+  }
+
+  .notif_avatar_circle {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .notif_person_info {
+    gap: 0.15rem;
+  }
+
+  .notif_person_name {
+    font-size: 0.88rem;
+  }
+
+  .notif_role_tag {
+    font-size: 0.62rem;
+    padding: 2px 6px;
+  }
+
+  .notif_property_row,
+  .notif_extra_text,
+  .notif_plain_message {
+    font-size: 0.78rem;
+  }
+
+  .notif_plain_message {
+    padding: 0.65rem 0.75rem;
+    line-height: 1.4;
   }
 
   .notif_contact_actions {
-    flex-direction: column;
+    gap: 0.45rem;
   }
 
   .notif_action_pill {
-    width: 100%;
-    justify-content: center;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.76rem;
     box-sizing: border-box;
   }
 }

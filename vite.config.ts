@@ -33,12 +33,9 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       'process.env.PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
-      'process.env.PUBLIC_SUPABASE_URL': JSON.stringify(supabase_url),
-      'process.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
       'process.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(supabase_anon_key),
       'process.env.PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(razorpay_key),
       'process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID': JSON.stringify(razorpay_key),
-      'process.env.WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
       'process.env.WEB3FORMS_ACCESS_KEY': JSON.stringify(web3forms_key),
     },
     server: {

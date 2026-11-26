@@ -60,7 +60,7 @@ export default function Footer() {
         <div className="footer_col footer_social_col">
           <h4 className="footer_col_heading">Follow Us</h4>
           <div className="footer_social_row">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_fb" aria-label="Facebook">
+            <a href="https://www.facebook.com/profile.php?id=61596019893063" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_fb" aria-label="Facebook">
               <FaFacebookF />
             </a>
             <a href="https://www.instagram.com/propertytap_india" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_ig" aria-label="Instagram">
@@ -69,7 +69,7 @@ export default function Footer() {
             <a href="https://www.linkedin.com/company/propertytap" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_li" aria-label="LinkedIn">
               <FaLinkedinIn />
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_yt" aria-label="YouTube">
+            <a href="https://www.youtube.com/@propertytap" target="_blank" rel="noopener noreferrer" className="footer_social_icon footer_social_yt" aria-label="YouTube">
               <FaYoutube />
             </a>
           </div>
